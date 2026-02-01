@@ -53,8 +53,7 @@
         
     <p>Si está buscando para comprar una propiedad, puede tambien usar este formulario de contacto para recibir opciones de compra.</p>
 
-    <form action="https://formsubmit.co/brisa.paez@comunidad.ub.edu.ar" method="post" class="book-form">
-
+    <form id="contactForm" class="book-form">
         <div class="flex">
             <div class="inputBox">
                 <span>Nombre y apellido:</span>
@@ -70,15 +69,14 @@
                 <span>Telefono:</span>
                 <input type="number" placeholder="Ingrese su telefono" name="phone" required>
             </div>
-            
+        
             <div class="inputBox">
                 <span>Mensaje:</span> 
-                <textarea placeholder="Escriba su consulta sobre alguna propiedad o sobre las tasaciones..." name="mensaje" required></textarea>
+                <textarea placeholder="Escriba su consulta..." name="mensaje" required></textarea>
             </div>
         </div>
 
-        <input type="submit" value="submit" class="btn" name="send">
-    
+        <input type="submit" value="Enviar" class="btn">
     </form>
 
 </section>
@@ -132,6 +130,34 @@
 
     <!-- custom js file -->
     <script src="js/script.js"></script>
+
+    <script>
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const data = {
+            name: form.name.value,
+            email: form.email.value,
+            phone: form.phone.value,
+            mensaje: form.mensaje.value
+        };
+
+        fetch("https://script.google.com/macros/s/AKfycbzyEdWGU82tR2gd6PCttTErylBkdRhG6hsWeG_R7y2B33z8uPzMFCqJARf5PGV996Al2w/exec", {
+            method: "POST",
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(response => {
+            alert("Gracias por contactarte. ¡Tu mensaje fue enviado!");
+            form.reset();
+        })
+        .catch(error => {
+            alert("Hubo un error al enviar el formulario.");
+            console.error(error);
+        });
+    });
+    </script>
     
 </body>
 </html>
