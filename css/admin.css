@@ -1,0 +1,62 @@
+/* Panel de administracion - Viviendas UB */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', Arial, sans-serif; }
+body.admin { display: flex; min-height: 100vh; background: #f3f4f8; color: #222; font-size: 15px; }
+.admin-menu { width: 230px; background: #0b187c; color: #fff; padding: 20px 15px; display: flex; flex-direction: column; gap: 15px; }
+.admin-logo img { width: 100%; background: #fff; border-radius: 6px; padding: 6px; }
+.admin-usuario { font-size: 14px; }
+.admin-menu nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.admin-menu nav a { color: #fff; text-decoration: none; padding: 10px 12px; border-radius: 6px; }
+.admin-menu nav a:hover, .admin-menu nav a.activo { background: rgba(255,255,255,.15); }
+.btn-salir { width: 100%; background: #b00000; color: #fff; border: 0; padding: 10px; border-radius: 6px; cursor: pointer; }
+.admin-contenido { flex: 1; padding: 30px; overflow-x: auto; }
+.admin-contenido h1 { margin-bottom: 20px; font-size: 26px; }
+.barra-acciones { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 10px; flex-wrap: wrap; }
+.boton { background: #b00000; color: #fff; border: 0; padding: 10px 16px; border-radius: 6px; text-decoration: none; cursor: pointer; display: inline-flex; gap: 8px; align-items: center; font-size: 15px; }
+.boton-secundario { background: #777; }
+.tabla { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+.tabla th, .tabla td { padding: 10px; border-bottom: 1px solid #e5e7eb; text-align: left; vertical-align: top; }
+.tabla th { background: #eef0f8; font-weight: 600; }
+.tabla td.mensaje { max-width: 320px; white-space: normal; }
+.fila-inactiva { opacity: .55; }
+.miniatura { width: 70px; height: 50px; object-fit: cover; border-radius: 4px; }
+.miniatura.redonda { width: 45px; height: 45px; border-radius: 50%; }
+.acciones { white-space: nowrap; }
+.acciones a, .acciones button { color: #0b187c; background: none; border: 0; cursor: pointer; font-size: 16px; margin-right: 8px; }
+.acciones form, .form-estado { display: inline; }
+.form-estado select { padding: 4px; }
+.form-estado button { background: #0b187c; color: #fff; border: 0; padding: 5px 8px; border-radius: 4px; cursor: pointer; }
+.estado { padding: 3px 8px; border-radius: 12px; font-size: 12px; background: #e5e7eb; }
+.estado-disponible { background: #dcfce7; color: #14532d; }
+.estado-reservada { background: #fef9c3; color: #713f12; }
+.estado-vendida, .estado-alquilada { background: #dbeafe; color: #1e3a8a; }
+.estado-inactiva { background: #fee2e2; color: #7f1d1d; }
+.tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+.tarjeta { background: #fff; padding: 20px; border-radius: 10px; text-decoration: none; color: #222; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+.tarjeta span { display: block; font-size: 34px; font-weight: 700; color: #0b187c; }
+.pestanas { display: flex; gap: 5px; margin-bottom: 15px; }
+.pestanas a { padding: 8px 14px; background: #e5e7eb; border-radius: 6px 6px 0 0; text-decoration: none; color: #222; }
+.pestanas a.activo { background: #0b187c; color: #fff; }
+.form-admin { background: #fff; padding: 20px; border-radius: 10px; max-width: 1100px; }
+.grilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+.campo { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+.campo input, .campo select, .campo textarea { padding: 9px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; }
+.campo small { color: #666; }
+.campo-check { justify-content: flex-end; }
+fieldset { border: 1px solid #cbd5e1; border-radius: 6px; padding: 15px; margin: 10px 0; }
+.imagenes-actuales { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
+.imagen-item { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.imagen-item img { width: 130px; height: 90px; object-fit: cover; border-radius: 6px; }
+.botonera { display: flex; gap: 10px; margin-top: 15px; }
+.error-msg { color: #b00000; font-size: 13px; min-height: 16px; }
+.campo-invalido { border-color: #b00000 !important; background: #fff4f4; }
+.alerta { padding: 12px 15px; border-radius: 6px; margin-bottom: 15px; }
+.alerta-exito { background: #e6f6ea; color: #14532d; border: 1px solid #86c99a; }
+.alerta-error { background: #fdecec; color: #7f1d1d; border: 1px solid #e3a1a1; }
+body.login { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(60deg, #b00000, #0b187c); }
+.login-box { background: #fff; padding: 30px; border-radius: 10px; width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 8px; }
+.login-box img { width: 160px; align-self: center; }
+.login-box h1 { text-align: center; font-size: 22px; margin-bottom: 10px; }
+.login-box input { padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; }
+.login-box button { background: #b00000; color: #fff; border: 0; padding: 12px; border-radius: 6px; cursor: pointer; margin-top: 10px; }
+.login-box a { text-align: center; color: #0b187c; font-size: 14px; }
+@media (max-width: 800px) { body.admin { flex-direction: column; } .admin-menu { width: 100%; } }

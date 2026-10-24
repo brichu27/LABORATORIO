@@ -1,0 +1,7 @@
+config/config.php
+node_modules/
+coverage/
+uploads/**/*
+!uploads/.htaccess
+!uploads/**/.gitkeep
+_legacy_html/
