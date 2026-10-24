@@ -1,0 +1,5 @@
+# Evita ejecutar scripts subidos y listar el directorio
+Options -Indexes
+<FilesMatch "\.(php|phtml|phar|php\d|pl|py|cgi|sh)$">
+    Require all denied
+</FilesMatch>

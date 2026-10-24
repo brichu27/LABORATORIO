@@ -1,0 +1,56 @@
+/* =====================================================================
+   Correcciones y estilos nuevos (se carga DESPUES de css/style.css)
+   ===================================================================== */
+
+/* style.css aplica text-transform: capitalize a todo (*): rompia emails ("Viviendasub@Gmail.Com") */
+a[href^="mailto:"], .sin-capitalizar, input, textarea, select, .alerta, .error-msg, .card-text, .descripcion { text-transform: none; }
+
+/* Navegacion activa */
+.header .navbar a.activo { color: var(--main-color2); font-weight: 600; }
+
+/* Listado de propiedades: ahora el servidor envia solo lo visible (se elimina el display:none por nth-child) */
+.properties .box-container .box { display: block; }
+
+/* Filtros */
+.filtros { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-end; justify-content: center; margin-bottom: 2rem; font-size: 1.6rem; }
+.filtros label { display: flex; flex-direction: column; gap: .5rem; color: var(--black); }
+.filtros select { padding: .8rem 1rem; font-size: 1.6rem; border: var(--border); background: var(--white); min-width: 18rem; }
+.filtros .btn2 { margin-top: 0; border: none; }
+.btn3-link { font-size: 1.6rem; color: var(--main-color); text-decoration: underline; }
+.resultado-total, .vacio { text-align: center; font-size: 1.7rem; color: var(--light-black); margin-bottom: 2rem; text-transform: none; }
+.load-more button.btn2 { border: none; font-family: inherit; }
+.load-more button.btn2:disabled { opacity: .6; cursor: wait; }
+
+/* Formularios: labels, errores y estado invalido */
+.booking .book-form .flex .inputBox label { font-size: 2rem; color: var(--main-color2); display: block; }
+.booking .book-form .flex .inputBox select { width: 100%; padding: 1.2rem 1.4rem; font-size: 2rem; margin-top: 1.5rem; border: var(--border); background: var(--white); }
+.booking .book-form button.btn { border: none; font-family: inherit; }
+.error-msg { display: block; min-height: 1.8rem; margin-top: .5rem; font-size: 1.5rem; color: #b00000; }
+.campo-invalido { border: .2rem solid #b00000 !important; background: #fff4f4 !important; }
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+/* Alertas (mensajes flash) */
+.alerta { margin: 1.5rem 10%; padding: 1.5rem 2rem; font-size: 1.7rem; border-radius: 6px; }
+.alerta-exito { background: #e6f6ea; color: #14532d; border: 1px solid #86c99a; }
+.alerta-error { background: #fdecec; color: #7f1d1d; border: 1px solid #e3a1a1; }
+
+/* Ficha de propiedad */
+.detalle-propiedad .volver { font-size: 1.6rem; color: var(--main-color); display: inline-block; margin-bottom: 2rem; }
+.detalle-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr)); gap: 3rem; }
+.galeria-principal { width: 100%; max-height: 50rem; object-fit: cover; border-radius: 10px; }
+.galeria-miniaturas { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+.galeria-miniaturas img { width: 9rem; height: 7rem; object-fit: cover; cursor: pointer; border-radius: 6px; }
+.ficha { font-size: 1.8rem; color: var(--black); }
+.ficha .precio { font-size: 3.5rem; font-weight: 600; color: var(--main-color); }
+.ficha .etiquetas span { display: inline-block; background: var(--l-main-color); padding: .4rem 1rem; margin: .5rem .5rem .5rem 0; border-radius: 20px; font-size: 1.4rem; }
+.ficha .caracteristicas { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+.ficha i { color: var(--main-color2); }
+.ficha .descripcion { line-height: 1.8; }
+.agente-mini { display: flex; gap: 1.5rem; align-items: center; background: var(--ligth-bg); padding: 1.5rem; border-radius: 10px; margin-top: 2rem; font-size: 1.6rem; }
+.agente-mini img { width: 8rem; height: 8rem; border-radius: 50%; object-fit: cover; }
+.agente-mini a { color: var(--black); }
+.mapa iframe { width: 100%; height: 35rem; border: 0; margin-top: 3rem; border-radius: 10px; }
+
+/* Blog en grilla */
+.grilla-noticias { display: grid; grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr)); gap: 2rem; }
+.noticia .text ul { padding-left: 2rem; }
