@@ -13,7 +13,7 @@ Sitio web de una inmobiliaria con un **sitio público** para buscar propiedades 
 - Ficha de cada propiedad con galería, características y formulario de consulta al agente asignado.
 - Solicitud de tasación, postulación para sumarse al equipo y formulario de contacto.
 - Blog de noticias, Nosotros, Preguntas frecuentes, Política de privacidad y Términos (con índice lateral).
-- Botón flotante de WhatsApp y diseño adaptable a celular.
+- Botón flotante de WhatsApp.
 
 **Panel de administración** (`/admin/`)
 - Inicio con tarjetas de resumen que abren cada lista filtrada por lo nuevo.
