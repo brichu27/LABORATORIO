@@ -74,28 +74,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $titulo = $existente === null ? 'Nueva noticia' : 'Modificar noticia #' . $id;
+$subtitulo = $existente === null ? 'Los campos marcados con * son obligatorios.' : $existente['titulo'];
 require __DIR__ . '/../includes/admin_header.php';
 ?>
 <form method="post" enctype="multipart/form-data" class="form-admin" data-validar-form novalidate>
     <?= csrf_campo() ?>
-    <div class="campo"><label for="titulo">Título *</label>
-        <input id="titulo" name="titulo" maxlength="150" required data-validar="texto:5:150" value="<?= viejo($datos, 'titulo') ?>"><?= error_campo($errores, 'titulo') ?></div>
-    <div class="campo"><label for="resumen">Resumen (se muestra en la tarjeta) *</label>
-        <input id="resumen" name="resumen" maxlength="300" required data-validar="texto:10:300" value="<?= viejo($datos, 'resumen') ?>"><?= error_campo($errores, 'resumen') ?></div>
-    <div class="campo"><label for="contenido">Contenido *</label>
-        <small>Separe párrafos con una línea en blanco. Use "## " al inicio para subtítulos y "- " para ítems de lista.</small>
-        <textarea id="contenido" name="contenido" rows="14" required data-validar="texto:50:60000"><?= viejo($datos, 'contenido') ?></textarea><?= error_campo($errores, 'contenido') ?></div>
-    <div class="grilla">
-        <div class="campo"><label for="fecha_publicacion">Fecha de publicación *</label>
-            <input id="fecha_publicacion" type="date" name="fecha_publicacion" required data-validar="requerido" value="<?= viejo($datos, 'fecha_publicacion') ?>"><?= error_campo($errores, 'fecha_publicacion') ?></div>
-        <div class="campo"><label for="imagen">Imagen (JPG/PNG/WEBP, máx. 2 MB)</label>
-            <?php if (!empty($existente['imagen'])): ?><img src="<?= e(img_src($existente['imagen'], '../')) ?>" alt="" class="miniatura"><?php endif; ?>
-            <input id="imagen" type="file" name="imagen" accept="image/jpeg,image/png,image/webp"><?= error_campo($errores, 'imagen') ?></div>
-        <div class="campo campo-check"><label><input type="checkbox" name="publicada" value="1" <?= $datos['publicada'] === '1' ? 'checked' : '' ?>> Publicada (visible en el sitio)</label></div>
-    </div>
-    <div class="botonera">
-        <button type="submit" class="boton"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
-        <a href="noticias.php" class="boton boton-secundario">Cancelar</a>
+    <div class="form-layout">
+        <div class="form-principal">
+            <section class="form-seccion">
+                <h2><i class="fa-regular fa-newspaper" aria-hidden="true"></i> Contenido</h2>
+                <div class="campo"><label for="titulo">Título *</label>
+                    <input id="titulo" name="titulo" maxlength="150" required data-validar="texto:5:150" value="<?= viejo($datos, 'titulo') ?>"><?= error_campo($errores, 'titulo') ?></div>
+                <div class="campo"><label for="resumen">Resumen *</label>
+                    <input id="resumen" name="resumen" maxlength="300" required data-validar="texto:10:300" value="<?= viejo($datos, 'resumen') ?>">
+                    <small>Se muestra en la tarjeta de la noticia, en el inicio y en el blog.</small><?= error_campo($errores, 'resumen') ?></div>
+                <div class="campo"><label for="contenido">Texto de la noticia *</label>
+                    <textarea id="contenido" name="contenido" rows="10" class="texto-noticia" required data-validar="texto:50:60000"><?= viejo($datos, 'contenido') ?></textarea>
+                    <small>Separe los párrafos con una línea en blanco. Use "## " al inicio para subtítulos y "- " para ítems de lista.</small>
+                    <?= error_campo($errores, 'contenido') ?></div>
+            </section>
+        </div>
+
+        <aside class="form-lateral">
+            <section class="form-seccion">
+                <h2><i class="fa-solid fa-bullhorn" aria-hidden="true"></i> Publicación</h2>
+                <div class="campo"><label for="fecha_publicacion">Fecha de publicación *</label>
+                    <input id="fecha_publicacion" type="date" name="fecha_publicacion" required data-validar="requerido" value="<?= viejo($datos, 'fecha_publicacion') ?>"><?= error_campo($errores, 'fecha_publicacion') ?></div>
+                <label class="opcion">
+                    <input type="checkbox" name="publicada" value="1" <?= $datos['publicada'] === '1' ? 'checked' : '' ?>>
+                    <span><strong>Publicada</strong><small>Visible en el blog del sitio. Si no, queda como borrador.</small></span>
+                </label>
+                <div class="campo campo--separado"><label for="imagen">Imagen</label>
+                    <?php if (!empty($existente['imagen'])): ?><img src="<?= e(img_src($existente['imagen'], '../')) ?>" alt="" class="form-imagen-actual"><?php endif; ?>
+                    <input id="imagen" type="file" name="imagen" accept="image/jpeg,image/png,image/webp">
+                    <small>JPG, PNG o WEBP, hasta 2 MB.<?= !empty($existente['imagen']) ? ' Si elige otra, reemplaza a la actual.' : '' ?></small>
+                    <?= error_campo($errores, 'imagen') ?></div>
+            </section>
+            <div class="form-acciones">
+                <button type="submit" class="boton"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                <a href="noticias.php" class="boton boton-secundario">Cancelar</a>
+            </div>
+        </aside>
     </div>
 </form>
 <?php require __DIR__ . '/../includes/admin_footer.php'; ?>

@@ -146,6 +146,11 @@
       });
       form.querySelectorAll('[data-validar]').forEach(function (c) {
         c.addEventListener('blur', function () { validarCampo(c); });
+        // Un campo con error se revalida mientras se corrige: el mensaje desaparece al escribir y no recién
+        // en el blur, que mueve el botón "Enviar" justo cuando el usuario lo está pulsando.
+        c.addEventListener('input', function () {
+          if (c.classList.contains('campo-invalido')) validarCampo(c);
+        });
       });
     });
   }

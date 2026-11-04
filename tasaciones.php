@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $st->execute([(int) $datos['tipo_propiedad_id'], $datos['nombre'], strtolower($datos['email']), $datos['telefono'],
                       $datos['direccion_inmueble'], $superficie, $datos['mensaje'] !== '' ? $datos['mensaje'] : null]);
         flash('exito', '¡Solicitud recibida! Un tasador te contactará para coordinar la visita.');
-        redirigir('tasaciones.php#form-tasacion');
+        redirigir('tasaciones.php#aviso');   // el ancla lleva al mensaje de éxito
     }
     $errores = $v->errores();
 }
@@ -43,7 +43,7 @@ $titulo = 'Tasaciones';
 $paginaActiva = 'tasaciones';
 require __DIR__ . '/includes/header.php';
 ?>
-<div class="heading" style="background:url(imagenes/slide-3.jpg) no-repeat">
+<div class="heading" style="background-image: url(imagenes/slide-3.jpg)">
     <h1>Tasaciones</h1>
 </div>
 
@@ -52,7 +52,7 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <section class="about">
-    <div class="image"><img src="imagenes/propiedades.jpg" alt=""></div>
+    <div class="image"><img src="imagenes/propiedades.jpg" alt="" width="1200" height="1200" loading="lazy"></div>
     <div class="contentt">
         <h3>Tasación de inmuebles</h3>
         <p>La tasación de una propiedad es un trabajo delicado donde intervienen el año de construcción, los metros cuadrados, el tipo de propiedad y su estado, además de la competencia, los comparables y el momento económico del mercado.</p>
@@ -61,21 +61,38 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <section class="tasacion">
-    <h1 class="heading-title">Proceso</h1>
-    <div class="text">
-        <h4>Inspección de la propiedad:</h4>
-        <p>El primer paso implica que un tasador visite la propiedad y evalúe su estado general, características y ubicación.</p>
-        <h4>Análisis del mercado:</h4>
-        <p>El tasador investiga las ventas recientes de propiedades similares en la zona para determinar el valor actual.</p>
-        <h4>Métodos de valoración:</h4>
-        <p>Se aplica el enfoque comparativo de mercado, el de costo o el de ingresos, según la naturaleza de la propiedad.</p>
-        <h4>El informe de tasación:</h4>
-        <p>Finalmente se elabora un informe con la descripción de la propiedad, el análisis de mercado y la valoración final.</p>
-    </div>
+    <h2 class="heading-title">Proceso de tasación</h2>
+    <p class="pasos-intro">Cuatro pasos, desde la visita hasta el informe final.</p>
+    <ol class="pasos">
+        <li class="paso">
+            <span class="paso-num">1</span>
+            <i class="fa-solid fa-house-circle-check"></i>
+            <h4>Inspección de la propiedad</h4>
+            <p>Un tasador visita la propiedad y evalúa su estado general, sus características y su ubicación.</p>
+        </li>
+        <li class="paso">
+            <span class="paso-num">2</span>
+            <i class="fa-solid fa-chart-line"></i>
+            <h4>Análisis del mercado</h4>
+            <p>Se estudian las ventas recientes de propiedades similares en la zona para conocer el valor actual.</p>
+        </li>
+        <li class="paso">
+            <span class="paso-num">3</span>
+            <i class="fa-solid fa-scale-balanced"></i>
+            <h4>Métodos de valoración</h4>
+            <p>Se aplica el enfoque comparativo de mercado, el de costo o el de ingresos, según el tipo de propiedad.</p>
+        </li>
+        <li class="paso">
+            <span class="paso-num">4</span>
+            <i class="fa-solid fa-file-signature"></i>
+            <h4>Informe de tasación</h4>
+            <p>Recibís un informe con la descripción de la propiedad, el análisis de mercado y la valoración final.</p>
+        </li>
+    </ol>
 </section>
 
 <section class="booking" id="form-tasacion">
-    <h1 class="heading-title">Solicitar tasación</h1>
+    <h2 class="heading-title">Solicitar tasación</h2>
     <p>Completá los datos del inmueble y coordinamos una visita sin cargo.</p>
     <form method="post" action="tasaciones.php#form-tasacion" class="book-form" data-validar-form novalidate>
         <?= csrf_campo() ?>

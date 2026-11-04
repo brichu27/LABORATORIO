@@ -156,69 +156,102 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $titulo = $existente === null ? 'Nueva propiedad' : 'Modificar propiedad #' . (int) $existente['id'];
+$subtitulo = $existente === null ? 'Los campos marcados con * son obligatorios.' : $existente['titulo'] . ' · ' . $existente['direccion'] . ', ' . $existente['barrio'];
 require __DIR__ . '/../includes/admin_header.php';
 
-$campoTexto = function (string $campo, string $etiqueta, string $tipo = 'text', string $extra = '') use ($datos, $errores): string {
-    return '<div class="campo"><label for="' . $campo . '">' . e($etiqueta) . '</label>'
+$campoTexto = function (string $campo, string $etiqueta, string $tipo = 'text', string $extra = '', string $clase = '') use ($datos, $errores): string {
+    return '<div class="campo ' . $clase . '"><label for="' . $campo . '">' . e($etiqueta) . '</label>'
         . '<input id="' . $campo . '" name="' . $campo . '" type="' . $tipo . '" value="' . viejo($datos, $campo) . '" ' . $extra . '>'
         . error_campo($errores, $campo) . '</div>';
 };
 ?>
 <form method="post" enctype="multipart/form-data" class="form-admin" data-validar-form novalidate>
     <?= csrf_campo() ?>
-    <div class="grilla">
-        <?= $campoTexto('titulo', 'Título *', 'text', 'maxlength="120" required data-validar="texto:5:120"') ?>
-        <div class="campo"><label for="tipo_propiedad_id">Tipo *</label>
-            <select id="tipo_propiedad_id" name="tipo_propiedad_id" required data-validar="requerido">
-                <option value="">Seleccione...</option>
-                <?php foreach ($tipos as $t): ?><option value="<?= (int) $t['id'] ?>" <?= $datos['tipo_propiedad_id'] === (string) $t['id'] ? 'selected' : '' ?>><?= e($t['nombre']) ?></option><?php endforeach; ?>
-            </select><?= error_campo($errores, 'tipo_propiedad_id') ?></div>
-        <div class="campo"><label for="operacion">Operación *</label>
-            <select id="operacion" name="operacion"><?php foreach (OPERACIONES as $o): ?><option <?= $datos['operacion'] === $o ? 'selected' : '' ?>><?= $o ?></option><?php endforeach; ?></select>
-            <?= error_campo($errores, 'operacion') ?></div>
-        <?= $campoTexto('precio', 'Precio *', 'number', 'min="1" step="0.01" required data-validar="decimal:1:999999999999"') ?>
-        <div class="campo"><label for="moneda">Moneda *</label>
-            <select id="moneda" name="moneda"><?php foreach (['USD', 'ARS'] as $m): ?><option <?= $datos['moneda'] === $m ? 'selected' : '' ?>><?= $m ?></option><?php endforeach; ?></select></div>
-        <?= $campoTexto('direccion', 'Dirección *', 'text', 'maxlength="150" required data-validar="texto:5:150"') ?>
-        <?= $campoTexto('barrio', 'Barrio *', 'text', 'maxlength="60" required data-validar="texto:2:60"') ?>
-        <?= $campoTexto('ciudad', 'Ciudad *', 'text', 'maxlength="60" required data-validar="texto:2:60"') ?>
-        <?= $campoTexto('ambientes', 'Ambientes *', 'number', 'min="1" max="50" required data-validar="entero:1:50"') ?>
-        <?= $campoTexto('dormitorios', 'Dormitorios *', 'number', 'min="0" max="50" required data-validar="entero:0:50"') ?>
-        <?= $campoTexto('banos', 'Baños *', 'number', 'min="0" max="20" required data-validar="entero:0:20"') ?>
-        <?= $campoTexto('superficie_m2', 'Superficie m² *', 'number', 'min="1" step="0.01" required data-validar="decimal:1:100000"') ?>
-        <div class="campo"><label for="estado">Estado *</label>
-            <select id="estado" name="estado"><?php foreach (ESTADOS_PROPIEDAD as $e): ?><option <?= $datos['estado'] === $e ? 'selected' : '' ?>><?= $e ?></option><?php endforeach; ?></select></div>
-        <?php if ($usuario['rol'] === 'ADMIN'): ?>
-        <div class="campo"><label for="agente_id">Agente responsable *</label>
-            <select id="agente_id" name="agente_id"><?php foreach ($agentes as $a): ?><option value="<?= (int) $a['id'] ?>" <?= $datos['agente_id'] === (string) $a['id'] ? 'selected' : '' ?>><?= e($a['apellido'] . ', ' . $a['nombre']) ?></option><?php endforeach; ?></select>
-            <?= error_campo($errores, 'agente_id') ?></div>
-        <?php endif; ?>
-        <div class="campo campo-check"><label><input type="checkbox" name="destacada" value="1" <?= $datos['destacada'] === '1' ? 'checked' : '' ?>> Mostrar como destacada en el inicio</label></div>
-    </div>
-    <div class="campo"><label for="descripcion">Descripción</label>
-        <textarea id="descripcion" name="descripcion" rows="5" maxlength="5000"><?= viejo($datos, 'descripcion') ?></textarea>
-        <?= error_campo($errores, 'descripcion') ?></div>
+    <div class="form-layout">
+        <div class="form-principal">
+            <section class="form-seccion">
+                <h2><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Datos principales</h2>
+                <div class="form-grilla form-grilla--2">
+                    <?= $campoTexto('titulo', 'Título *', 'text', 'maxlength="120" required data-validar="texto:5:120" placeholder="Ej: Departamento de 3 ambientes en Palermo"', 'campo--completo') ?>
+                    <div class="campo"><label for="tipo_propiedad_id">Tipo *</label>
+                        <select id="tipo_propiedad_id" name="tipo_propiedad_id" required data-validar="requerido">
+                            <option value="">Seleccione...</option>
+                            <?php foreach ($tipos as $t): ?><option value="<?= (int) $t['id'] ?>" <?= $datos['tipo_propiedad_id'] === (string) $t['id'] ? 'selected' : '' ?>><?= e($t['nombre']) ?></option><?php endforeach; ?>
+                        </select><?= error_campo($errores, 'tipo_propiedad_id') ?></div>
+                    <div class="campo"><label for="operacion">Operación *</label>
+                        <select id="operacion" name="operacion"><?php foreach (OPERACIONES as $o): ?><option value="<?= $o ?>" <?= $datos['operacion'] === $o ? 'selected' : '' ?>><?= e(estado_texto($o)) ?></option><?php endforeach; ?></select>
+                        <?= error_campo($errores, 'operacion') ?></div>
+                </div>
+            </section>
 
-    <fieldset>
-        <legend>Imágenes (JPG, PNG o WEBP, máx. 2 MB c/u)</legend>
-        <?php if ($imagenes): ?>
-            <div class="imagenes-actuales">
-                <?php foreach ($imagenes as $img): ?>
-                    <div class="imagen-item">
-                        <img src="<?= e(img_src($img['ruta'], '../')) ?>" alt="">
-                        <label><input type="radio" name="portada" value="<?= (int) $img['id'] ?>" <?= $img['es_portada'] ? 'checked' : '' ?>> Portada</label>
-                        <label><input type="checkbox" name="borrar_imagen[]" value="<?= (int) $img['id'] ?>"> Eliminar</label>
+            <section class="form-seccion">
+                <h2><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Precio y ubicación</h2>
+                <div class="form-grilla form-grilla--3">
+                    <?= $campoTexto('precio', 'Precio *', 'number', 'min="1" step="0.01" required data-validar="decimal:1:999999999999"') ?>
+                    <div class="campo"><label for="moneda">Moneda *</label>
+                        <select id="moneda" name="moneda"><?php foreach (['USD', 'ARS'] as $m): ?><option <?= $datos['moneda'] === $m ? 'selected' : '' ?>><?= $m ?></option><?php endforeach; ?></select></div>
+                    <div class="campo campo--nota"><small>En alquileres el precio es mensual: en el sitio se muestra con "/ mes".</small></div>
+                    <?= $campoTexto('direccion', 'Dirección *', 'text', 'maxlength="150" required data-validar="texto:5:150" placeholder="Calle y número"') ?>
+                    <?= $campoTexto('barrio', 'Barrio *', 'text', 'maxlength="60" required data-validar="texto:2:60"') ?>
+                    <?= $campoTexto('ciudad', 'Ciudad *', 'text', 'maxlength="60" required data-validar="texto:2:60"') ?>
+                </div>
+            </section>
+
+            <section class="form-seccion">
+                <h2><i class="fa-solid fa-ruler-combined" aria-hidden="true"></i> Características</h2>
+                <div class="form-grilla form-grilla--4">
+                    <?= $campoTexto('ambientes', 'Ambientes *', 'number', 'min="1" max="50" required data-validar="entero:1:50"') ?>
+                    <?= $campoTexto('dormitorios', 'Dormitorios *', 'number', 'min="0" max="50" required data-validar="entero:0:50"') ?>
+                    <?= $campoTexto('banos', 'Baños *', 'number', 'min="0" max="20" required data-validar="entero:0:20"') ?>
+                    <?= $campoTexto('superficie_m2', 'Superficie m² *', 'number', 'min="1" step="0.01" required data-validar="decimal:1:100000"') ?>
+                </div>
+                <div class="campo"><label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" name="descripcion" rows="5" maxlength="5000" placeholder="Lo que conviene destacar de la propiedad"><?= viejo($datos, 'descripcion') ?></textarea>
+                    <?= error_campo($errores, 'descripcion') ?></div>
+            </section>
+
+            <section class="form-seccion">
+                <h2><i class="fa-regular fa-images" aria-hidden="true"></i> Imágenes</h2>
+                <p class="form-seccion__ayuda">JPG, PNG o WEBP, de hasta 2 MB cada una. La portada es la que se ve en el listado.</p>
+                <?php if ($imagenes): ?>
+                    <div class="imagenes-actuales">
+                        <?php foreach ($imagenes as $img): ?>
+                            <div class="imagen-item">
+                                <img src="<?= e(img_src($img['ruta'], '../')) ?>" alt="">
+                                <label><input type="radio" name="portada" value="<?= (int) $img['id'] ?>" <?= $img['es_portada'] ? 'checked' : '' ?>> Portada</label>
+                                <label><input type="checkbox" name="borrar_imagen[]" value="<?= (int) $img['id'] ?>"> Eliminar</label>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-        <input type="file" name="imagenes[]" accept="image/jpeg,image/png,image/webp" multiple>
-        <?= error_campo($errores, 'imagenes') ?>
-    </fieldset>
+                <?php endif; ?>
+                <div class="campo">
+                    <input type="file" name="imagenes[]" accept="image/jpeg,image/png,image/webp" multiple data-preview="#preview-imagenes" aria-label="Agregar imágenes">
+                    <div class="imagenes-actuales imagenes-nuevas" id="preview-imagenes" aria-live="polite"></div>
+                    <?= error_campo($errores, 'imagenes') ?>
+                </div>
+            </section>
+        </div>
 
-    <div class="botonera">
-        <button type="submit" class="boton"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
-        <a href="propiedades.php" class="boton boton-secundario">Cancelar</a>
+        <aside class="form-lateral">
+            <section class="form-seccion">
+                <h2><i class="fa-solid fa-bullhorn" aria-hidden="true"></i> Publicación</h2>
+                <div class="campo"><label for="estado">Estado *</label>
+                    <select id="estado" name="estado"><?php foreach (ESTADOS_PROPIEDAD as $e): ?><option value="<?= $e ?>" <?= $datos['estado'] === $e ? 'selected' : '' ?>><?= e(estado_texto($e)) ?></option><?php endforeach; ?></select></div>
+                <?php if ($usuario['rol'] === 'ADMIN'): ?>
+                <div class="campo"><label for="agente_id">Agente responsable *</label>
+                    <select id="agente_id" name="agente_id"><?php foreach ($agentes as $a): ?><option value="<?= (int) $a['id'] ?>" <?= $datos['agente_id'] === (string) $a['id'] ? 'selected' : '' ?>><?= e($a['apellido'] . ', ' . $a['nombre']) ?></option><?php endforeach; ?></select>
+                    <?= error_campo($errores, 'agente_id') ?></div>
+                <?php endif; ?>
+                <label class="opcion">
+                    <input type="checkbox" name="destacada" value="1" <?= $datos['destacada'] === '1' ? 'checked' : '' ?>>
+                    <span><strong>Destacada</strong><small>Aparece en "Propiedades destacadas" del inicio.</small></span>
+                </label>
+            </section>
+            <div class="form-acciones">
+                <button type="submit" class="boton"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                <a href="propiedades.php" class="boton boton-secundario">Cancelar</a>
+            </div>
+        </aside>
     </div>
 </form>
 <?php require __DIR__ . '/../includes/admin_footer.php'; ?>

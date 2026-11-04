@@ -1,0 +1,2544 @@
+@import url("variables.css");
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+/* Base de imágenes: con width/height en el HTML el navegador reserva el espacio; acá nunca superan su contenedor */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+* {
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    text-decoration: none;
+}
+
+html {
+    font-size: 62.5%;
+    overflow-x: hidden;
+}
+
+html::-webkit-scrollbar {
+    width: 1rem;
+}
+
+html::-webkit-scrollbar-track {
+    background-color: var(--blanco);
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: var(--rojo);
+}
+
+section {
+    padding: 5rem 10%;
+}
+
+@keyframes fadeIn{
+    0%{
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.heading {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.heading h1 {
+    text-transform: uppercase;
+    color: var(--blanco);
+    text-shadow: var(--sombra-texto);
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+
+.btn {
+    background: var(--rojo);
+    margin-top: 1rem;
+    color: var(--blanco);
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: var(--rojo-oscuro);
+}
+
+.heading-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--texto);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -.01em;
+    text-transform: none;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: var(--blanco);
+    display: flex;
+    box-shadow: var(--sombra-caja);
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.header .navbar a {
+    color: var(--texto);
+    font-size: 1.55rem;
+    font-weight: 500;
+    margin-left: 0;
+    padding: .8rem 1.2rem;
+    border-radius: var(--radio-sm);
+}
+
+.header .navbar a:hover {
+    color: var(--rojo);
+}
+
+#menu-btn {
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: var(--texto);
+    display: none;
+    background: none;
+    padding: .4rem;
+}
+
+.header .navbar .join-b {
+    font-size: 1.45rem;
+    font-weight: 600;
+    margin-left: 1rem;
+    padding: .9rem 2rem;
+    background: var(--rojo);
+    color: var(--blanco);
+    text-transform: none;
+}
+
+.home-about {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.home-about .image {
+    flex: 1 1 41rem;
+}
+
+.home-about .image img {
+    width: 100%;
+}
+
+.home-about .content {
+    flex: 1 1 41rem;
+    padding: 3rem;
+    background: var(--azul-tenue);
+}
+
+.home-about .content h3 {
+    font-size: 3rem;
+    color: var(--texto);
+}
+
+.home-about .content p {
+    font-size: 1.7rem;
+    padding: 1rem 0;
+    line-height: 2;
+    color: var(--texto);
+    text-transform: none;
+}
+
+.services p {
+    font-size: 2rem;
+    line-height: 2;
+    color: var(--texto);
+    text-transform: none;
+    text-align: center;
+    max-width: 90rem;
+    margin: 0 auto;
+    padding-bottom: 3.5rem;
+}
+
+.services .heading-title {
+    text-transform: none;
+}
+
+.home-property {
+    background: var(--fondo-alt);
+}
+
+.home-property .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(30rem, 100%), 1fr));
+    gap: 2rem;
+}
+
+.home-property .load-more {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+/* display: none; */
+.join2 {
+    text-align: center;
+    background-color: var(--azul);
+}
+
+.join2 .content {
+    max-width: 120rem;
+    margin: 0 auto;
+}
+
+.join2 .content h3 {
+    color: var(--blanco);
+}
+
+.join2 .content p {
+    color: var(--blanco-suave);
+    line-height: 2;
+    padding: 1rem 0;
+    text-transform: none;
+}
+
+.card-wrapper {
+    max-width: 1500px;
+    margin: 0 60px 35px;
+    padding: 20px 10px;
+    overflow: hidden;
+}
+
+.card-list .card-item {
+    list-style: none;
+}
+
+.card-list .card-item .card-link {
+    user-select: none;
+    display: block;
+    background: var(--fondo-alt);
+    padding: 20px;
+    border-radius: var(--radio-md);
+    text-decoration: none;
+    border: 2px solid transparent;
+    box-shadow: var(--sombra-caja);
+}
+
+.card-list .card-item .card-link:active {
+    cursor: grabbing;
+}
+
+.card-list .card-item .card-link:hover {
+    transform: scale(1.03);
+}
+
+.card-list .card-link .card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radio-md);
+}
+
+.card-list .card-link .badge {
+    color: var(--azul);
+    font-size: 1.5rem;
+    line-height: 2;
+    padding: 0.5rem 0;
+}
+
+.card-list .card-link .card-title {
+    color: var(--texto);
+    text-transform: none;
+    font-size: 1.8rem;
+}
+
+.card-list .card-link .card-text {
+    font-size: 1.5rem;
+    padding: 1rem 0;
+    line-height: 2;
+    color: var(--texto);
+    text-transform: none;
+}
+
+.card-wrapper .swiper-pagination-bullet {
+    height: 13px;
+    width: 13px;
+    opacity: 0.5;
+    background-color: var(--azul);
+}
+
+.card-wrapper .swiper-pagination-bullet-active {
+    opacity: 1;
+}
+
+.card-wrapper .swiper-slide-button {
+    color: var(--azul-oscuro);
+    margin-top: -35px;
+}
+
+.blog .load-more {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.about {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4rem;
+}
+
+.about .image {
+    flex: 1 1 41rem;
+}
+
+.about .image img {
+    width: 100%;
+}
+
+.about .content {
+    flex: 1 1 41rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.about .content h3 {
+    font-size: 3rem;
+    color: var(--texto);
+    text-transform: uppercase;
+}
+
+.about .content p {
+    font-size: 2rem;
+    color: var(--texto);
+    line-height: 2;
+    padding: 1rem 0;
+    text-transform: none;
+}
+
+.about .content .icons-container {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.about .content .icons-container .icons {
+    background: var(--fondo-alt);
+    padding: 2rem;
+    flex: 1 1 16rem;
+    border-radius: var(--radio-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.about .content .icons-container .icons i {
+    font-size: 4rem;
+    color: var(--azul);
+    margin-bottom: 1rem;
+}
+
+.about .content .icons-container .icons span {
+    color: var(--texto-suave);
+    display: block;
+    font-size: 1.4rem;
+}
+
+.agent {
+    background-color: var(--azul-tenue);
+}
+
+.agent .wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 5rem;
+}
+
+.agent .container1 {
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.agent .container .items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(30rem, 100%), 1fr));
+    gap: 2rem;
+}
+
+.property {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.property .image {
+    flex: 1 1 41rem;
+}
+
+.property .image img {
+    width: 100%;
+}
+
+.property .content {
+    flex: 1 1 41rem;
+    text-align: center;
+    background: var(--azul-tenue);
+}
+
+.property .content h3 {
+    font-size: 3rem;
+    color: var(--texto);
+    text-transform: uppercase;
+    padding: 1.5rem;
+}
+
+.property .content p {
+    font-size: 2rem;
+    color: var(--texto);
+    line-height: 2;
+    padding: 1.5rem 1.5rem;
+    text-transform: none;
+}
+
+.properties {
+    background: var(--fondo-alt);
+}
+
+.properties .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(40rem, 100%), 1fr));
+    gap: 2rem;
+}
+
+.properties .load-more {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.info p {
+    font-size: 2rem;
+    color: var(--texto);
+    text-transform: none;
+    text-align: center;
+    max-width: 90rem;
+    margin: 0 auto;
+    line-height: 2;
+}
+
+.noticia {
+    font-size: 2rem;
+    text-align: justify;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 2;
+}
+
+.noticia h1 {
+    text-align: left;
+    font-size: clamp(2.8rem, 3.2vw, 3.6rem);
+}
+
+.noticia p {
+    font-size: 1.7rem;
+    padding-bottom: 1.5rem;
+}
+
+.noticia .text h4 {
+    padding-top: 3rem;
+    padding-bottom: 1.5rem;
+    text-transform: none;
+    font-size: 2.2rem;
+}
+
+.noticia .text p {
+    font-size: 1.7rem;
+    text-transform: none;
+}
+
+.noticia .text li {
+    font-size: 2rem;
+    text-transform: none;
+}
+
+.noticia .text .lista {
+    font-size: 2rem;
+    text-transform: none;
+    font-weight: bold;
+}
+
+.noticia .image {
+    display: flex;
+    flex-direction: column;
+}
+
+.tasacion {
+    font-size: 2rem;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: normal;
+    text-align: left;
+}
+
+.about .contentt {
+    flex: 1 1 41rem;
+    text-align: center;
+    background-color: var(--azul-tenue);
+}
+
+.about .contentt h3 {
+    font-size: 3rem;
+    color: var(--texto);
+    text-transform: uppercase;
+}
+
+.about .contentt p {
+    font-size: 2rem;
+    color: var(--texto);
+    line-height: 2;
+    padding: 1rem 0;
+    text-transform: none;
+}
+
+.booking p {
+    font-size: 2rem;
+    line-height: 2;
+    color: var(--texto);
+    text-transform: none;
+    text-align: center;
+    padding-bottom: 3rem;
+}
+
+.booking .book-form {
+    max-width: 82rem;
+    margin: 0 auto;
+    padding: 3.2rem;
+    background: var(--fondo-alt);
+    border-radius: var(--radio-md);
+}
+
+.booking .book-form .flex {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.8rem 2.4rem;
+}
+
+.booking .book-form .flex .inputBox {
+    flex: 1 1 50rem;
+}
+
+.booking .book-form .flex .inputBox input {
+    width: 100%;
+    padding: 1.2rem 1.4rem;
+    font-size: 2rem;
+    color: var(--texto);
+    text-transform: none;
+    margin-top: 1.5rem;
+    border: var(--borde-fuerte);
+}
+
+.booking .book-form .flex .inputBox input:focus {
+    background: var(--texto);
+    color: var(--blanco-suave);
+}
+
+.booking .book-form .flex .inputBox input:focus::placeholder {
+    color: var(--blanco-suave);
+}
+
+.booking .book-form .flex .inputBox textarea {
+    width: 100%;
+    padding: 1.2rem 1.4rem;
+    font-size: 2rem;
+    color: var(--texto);
+    text-transform: none;
+    margin-top: 1.5rem;
+    border: var(--borde-fuerte);
+    min-height: 12rem;
+    resize: vertical;
+}
+
+.booking .book-form .flex .inputBox textarea:focus {
+    background: var(--texto);
+    color: var(--blanco-suave);
+}
+
+.booking .book-form .flex .inputBox textarea:focus::placeholder {
+    color: var(--blanco-suave);
+}
+
+.booking .book-form .flex .inputBox span {
+    font-size: 2rem;
+    color: var(--rojo);
+}
+
+.booking .book-form .btn {
+    margin-top: 2.4rem;
+}
+
+.footer {
+    background-color: var(--texto);
+    background-size: cover;
+    background-position: center;
+}
+
+.footer .box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(25rem, 100%), 1fr));
+    gap: 3rem;
+}
+
+.footer .box-container .box h3 {
+    color: var(--blanco);
+    padding-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.footer .box-container .box a {
+    color: var(--blanco-suave);
+    padding-bottom: 1.5rem;
+    display: block;
+    font-size: 1.45rem;
+}
+
+.footer .box-container .box a i {
+    color: var(--rojo);
+    padding-right: .5rem;
+    transition: .2s linear;
+}
+
+.footer .box-container .box a:hover i {
+    padding-right: 2rem;
+}
+
+.footer .credit {
+    text-align: center;
+    padding-top: 3rem;
+    margin-top: 3rem;
+    border-top: .1rem solid var(--blanco-suave);
+    color: var(--blanco);
+    font-size: 1.4rem;
+}
+
+/* media queries */
+@media (max-width:1200px) {
+
+    section {
+        padding: 3rem 5%;
+    }
+}
+
+@media (max-width:991px) {
+
+    section {
+        padding: 3rem 2rem;
+    }
+}
+
+@media (max-width:768px) {
+
+    #menu-btn {
+        display: inline-block;
+        transition: .2s linear;
+    }
+
+    #menu-btn.fa-times {
+        transform: rotate(180deg);
+    }
+
+    .header .navbar {
+        position: absolute;
+        top: 99%;
+        left: 0;
+        right: 0;
+        background-color: var(--blanco);
+        border-top: var(--borde-fuerte);
+        padding: 2rem;
+        transition: .2s linear;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    }
+
+    .header .navbar.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .header .navbar a {
+        display: block;
+        margin: 2rem;
+        text-align: center;
+    }
+
+    .card-wrapper {
+        margin: 0 10px 25px;
+    }
+
+    .card-wrapper .swiper-slide-button {
+        display: none;
+    }
+}
+
+@media (max-width:450px) {
+
+    .heading-title {
+        font-size: 3.5rem;
+    }
+
+    .heading h1 {
+        font-size: 7rem;
+    }
+}
+
+/* =====================================================================
+   Estilos propios del proyecto (complementan y ajustan la plantilla base de arriba)
+   ===================================================================== */
+
+/* La plantilla aplica text-transform: capitalize a todo (*); los emails y campos lo anulan ("Viviendasub@Gmail.Com") */
+a[href^="mailto:"],
+.sin-capitalizar,
+input,
+textarea,
+select,
+.alerta,
+.error-msg,
+.card-text,
+.descripcion {
+    text-transform: none;
+}
+
+/* Navegacion activa */
+
+/* Listado de propiedades: ahora el servidor envia solo lo visible (se elimina el display:none por nth-child) */
+
+/* Precios sin capitalizar: "ARS 480.000 / mes", no "/ Mes" */
+.ficha .precio {
+    text-transform: none;
+}
+
+/* Filtros */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: flex-end;
+    justify-content: center;
+    margin-bottom: 2rem;
+    font-size: 1.6rem;
+}
+
+.filtros label {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    color: var(--texto);
+}
+
+.filtros select {
+    background: var(--blanco);
+    min-width: 18rem;
+}
+
+.resultado-total,
+.vacio {
+    text-align: center;
+    font-size: 1.7rem;
+    color: var(--texto-suave);
+    margin-bottom: 2rem;
+    text-transform: none;
+}
+
+/* Formularios: labels, errores y estado invalido */
+.booking .book-form .flex .inputBox label {
+    display: block;
+    text-transform: none;
+}
+
+.booking .book-form .flex .inputBox select {
+    width: 100%;
+    padding: 1.2rem 1.4rem;
+    font-size: 2rem;
+    margin-top: 1.5rem;
+    border: var(--borde-fuerte);
+    background: var(--blanco);
+}
+
+.booking .book-form button.btn {
+    border: none;
+    font-family: inherit;
+}
+
+.error-msg {
+    display: block;
+    margin-top: .5rem;
+    color: var(--rojo);
+}
+
+/* Campo con error: texto oscuro sobre rojo claro, también con foco. Lleva !important porque
+   tiene que ganarle al estilo de foco de los campos (selectores más específicos) */
+.campo-invalido,
+.campo-invalido:focus {
+    border: 1px solid var(--rojo) !important;
+    background: var(--error-campo) !important;
+    color: var(--texto) !important;
+    box-shadow: 0 0 0 3px rgba(176, 0, 0, .12) !important;
+}
+
+.campo-invalido::placeholder,
+.campo-invalido:focus::placeholder {
+    color: var(--error-placeholder) !important;
+}
+
+.hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* Alertas (mensajes flash). El ancla #aviso deja lugar para el encabezado fijo */
+#aviso {
+    scroll-margin-top: 9rem;
+}
+
+.alerta {
+    margin: 1.5rem 10%;
+    padding: 1.5rem 2rem;
+    font-size: 1.7rem;
+    border-radius: var(--radio-sm);
+}
+
+.alerta-exito {
+    background: var(--exito-fondo);
+    color: var(--exito);
+    border: 1px solid var(--exito-borde);
+}
+
+.alerta-error {
+    background: var(--error-fondo);
+    color: var(--error-texto);
+    border: 1px solid var(--error-borde);
+}
+
+/* Ficha de propiedad */
+.detalle-propiedad .volver {
+    font-size: 1.6rem;
+    color: var(--azul);
+    display: inline-block;
+    margin-bottom: 2rem;
+    text-transform: none;
+}
+
+.galeria-miniaturas img {
+    width: 9rem;
+    height: 7rem;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: var(--radio-sm);
+}
+
+.ficha {
+    color: var(--texto);
+}
+
+.ficha .precio {
+    color: var(--azul);
+}
+
+.ficha .etiquetas span {
+    display: inline-block;
+    background: var(--azul-tenue);
+    padding: .4rem 1rem;
+    margin: .5rem .5rem .5rem 0;
+    border-radius: var(--radio-pill);
+    font-size: 1.4rem;
+}
+
+.ficha i {
+    color: var(--rojo);
+}
+
+.agente-mini {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    background: var(--fondo-alt);
+    padding: 1.5rem;
+    border-radius: var(--radio-md);
+    margin-top: 2rem;
+    font-size: 1.6rem;
+}
+
+.agente-mini img {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.agente-mini a {
+    color: var(--texto);
+    overflow-wrap: anywhere;
+}
+
+.agente-mini > div {
+    min-width: 0;
+}
+
+.mapa iframe {
+    width: 100%;
+    height: 35rem;
+    border: 0;
+    border-radius: var(--radio-md);
+}
+
+/* Blog en grilla */
+.grilla-noticias {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(30rem, 100%), 1fr));
+    gap: 2rem;
+}
+
+.noticia .text ul {
+    padding-left: 2rem;
+}
+
+/* =====================================================================
+   Ajustes de diseño: espaciado, imágenes y legibilidad (sin rediseño)
+   ===================================================================== */
+
+/* Bloques imagen + texto: separación, esquinas redondeadas y misma altura */
+.home-about,
+.about,
+.property {
+    gap: 4rem;
+    align-items: stretch;
+}
+
+.home-about .image img,
+.about .image img,
+.property .image img {
+    height: 100%;
+    min-height: 32rem;
+    object-fit: cover;
+    border-radius: var(--radio-md);
+    box-shadow: var(--sombra-caja);
+}
+
+.home-about .content,
+.about .contentt,
+.property .content {
+    border-radius: var(--radio-md);
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Íconos de "¿Por qué elegirnos?": misma altura y alineados */
+
+/* Carrusel del inicio: velo oscuro para que el texto se lea sobre cualquier foto */
+
+/* Subtítulos y botones sin mayúsculas forzadas ("¿Quiénes Somos?", "Más Información") */
+.home-about .content h3,
+.btn {
+    text-transform: none;
+}
+
+/* Tarjetas de servicios: transición suave */
+
+/* Texto introductorio de Tasaciones y Blog: ancho de lectura cómodo */
+
+/* Pie de página: sin mayúsculas forzadas ("Política De Privacidad") */
+.footer .box-container .box a,
+.footer .credit {
+    text-transform: none;
+}
+
+@media (max-width: 768px) {
+
+    .home-about,
+    .about,
+    .property {
+        gap: 2.5rem;
+    }
+
+    .home-about .image img,
+    .about .image img,
+    .property .image img {
+        min-height: 0;
+        height: auto;
+    }
+
+    .home-about .content,
+    .about .contentt,
+    .property .content {
+        padding: 2.5rem;
+    }
+}
+
+/* =====================================================================
+   Tipografía (Inter) y escala de tamaños
+   Base: 1rem = 10px. Texto 16px, subtítulos 22-24px, títulos 28-38px.
+   ===================================================================== */
+body {
+    color: var(--texto);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Encabezado de página con foto (todas las páginas salvo el inicio): más alto, crece con el ancho
+   de la pantalla, y con un velo leve para que el título se lea sobre cualquier foto */
+.heading {
+    padding-top: clamp(7rem, 11vw, 15rem);
+    padding-bottom: clamp(7rem, 11vw, 15rem);
+    box-shadow: inset 0 0 0 100vmax var(--velo-banner);
+}
+
+.heading h1 {
+    font-size: clamp(3.6rem, 5.5vw, 6rem);
+}
+
+/* Títulos de sección: tamaño contenido y sin mayúsculas forzadas */
+.heading-title {
+    font-size: clamp(2.8rem, 3.2vw, 3.8rem);
+}
+
+/* Botones */
+.btn {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 1.1rem 2.6rem;
+    border-radius: var(--radio-sm);
+    transition: background-color .2s ease;
+}
+
+/* Bloques imagen + texto */
+.home-about .content h3,
+.about .content h3,
+.about .contentt h3,
+.property .content h3 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.3;
+    text-transform: none;
+    padding: 0 0 .8rem;
+}
+
+.home-about .content p,
+.about .content p,
+.about .contentt p,
+.property .content p {
+    font-size: 1.6rem;
+    line-height: 1.8;
+    padding: .6rem 0;
+}
+
+/* Servicios del inicio */
+
+/* Bandas de llamado a la acción */
+.join2 .content h3 {
+    font-size: clamp(2.6rem, 3.2vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.join2 .content p {
+    font-size: 1.7rem;
+}
+
+/* Tarjetas de propiedades (inicio y listado) */
+
+/* Textos introductorios, proceso de tasación y noticias */
+.info p,
+.booking p,
+.services p {
+    font-size: 1.6rem;
+    line-height: 1.8;
+}
+
+/* Párrafo de introducción bajo el encabezado (Blog, Tasaciones): más grande y en un ancho cómodo de leer */
+.info p {
+    max-width: 68ch;
+    font-size: var(--fs-intro);
+    line-height: 1.7;
+    color: var(--texto-medio);
+}
+
+/* Proceso de tasación en pasos numerados */
+.pasos-intro {
+    font-size: 1.6rem;
+    color: var(--texto-suave);
+    text-align: center;
+    margin: -1.5rem 0 3.5rem;
+}
+
+.pasos {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2.4rem;
+    counter-reset: paso;
+}
+
+.paso {
+    position: relative;
+    background: var(--blanco);
+    border: 1px solid var(--borde-claro);
+    border-radius: var(--radio-md);
+    padding: 3.6rem 2.4rem 2.6rem;
+    text-align: left;
+    box-shadow: var(--sombra);
+}
+
+.paso-num {
+    position: absolute;
+    top: -1.8rem;
+    left: 2.4rem;
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    background: var(--rojo);
+    color: var(--blanco);
+    font-size: 1.6rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 .5rem var(--blanco);
+}
+
+.paso i {
+    font-size: 2.8rem;
+    color: var(--azul);
+    margin-bottom: 1.4rem;
+}
+
+.paso h4 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--texto);
+    margin-bottom: .8rem;
+}
+
+.paso p {
+    font-size: 1.5rem;
+    line-height: 1.7;
+    color: var(--texto-medio);
+    text-align: left;
+}
+
+@media (max-width: 991px) {
+
+    .pasos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        row-gap: 3.6rem;
+    }
+}
+
+@media (max-width: 560px) {
+
+    .pasos {
+        grid-template-columns: 1fr;
+    }
+}
+
+.noticia p,
+.noticia .text p,
+.noticia .text li,
+.noticia .text .lista {
+    font-size: 1.7rem;
+    line-height: 1.8;
+}
+
+/* Agentes */
+
+/* Ficha de propiedad */
+.ficha {
+    font-size: 1.6rem;
+}
+
+.ficha .precio {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+/* Pie de página */
+
+/* =====================================================================
+   Header: menú más liviano y "Unirse" como botón
+   ===================================================================== */
+
+/* Logo recortado (imagenes/logo-header.png, sin el margen blanco del original): header de ~76px */
+.header .logo img {
+    height: 5.6rem;
+    width: auto;
+    display: block;
+}
+
+.header .navbar {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+.header .navbar a.activo {
+    color: var(--rojo);
+    font-weight: 600;
+}
+
+.header .navbar .join-b:hover,
+.header .navbar .join-b.activo {
+    background: var(--rojo-oscuro);
+    color: var(--blanco);
+}
+
+/* =====================================================================
+   Formularios públicos: tarjeta acotada, dos columnas y campos compactos
+   ===================================================================== */
+.booking .book-form .flex .inputBox:has(textarea) {
+    grid-column: 1 / -1;
+}
+
+.booking .book-form .flex .inputBox label {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--texto-fuerte);
+}
+
+.booking .book-form .flex .inputBox input,
+.booking .book-form .flex .inputBox textarea,
+.booking .book-form .flex .inputBox select {
+    font-size: 1.5rem;
+    padding: 1rem 1.2rem;
+    margin-top: .6rem;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-sm);
+    background: var(--blanco);
+    color: var(--texto);
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.booking .book-form .flex .inputBox input:focus,
+.booking .book-form .flex .inputBox textarea:focus,
+.booking .book-form .flex .inputBox select:focus {
+    background: var(--blanco);
+    color: var(--texto);
+    border-color: var(--azul);
+    box-shadow: 0 0 0 3px rgba(11, 24, 124, .15);
+}
+
+.booking .book-form .flex .inputBox input:focus::placeholder,
+.booking .book-form .flex .inputBox textarea:focus::placeholder {
+    color: var(--texto-placeholder);
+}
+
+.error-msg {
+    font-size: 1.3rem;
+    min-height: 1.6rem;
+}
+
+/* Filtros del listado, alineados con el estilo de los formularios */
+.filtros label {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.filtros select {
+    font-size: 1.5rem;
+    padding: .8rem 1rem;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-sm);
+}
+
+@media (max-width: 768px) {
+
+    .header .navbar {
+        display: block;
+    }
+
+    .header .navbar a {
+        padding: 1rem;
+        font-size: 1.7rem;
+    }
+
+    .header .navbar .join-b {
+        display: inline-block;
+        margin: 1rem auto 0;
+    }
+
+    .booking .book-form {
+        padding: 2rem;
+    }
+
+    .booking .book-form .flex {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =====================================================================
+   Accesibilidad y legibilidad
+   ===================================================================== */
+
+/* Foco visible al navegar con teclado */
+:focus-visible {
+    outline: 3px solid var(--azul);
+    outline-offset: 2px;
+}
+
+.join2 :focus-visible,
+.footer :focus-visible {
+    outline-color: var(--blanco);
+}
+
+/* Estos campos ya tienen su propio anillo de foco */
+.booking .book-form .flex .inputBox :focus-visible,
+.filtros select:focus-visible {
+    outline: none;
+}
+
+/* Campos de 16px: evita el zoom automático de iOS al enfocar */
+.booking .book-form .flex .inputBox input,
+.booking .book-form .flex .inputBox textarea,
+.booking .book-form .flex .inputBox select,
+.filtros select {
+    font-size: 1.6rem;
+}
+
+/* Banner que no es el <h1> de la página (noticia), con el mismo aspecto */
+.heading .titulo-banner {
+    font-size: clamp(3.6rem, 5.5vw, 6rem);
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: var(--blanco);
+    text-shadow: var(--sombra-texto);
+    text-align: center;
+}
+
+/* Hovers con transición y respeto por "reducir movimiento" */
+.card-list .card-link,
+.card-list .card-link .card-image {
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* =====================================================================
+   Tarjeta de propiedad (inicio, listado y "Cargar más")
+   Reemplaza a .box dentro de .home-property y .properties. Toda la tarjeta es el enlace.
+   ===================================================================== */
+.home-property .box-container,
+.properties .box-container {
+    grid-template-columns: repeat(auto-fill, minmax(min(28rem, 100%), 1fr));
+    gap: var(--esp-3);
+}
+
+/* Inicio: las 4 destacadas siempre en filas completas (1, 2 o 4 columnas, nunca 3).
+   4 en fila solo desde 1600px: antes la tarjeta mide menos de 300px y los datos se parten en dos renglones. */
+.home-property .box-container {
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+    .home-property .box-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1600px) {
+    .home-property .box-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.card-propiedad {
+    background: var(--blanco);
+    border-radius: var(--radio-md);
+    box-shadow: var(--sombra);
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card-propiedad:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 1.2rem 2.8rem rgba(11, 24, 124, .14);
+}
+
+.card-propiedad__enlace {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+}
+
+.card-propiedad__foto {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--fondo-alt);
+}
+
+.card-propiedad__foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .3s ease;
+}
+
+.card-propiedad:hover .card-propiedad__foto img {
+    transform: scale(1.04);
+}
+
+.card-propiedad__etiqueta {
+    position: absolute;
+    top: 1.2rem;
+    left: 1.2rem;
+    padding: .4rem 1.1rem;
+    border-radius: var(--radio-pill);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--blanco);
+    background: var(--azul);
+}
+
+.card-propiedad__etiqueta--alquiler {
+    background: var(--rojo);
+}
+
+.card-propiedad__cuerpo {
+    padding: 1.8rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.card-propiedad__tipo {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+}
+
+.card-propiedad__precio {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--azul);
+    margin: .4rem 0 .6rem;
+}
+
+.card-propiedad__titulo {
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--texto);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-propiedad__direccion {
+    font-size: 1.4rem;
+    color: var(--texto-suave);
+    margin-top: .6rem;
+}
+
+.card-propiedad__direccion i {
+    color: var(--rojo);
+    margin-right: .3rem;
+}
+
+.card-propiedad__datos {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem 1.8rem;
+    margin-top: auto;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--borde-claro);
+    font-size: 1.4rem;
+    color: var(--texto-medio);
+}
+
+.card-propiedad__cuerpo .card-propiedad__direccion + .card-propiedad__datos {
+    margin-top: 1.4rem;
+}
+
+.card-propiedad__datos i {
+    color: var(--azul);
+    margin-right: .4rem;
+}
+
+.card-propiedad__enlace:focus-visible {
+    outline-offset: -3px;
+}
+
+/* =====================================================================
+   Jerarquía de botones (2.4): principal, secundario y de texto
+   ===================================================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .8rem;
+    border: 2px solid transparent;
+    font-family: inherit;
+}
+
+.btn--secundario {
+    background: transparent;
+    color: var(--azul);
+    border-color: var(--azul);
+}
+
+.btn--secundario:hover {
+    background: var(--azul);
+    color: var(--blanco);
+}
+
+.btn--texto {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--azul);
+    text-decoration: underline;
+    text-underline-offset: .3rem;
+    background: none;
+}
+
+.btn--texto:hover {
+    color: var(--rojo);
+}
+
+.home-about .content .btn--texto {
+    align-self: flex-start;
+    margin-top: 1rem;
+}
+
+/* =====================================================================
+   Hero del inicio con buscador (3.4)
+   ===================================================================== */
+.hero {
+    position: relative;
+    min-height: 48rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 10%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(2, 0, 44, .45);
+}
+
+/* Entrada del texto y del buscador: la misma animación que tenía el carrusel original */
+.hero__bajada,
+.hero h1,
+.buscador {
+    animation: fadeIn .6s linear backwards .2s;
+}
+
+.hero__contenido {
+    position: relative;
+    width: 100%;
+    max-width: 96rem;
+}
+
+.hero__bajada {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--blanco);
+    margin-bottom: 1rem;
+}
+
+.hero h1 {
+    font-size: clamp(3.2rem, 4.4vw, 5.6rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--blanco);
+    text-shadow: var(--sombra-texto);
+    margin-bottom: 3.2rem;
+}
+
+.buscador {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+    gap: 1.2rem;
+    align-items: end;
+    padding: 1.6rem;
+    background: var(--blanco);
+    border-radius: var(--radio-md);
+    box-shadow: 0 1.6rem 4rem rgba(0, 0, 0, .25);
+    text-align: left;
+}
+
+.buscador__campo span {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--texto-fuerte);
+    margin-bottom: .6rem;
+}
+
+.buscador select {
+    width: 100%;
+    font-size: 1.6rem;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-sm);
+    background: var(--blanco);
+    color: var(--texto);
+}
+
+.buscador .btn {
+    margin-top: 0;
+    min-height: 4.6rem;
+    padding: 1.1rem 2.8rem;
+}
+
+/* =====================================================================
+   Servicios del inicio (4.3): fondo claro, ícono de color, hover leve
+   ===================================================================== */
+.servicios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr));
+    gap: var(--esp-3);
+}
+
+.servicio {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 3rem 2.6rem;
+    background: var(--blanco);
+    border: 1px solid var(--borde-claro);
+    border-radius: var(--radio-md);
+    box-shadow: var(--sombra);
+    color: var(--texto);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.servicio:hover {
+    transform: translateY(-4px);
+    border-color: var(--rojo);
+    box-shadow: 0 1.2rem 2.8rem rgba(11, 24, 124, .14);
+}
+
+/* Al pasar el mouse, el ícono se "enciende": fondo rojo e ícono blanco */
+.servicio:hover > i {
+    background: var(--rojo);
+    color: var(--blanco);
+}
+
+.servicio > i {
+    width: 5.6rem;
+    height: 5.6rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.4rem;
+    color: var(--rojo);
+    background: var(--error-fondo);
+    transition: background-color .25s ease, color .25s ease;
+}
+
+.servicio h3 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.servicio p {
+    font-size: 1.5rem;
+    line-height: 1.7;
+    color: var(--texto-medio);
+    padding: 0;
+    text-align: left;
+}
+
+.servicio__accion {
+    margin-top: auto;
+    font-size: 1.45rem;
+    font-weight: 600;
+    color: var(--azul);
+}
+
+/* =====================================================================
+   Bloque compacto "Sumate como agente" (4.1)
+   ===================================================================== */
+.sumate__caja {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: center;
+    max-width: 110rem;
+    margin: 0 auto;
+    background: var(--azul-claro);
+    border-radius: var(--radio-md);
+    overflow: hidden;
+}
+
+.sumate__caja img {
+    width: 100%;
+    height: 100%;
+    min-height: 26rem;
+    object-fit: cover;
+}
+
+.sumate__texto {
+    padding: 3.6rem 4rem;
+}
+
+.sumate__texto h3 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.sumate__texto p {
+    font-size: 1.6rem;
+    line-height: 1.8;
+    color: var(--texto-medio);
+    margin-bottom: 1.4rem;
+}
+
+/* Filtros del listado: botón y enlace alineados con los selects */
+.filtros .btn,
+.filtros .btn--texto {
+    margin-top: 0;
+    min-height: 4.1rem;
+}
+
+@media (max-width: 768px) {
+
+    .hero {
+        min-height: 0;
+        padding: 5rem 1.6rem;
+    }
+
+    .buscador {
+        grid-template-columns: 1fr;
+    }
+
+    .sumate__caja {
+        grid-template-columns: 1fr;
+    }
+
+    .sumate__caja img {
+        min-height: 0;
+        max-height: 24rem;
+    }
+
+    .sumate__texto {
+        padding: 2.4rem;
+    }
+}
+
+/* Inicio: "¿Quiénes somos?" resumido, con la foto acotada a la altura del texto */
+.home-about .image img {
+    max-height: 38rem;
+}
+
+/* Banda de tasación con el mismo criterio de títulos que el resto del sitio */
+.join2 .content h3 {
+    text-transform: none;
+}
+
+/* Banda de tasación del inicio: más aire y un degradé suave del azul de marca */
+.join2 {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+    background: linear-gradient(135deg, var(--azul) 0%, var(--azul-oscuro) 100%);
+}
+
+.join2 .content {
+    max-width: 72rem;
+}
+
+.join2__etiqueta {
+    display: inline-flex;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: var(--esp-2);
+    padding: .6rem 1.6rem;
+    border: 1px solid var(--blanco-suave);
+    border-radius: var(--radio-pill);
+    color: var(--blanco);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.join2 .content p {
+    padding: var(--esp-2) 0 var(--esp-3);
+    color: var(--blanco-texto);
+    line-height: 1.6;
+}
+
+.join2 .btn {
+    padding: 1.4rem 3.2rem;
+    font-size: 1.6rem;
+}
+
+/* =====================================================================
+   Ficha de propiedad en dos columnas (5.1) y galería (5.2)
+   Escritorio: contenido a la izquierda; precio, agente y consulta fijos a la derecha.
+   Celular: galería, resumen, características, consulta y mapa (display: contents reordena sin duplicar HTML).
+   ===================================================================== */
+.detalle {
+    display: grid;
+    grid-template-columns: minmax(0, 1.75fr) minmax(32rem, 1fr);
+    gap: 4rem;
+    align-items: start;
+}
+
+.detalle__titulo {
+    font-size: clamp(2.6rem, 2.8vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--texto);
+}
+
+.detalle__ubicacion {
+    font-size: 1.6rem;
+    color: var(--texto-suave);
+    margin: .8rem 0 2rem;
+}
+
+.detalle__ubicacion i {
+    color: var(--rojo);
+}
+
+.galeria-principal {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    max-height: none;
+    object-fit: cover;
+    border-radius: var(--radio-md);
+    background: var(--fondo-alt);
+}
+
+.galeria-miniaturas {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.galeria-mini {
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: var(--radio-sm);
+    background: none;
+    cursor: pointer;
+    opacity: .75;
+    transition: opacity .2s ease, border-color .2s ease;
+}
+
+.galeria-mini img {
+    display: block;
+    width: 9rem;
+    height: 6.8rem;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.galeria-mini:hover,
+.galeria-mini.activa {
+    opacity: 1;
+}
+
+.galeria-mini.activa {
+    border-color: var(--rojo);
+}
+
+.detalle__info h2,
+.mapa h2,
+.detalle__consulta h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--texto);
+    margin-bottom: 1.2rem;
+}
+
+.detalle__info {
+    margin-top: 3.2rem;
+    font-size: 1.6rem;
+}
+
+.detalle__info .caracteristicas {
+    list-style: none;
+    display: grid;
+    gap: 1.2rem;
+    margin-bottom: 2.8rem;
+}
+
+.detalle__info .caracteristicas li {
+    padding: 1.2rem 1.4rem;
+    background: var(--fondo-alt);
+    border-radius: var(--radio-sm);
+}
+
+.detalle__info .caracteristicas i {
+    color: var(--azul);
+    margin-right: .6rem;
+}
+
+.detalle__info .descripcion {
+    line-height: 1.8;
+    color: var(--texto-medio);
+}
+
+.mapa {
+    margin-top: 3.2rem;
+}
+
+.mapa iframe {
+    margin-top: 0;
+}
+
+.detalle__lateral {
+    position: sticky;
+    top: 9.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.detalle__resumen {
+    padding: 2.4rem;
+    background: var(--blanco);
+    border: 1px solid var(--borde-claro);
+    border-radius: var(--radio-md);
+    box-shadow: var(--sombra);
+}
+
+.detalle__resumen .etiquetas span {
+    margin: 0 .4rem .4rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.detalle__resumen .precio {
+    margin: .6rem 0 .2rem;
+}
+
+.detalle__datos {
+    font-size: 1.5rem;
+    color: var(--texto-suave);
+}
+
+.detalle__resumen .agente-mini {
+    margin-top: 1.8rem;
+    padding: 1.4rem;
+    font-size: 1.45rem;
+}
+
+.agente-mini > div {
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+}
+
+.agente-mini__rol {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+}
+
+.agente-mini img {
+    width: 6.4rem;
+    height: 6.4rem;
+    flex-shrink: 0;
+}
+
+.detalle__consulta {
+    padding: 2.4rem;
+    background: var(--fondo-alt);
+    border-radius: var(--radio-md);
+}
+
+.detalle__consulta > p {
+    font-size: 1.45rem;
+    text-align: left;
+    padding-bottom: 1.6rem;
+    color: var(--texto-medio);
+}
+
+.detalle__consulta .book-form {
+    max-width: none;
+    padding: 0;
+    background: none;
+}
+
+.detalle__consulta .book-form .flex {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+}
+
+.detalle__consulta .book-form .flex .inputBox textarea {
+    min-height: 10rem;
+}
+
+.detalle__consulta .book-form .btn {
+    width: 100%;
+    margin-top: 1.6rem;
+}
+
+@media (max-width: 991px) {
+
+    .detalle {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "encabezado" "galeria" "resumen" "info" "consulta" "mapa";
+        gap: 2.4rem;
+    }
+
+    .detalle__principal,
+    .detalle__lateral {
+        display: contents;
+    }
+
+    .detalle__encabezado {
+        grid-area: encabezado;
+    }
+
+    .galeria {
+        grid-area: galeria;
+    }
+
+    .detalle__resumen {
+        grid-area: resumen;
+    }
+
+    .detalle__info {
+        grid-area: info;
+        margin-top: 0;
+    }
+
+    .detalle__consulta {
+        grid-area: consulta;
+    }
+
+    .mapa {
+        grid-area: mapa;
+        margin-top: 0;
+    }
+
+    .detalle__ubicacion {
+        margin-bottom: 0;
+    }
+}
+
+.detalle__resumen .agente-mini a {
+    font-size: 1.35rem;
+    word-break: break-all;
+}
+
+.detalle__info .caracteristicas {
+    grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
+}
+
+/* =====================================================================
+   Páginas de texto: Política, Términos y Preguntas frecuentes (5.4)
+   ===================================================================== */
+.legal__contenido {
+    max-width: 72ch;
+    margin: 0 auto;
+    font-size: 1.6rem;
+    line-height: 1.8;
+    color: var(--texto-medio);
+}
+
+.legal__contenido h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--texto);
+    margin: 3.2rem 0 1rem;
+}
+
+.legal__contenido p {
+    margin-bottom: 1.2rem;
+}
+
+.legal__contenido a {
+    color: var(--azul);
+    text-decoration: underline;
+}
+
+.legal__lista {
+    margin: 0 0 1.2rem 2.4rem;
+}
+
+/* Política y Términos: índice lateral fijo + artículos separados en bloques */
+.legal--con-indice {
+    display: grid;
+    grid-template-columns: 28rem minmax(0, 1fr);
+    gap: var(--esp-6);
+    align-items: start;
+    max-width: 120rem;
+    margin: 0 auto;
+}
+
+.legal--con-indice .legal__contenido {
+    max-width: 76ch;
+    margin: 0;
+    overflow-wrap: anywhere;   /* direcciones de correo largas no ensanchan la columna en celular */
+}
+
+.legal__indice {
+    position: sticky;
+    top: 10rem;
+    max-height: calc(100vh - 12rem);
+    overflow-y: auto;
+    padding: var(--esp-2);
+    border: 1px solid var(--borde-claro);
+    border-radius: var(--radio-md);
+    background: var(--fondo-panel);
+}
+
+.legal__indice summary {
+    list-style: none;
+    margin-bottom: var(--esp-1);
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+}
+
+.legal__indice summary::-webkit-details-marker {
+    display: none;
+}
+
+.legal__indice ol {
+    list-style: none;
+}
+
+.legal__indice a {
+    display: flex;
+    gap: .8rem;
+    padding: .7rem 1rem;
+    border-left: 3px solid transparent;
+    border-radius: 0 var(--radio-sm) var(--radio-sm) 0;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    color: var(--texto-medio);
+}
+
+.legal__indice a:hover {
+    color: var(--azul);
+    background: var(--azul-claro);
+}
+
+.legal__indice a.activo {
+    border-left-color: var(--azul);
+    background: var(--azul-claro);
+    color: var(--azul);
+    font-weight: 600;
+}
+
+.legal__indice-num {
+    min-width: 1.8rem;
+    font-weight: 700;
+    color: var(--azul);
+}
+
+.legal__intro {
+    font-size: 1.8rem;
+    line-height: 1.7;
+    color: var(--texto);
+}
+
+.legal__articulo {
+    scroll-margin-top: 10rem;
+    padding: var(--esp-4) 0;
+    border-bottom: 1px solid var(--borde-claro);
+}
+
+.legal__articulo:last-child {
+    border-bottom: 0;
+}
+
+.legal__articulo.legal__intro {
+    padding-top: 0;
+    font-size: 1.6rem;
+    color: var(--texto-medio);
+}
+
+.legal--con-indice .legal__contenido h2 {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin: 0 0 var(--esp-2);
+}
+
+.legal__articulo-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    background: var(--azul);
+    color: var(--blanco);
+    font-size: 1.6rem;
+}
+
+.legal__num {
+    font-weight: 700;
+    color: var(--azul);
+}
+
+.legal__destacado {
+    display: flex;
+    gap: 1.2rem;
+    margin: var(--esp-2) 0;
+    padding: var(--esp-2) var(--esp-3);
+    border-left: 4px solid var(--azul);
+    border-radius: 0 var(--radio-sm) var(--radio-sm) 0;
+    background: var(--azul-claro);
+    color: var(--texto);
+}
+
+.legal__destacado i {
+    margin-top: .5rem;
+    color: var(--azul);
+}
+
+.legal__destacado strong {
+    font-weight: 500;
+}
+
+.legal__contacto {
+    padding: var(--esp-2) var(--esp-3);
+    border: 1px solid var(--borde-claro);
+    border-radius: var(--radio-md);
+}
+
+.legal__contacto-titulo {
+    font-weight: 600;
+    color: var(--texto);
+}
+
+.legal__contacto ul {
+    list-style: none;
+}
+
+.legal__contacto li {
+    display: flex;
+    gap: 1.2rem;
+    padding: .4rem 0;
+}
+
+.legal__contacto i {
+    width: 1.8rem;
+    margin-top: .6rem;
+    color: var(--azul);
+}
+
+@media (max-width: 991px) {
+    .legal--con-indice {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--esp-3);
+    }
+
+    .legal__indice {
+        position: static;
+        max-height: none;
+    }
+
+    .legal__indice summary {
+        cursor: pointer;
+        margin-bottom: 0;
+    }
+
+    .legal__indice summary::after {
+        content: "+";
+        float: right;
+        font-size: 1.8rem;
+        line-height: 1;
+    }
+
+    .legal__indice details[open] summary {
+        margin-bottom: var(--esp-1);
+    }
+
+    .legal__indice details[open] summary::after {
+        content: "–";
+    }
+}
+
+.faq__intro {
+    font-size: 1.7rem;
+}
+
+.faq__item {
+    border: 1px solid var(--borde-claro);
+    border-radius: var(--radio-sm);
+    background: var(--blanco);
+    margin-bottom: 1rem;
+}
+
+.faq__item summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 1.6rem 4.4rem 1.6rem 2rem;
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--texto);
+}
+
+.faq__item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq__item summary::after {
+    content: "+";
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--rojo);
+}
+
+.faq__item[open] summary::after {
+    content: "−";
+}
+
+.faq__item[open] summary {
+    border-bottom: 1px solid var(--borde-claro);
+}
+
+.faq__item p {
+    padding: 0 2rem;
+    margin: 1.2rem 0;
+}
+
+/* =====================================================================
+   Tarjetas de agentes (5.5): sin borde negro ni zoom; contacto como botones
+   ===================================================================== */
+.agente {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .6rem;
+    padding: 2.8rem 2rem 2.4rem;
+    background: var(--blanco);
+    border-radius: var(--radio-md);
+    box-shadow: var(--sombra);
+    text-align: center;
+}
+
+.agente__foto {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--blanco);
+    box-shadow: 0 0 0 1px var(--borde-claro), var(--sombra);
+    margin-bottom: .8rem;
+}
+
+.agente__nombre {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--texto);
+}
+
+.agente__cargo {
+    font-size: 1.4rem;
+    color: var(--texto-suave);
+}
+
+.agente__contacto {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .8rem;
+    margin-top: 1.2rem;
+}
+
+.agente__boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .6rem;
+    min-width: 4rem;
+    height: 4rem;
+    padding: 0 1.2rem;
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-pill);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--azul);
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.agente__boton:hover {
+    background: var(--azul);
+    border-color: var(--azul);
+    color: var(--blanco);
+}
+
+.agente__boton--wa {
+    color: var(--exito);
+}
+
+.agente__boton--wa:hover {
+    background: var(--whatsapp);
+    border-color: var(--whatsapp);
+}
+
+/* Botón flotante de WhatsApp (5.6): contacto general en todas las páginas públicas */
+.whatsapp-flotante {
+    position: fixed;
+    right: 2.4rem;
+    bottom: 2.4rem;
+    z-index: 900;
+    width: 5.6rem;
+    height: 5.6rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--blanco);
+    background: var(--whatsapp);
+    box-shadow: 0 .6rem 1.8rem rgba(0, 0, 0, .25);
+    transition: transform .2s ease;
+}
+
+.whatsapp-flotante:hover {
+    transform: scale(1.06);
+}
+
+@media (max-width: 768px) {
+
+    .whatsapp-flotante {
+        right: 1.6rem;
+        bottom: 1.6rem;
+        width: 5rem;
+        height: 5rem;
+        font-size: 2.6rem;
+    }
+}
+
+/* =====================================================================
+   Escala tipográfica del sitio público (variables --fs-* en variables.css)
+   Va al final para unificar los tamaños de texto definidos a lo largo de la hoja.
+   No toca títulos, botones ni campos de formulario (los campos quedan en 16px para que el celular no haga zoom).
+   ===================================================================== */
+.faq__intro,
+.legal__intro {
+    font-size: var(--fs-intro);
+}
+
+.services p,
+.home-about .content p,
+.about .content p,
+.about .contentt p,
+.property .content p,
+.join2 .content p,
+.sumate__texto p,
+.booking p,
+.pasos-intro,
+.resultado-total,
+.vacio,
+.ficha,
+.detalle__ubicacion,
+.detalle__info,
+.noticia p,
+.noticia .text p,
+.noticia .text li,
+.noticia .text .lista,
+.legal__contenido,
+.legal__articulo.legal__intro,
+.faq__item p,
+.faq__item summary,
+.card-propiedad__titulo {
+    font-size: var(--fs-texto);
+}
+
+.card-list .card-link .card-text,
+.servicio p,
+.paso p,
+.detalle__datos,
+.detalle__consulta > p,
+.card-propiedad__direccion {
+    font-size: var(--fs-texto-sm);
+}
+
+.booking .book-form .flex .inputBox label,
+.filtros label,
+.legal__indice a,
+.agente__cargo {
+    font-size: var(--fs-etiqueta);
+}
+
+/* Características de la ficha: cada dato ocupa el ancho de su texto, sin partirse en dos renglones */
+.detalle__info .caracteristicas {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.detalle__info .caracteristicas li {
+    flex: 1 1 auto;
+    white-space: nowrap;
+    font-size: var(--fs-texto-sm);
+}
+
+/* Títulos de artículos legales: un escalón por encima del texto, que ahora llega a 18px */
+.legal__contenido h2 {
+    font-size: clamp(2rem, 1.5rem + .5vw, 2.4rem);
+}

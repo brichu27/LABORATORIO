@@ -1,0 +1,62 @@
+# Viviendas UB en local con Docker: base MariaDB + PHP/Apache.
+#   docker compose up -d --build    -> sitio en http://localhost:8080 y visor de la base en http://localhost:8081
+# La base se crea y se carga sola (01, 02 y 03) la primera vez que se levanta.
+services:
+  db:
+    image: mariadb:10.11
+    container_name: viviendas-ub-db
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: viviendas_ub
+      MARIADB_USER: viviendas
+      MARIADB_PASSWORD: viviendas
+    volumes:
+      - db_datos:/var/lib/mysql
+      - ./database:/sql:ro
+      - ./docker/db/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
+    ports:
+      - "127.0.0.1:${DB_PUERTO:-3308}:3306"   # acceso opcional desde el equipo (DBeaver, Workbench)
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  web:
+    build: ./docker/php
+    container_name: viviendas-ub-web
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: viviendas_ub
+      DB_USER: viviendas
+      DB_PASS: viviendas
+      APP_DEBUG: 1
+    volumes:
+      - ./:/var/www/html
+      # En Docker se usa config.example.php (lee las variables de arriba), sin pisar el config.php local
+      - ./config/config.example.php:/var/www/html/config/config.php:ro
+    ports:
+      - "${WEB_PUERTO:-8080}:80"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Visor web de la base (tablas y datos) en http://localhost:8081, solo accesible desde el propio equipo
+  adminer:
+    image: adminer:4.8.1
+    container_name: viviendas-ub-adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    volumes:
+      - ./docker/adminer/adminer.css:/var/www/html/adminer.css:ro   # tema con los colores del proyecto
+      - ./docker/adminer/esquema.php:/var/www/html/plugins-enabled/esquema.php:ro   # disposición del diagrama
+    ports:
+      - "127.0.0.1:${ADMINER_PUERTO:-8081}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_datos:

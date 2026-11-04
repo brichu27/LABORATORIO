@@ -4,7 +4,8 @@
 const { cargarMas, tarjetaPropiedad } = require('../js/cargar-mas.js');
 
 const propiedad = (id) => ({
-  id, titulo: 'Depto ' + id, precio: 'USD 100.000', direccion: 'Calle ' + id + ', Palermo, CABA.',
+  id, titulo: 'Depto ' + id, precio: 'USD 100.000', operacion: 'Venta', tipo: 'Departamento', barrio: 'Palermo',
+  calle: 'Calle ' + id, direccion: 'Calle ' + id + ', Palermo, CABA.',
   dormitorios: 2, banos: 1, superficie: 60, imagen: 'imagenes/propiedad-1.jpg', url: 'propiedad.php?id=' + id,
 });
 
@@ -26,7 +27,7 @@ describe('Cargar más propiedades (CP-03)', () => {
     const fetchMock = jest.fn(() => respuesta({ items: [propiedad(7), propiedad(8), propiedad(9)], total: 15, hayMas: true }));
     const agregadas = await cargarMas(boton, lista, fetchMock);
     expect(agregadas).toBe(3);
-    expect(lista.querySelectorAll('.box')).toHaveLength(3);
+    expect(lista.querySelectorAll('.card-propiedad')).toHaveLength(3);
     expect(boton.dataset.offset).toBe('9');
     expect(boton.style.display).not.toBe('none');
     const url = fetchMock.mock.calls[0][0];
@@ -51,11 +52,26 @@ describe('Cargar más propiedades (CP-03)', () => {
   });
 });
 
+describe('Tarjeta de propiedad', () => {
+  test('toda la tarjeta enlaza a la ficha y muestra operación, tipo, precio y datos', () => {
+    const p = propiedad(3);
+    p.operacion = 'Alquiler';
+    p.dormitorios = 1;
+    const t = tarjetaPropiedad(p);
+    expect(t.querySelector('a.card-propiedad__enlace').getAttribute('href')).toBe('propiedad.php?id=3');
+    expect(t.querySelector('.card-propiedad__etiqueta').textContent).toBe('Alquiler');
+    expect(t.querySelector('.card-propiedad__etiqueta--alquiler')).not.toBeNull();
+    expect(t.querySelector('.card-propiedad__tipo').textContent).toBe('Departamento · Palermo');
+    expect(t.querySelector('.card-propiedad__precio').textContent).toBe('USD 100.000');
+    expect([...t.querySelectorAll('.card-propiedad__datos li')].map((li) => li.textContent.trim())).toEqual(['1 dorm.', '1 baño', '60 m²']);
+  });
+});
+
 describe('Seguridad de la tarjeta (CP-17)', () => {
   test('no interpreta HTML recibido (anti-XSS)', () => {
     const p = propiedad(1);
     p.titulo = '<img src=x onerror=alert(1)>';
-    p.direccion = '<b>inyectado</b>';
+    p.calle = '<b>inyectado</b>';
     const tarjeta = tarjetaPropiedad(p);
     expect(tarjeta.querySelector('b')).toBeNull();
     expect(tarjeta.querySelectorAll('img')).toHaveLength(1);

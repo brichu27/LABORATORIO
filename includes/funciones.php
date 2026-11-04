@@ -44,7 +44,7 @@ function csrf_verificar(): void
     $token = $_POST['csrf'] ?? '';
     if (!is_string($token) || !hash_equals(csrf_token(), $token)) {
         http_response_code(400);
-        exit('Solicitud invalida (token CSRF). Recargue la pagina e intente nuevamente.');
+        exit('Solicitud inválida (token CSRF). Recargue la página e intente nuevamente.');
     }
 }
 
@@ -61,7 +61,8 @@ function flash_render(): string
         $html .= '<div class="alerta alerta-' . e($f['tipo']) . '" role="alert">' . e($f['mensaje']) . '</div>';
     }
     unset($_SESSION['flash']);
-    return $html;
+    // id="aviso": destino del redirect de los formularios, para que el mensaje quede a la vista
+    return $html === '' ? '' : '<div id="aviso">' . $html . '</div>';
 }
 
 /* ------------------------- Entrada (request) --------------------- */
@@ -96,6 +97,12 @@ function es_spam(): bool
 }
 
 /* ------------------------- Formato / helpers --------------------- */
+/** "1 baño" / "2 baños": número con el sustantivo en singular o plural. */
+function cantidad(int $n, string $singular, string $plural): string
+{
+    return $n . ' ' . ($n === 1 ? $singular : $plural);
+}
+
 /** Arma un enlace de WhatsApp valido a partir de un telefono argentino (10 digitos con codigo de area). */
 function wa_link(string $telefono, string $texto = 'Hola, quisiera hacer una consulta.'): string
 {
@@ -115,16 +122,17 @@ function tel_formato(?string $telefono): string
     return (string) $telefono;
 }
 
-function precio_formato($precio, string $moneda): string
+function precio_formato($precio, string $moneda, string $operacion = ''): string
 {
-    return $moneda . ' ' . number_format((float) $precio, 0, ',', '.');
+    // Los alquileres se publican como canon mensual
+    return $moneda . ' ' . number_format((float) $precio, 0, ',', '.') . ($operacion === 'ALQUILER' ? ' / mes' : '');
 }
 
 function fecha_formato(string $fecha): string
 {
-    $meses = [1 => 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    $meses = [1 => 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
     $t = strtotime($fecha);
-    return $t ? date('j', $t) . ' ' . $meses[(int) date('n', $t)] . ' ' . date('Y', $t) : $fecha;
+    return $t ? date('j', $t) . ' de ' . $meses[(int) date('n', $t)] . ' de ' . date('Y', $t) : $fecha;
 }
 
 function img_src(?string $ruta, string $prefijo = ''): string
@@ -176,4 +184,72 @@ function viejo(array $datos, string $campo): string
 function error_campo(array $errores, string $campo): string
 {
     return '<span class="error-msg" id="err-' . e($campo) . '">' . e($errores[$campo] ?? '') . '</span>';
+}
+
+/* --------------------- Panel: búsqueda y filtros ----------------- */
+/**
+ * Condición de búsqueda libre: (col1 LIKE :b0 OR col2 LIKE :b1 ...), con sus parámetros agregados a $params.
+ * Los teléfonos se comparan sin espacios ni guiones contra los dígitos del texto buscado ("11 5515" encuentra "+54 11 55151981").
+ */
+function sql_busqueda(string $q, array $columnas, array $columnasTelefono, array &$params): string
+{
+    $condiciones = [];
+    $patron = '%' . addcslashes($q, '%_\\') . '%';
+    foreach (array_values($columnas) as $i => $col) {
+        $condiciones[] = "$col LIKE :b$i";
+        $params[":b$i"] = $patron;
+    }
+    $digitos = preg_replace('/\D+/', '', $q);
+    if ($digitos !== '') {
+        foreach (array_values($columnasTelefono) as $i => $col) {
+            $condiciones[] = "REPLACE(REPLACE($col, ' ', ''), '-', '') LIKE :bt$i";
+            $params[":bt$i"] = '%' . $digitos . '%';
+        }
+    }
+    return '(' . implode(' OR ', $condiciones) . ')';
+}
+
+/** Estado de la base legible: EN_PROCESO => "En proceso". */
+function estado_texto(string $estado): string
+{
+    if ($estado === 'EN_REVISION') {
+        return 'En revisión';      // el único estado que lleva tilde
+    }
+    $texto = mb_strtolower(str_replace('_', ' ', $estado));
+    return mb_strtoupper(mb_substr($texto, 0, 1)) . mb_substr($texto, 1);
+}
+
+/**
+ * Barra de filtros del panel: buscador y pestañas por estado con su cantidad.
+ * $cantidades: ['NUEVA' => 3, ...] (vacío = sin pestañas). $fijos: parámetros GET que se conservan (p. ej. tipo).
+ */
+function admin_filtros(array $cantidades, string $estadoActual, string $q, string $placeholder, string $textoTodos = 'Todas', array $fijos = []): string
+{
+    $url = function (array $extra) use ($fijos): string {
+        $query = http_build_query(array_filter($fijos + $extra, fn ($v) => $v !== ''));
+        return $query === '' ? '?' : '?' . $query;
+    };
+    $html = '<form method="get" class="filtros-admin" role="search">';
+    foreach (array_filter($fijos + ['estado' => $estadoActual], fn ($v) => $v !== '') as $clave => $valor) {
+        $html .= '<input type="hidden" name="' . e($clave) . '" value="' . e($valor) . '">';
+    }
+    $html .= '<div class="buscador-admin"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>'
+           . '<input type="search" name="q" value="' . e($q) . '" placeholder="' . e($placeholder) . '" aria-label="Buscar">'
+           . ($q !== '' ? '<a href="' . e($url(['estado' => $estadoActual])) . '" class="buscador-admin__limpiar" title="Limpiar búsqueda" aria-label="Limpiar búsqueda"><i class="fa-solid fa-xmark" aria-hidden="true"></i></a>' : '')
+           . '<button type="submit" class="buscador-admin__boton"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Buscar</button>'
+           . '</div>';
+    if ($cantidades) {
+        $html .= '<nav class="estados-admin" aria-label="Filtrar por estado">';
+        $pestanas = ['' => [$textoTodos, array_sum($cantidades)]];
+        foreach ($cantidades as $estado => $n) {
+            $pestanas[$estado] = [estado_texto($estado), $n];
+        }
+        foreach ($pestanas as $estado => [$texto, $n]) {
+            $activo = $estado === $estadoActual;
+            $html .= '<a href="' . e($url(['q' => $q, 'estado' => $estado])) . '" class="' . ($activo ? 'activo' : '') . '"'
+                   . ($activo ? ' aria-current="true"' : '') . '>' . e($texto) . ' <span>' . (int) $n . '</span></a>';
+        }
+        $html .= '</nav>';
+    }
+    return $html . '</form>';
 }

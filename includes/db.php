@@ -33,7 +33,7 @@ function db(): PDO
             error_log('[DB] ' . $ex->getMessage());
             http_response_code(500);
             $detalle = !empty(config()['app']['debug']) ? ' Detalle: ' . $ex->getMessage() : '';
-            exit('Error de conexion a la base de datos.' . $detalle);
+            exit('Error de conexión a la base de datos.' . $detalle);
         }
     }
     return $pdo;

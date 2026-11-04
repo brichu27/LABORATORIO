@@ -31,22 +31,29 @@ INSERT INTO usuarios (id, rol_id, nombre, apellido, email, telefono, cargo, foto
  (10, 2, 'Alicia',   'Montari',   'viviendasub+amontari@gmail.com',   '1160559335', 'Agente inmobiliario', 'imagenes/agente10-modified.jpg', '!', 1, 1);
 
 -- Propiedades publicadas en index.html / propiedades.html
--- (tipo = Departamento y operacion = VENTA por defecto: revisar y ajustar desde el panel)
+-- (tipos y operaciones variados para que funcionen los filtros: 3 alquileres en ARS, dos PH y dos casas).
+-- Son 12 para que el listado muestre 8 y el botón "Cargar más" traiga el resto (CP-01 y CP-03).
 INSERT INTO propiedades (id, tipo_propiedad_id, agente_id, titulo, descripcion, operacion, precio, moneda, direccion, barrio, ciudad, ambientes, dormitorios, banos, superficie_m2, destacada, estado) VALUES
  (1, 1, 1, 'Amplia propiedad en Caballito',     'Unidad de 5 habitaciones y 3 baños sobre Av. Rivadavia.', 'VENTA', 220000, 'USD', 'Rivadavia 5954',  'Caballito',    'CABA', 6, 5, 3, 280, 1, 'DISPONIBLE'),
  (2, 1, 2, 'Departamento en Palermo',           'Departamento de 2 habitaciones en Palermo.',             'VENTA',  90000, 'USD', 'Gurruchaga 2172', 'Palermo',      'CABA', 3, 2, 1,  78, 1, 'DISPONIBLE'),
  (3, 1, 3, 'Departamento en Belgrano',          'Departamento de 2 habitaciones y 2 baños sobre Cabildo.', 'VENTA', 175000, 'USD', 'Cabildo 2502',    'Belgrano',     'CABA', 3, 2, 2, 123, 1, 'DISPONIBLE'),
- (4, 1, 4, 'Propiedad de 4 habitaciones en Nuñez', 'Propiedad de 4 habitaciones y 2 baños.',               'VENTA', 205000, 'USD', 'Guayra 1792',     'Nuñez',        'CABA', 5, 4, 2, 195, 1, 'DISPONIBLE'),
- (5, 1, 5, 'Departamento en Saavedra',          'Departamento de 2 habitaciones.',                        'VENTA',  75000, 'USD', 'Besares 3701',    'Saavedra',     'CABA', 3, 2, 1, 113, 0, 'DISPONIBLE'),
+ (4, 3, 4, 'Propiedad de 4 habitaciones en Nuñez', 'PH de 4 habitaciones y 2 baños.',                      'VENTA', 205000, 'USD', 'Guayra 1792',     'Nuñez',        'CABA', 5, 4, 2, 195, 1, 'DISPONIBLE'),
+ (5, 1, 5, 'Departamento en Saavedra',          'Departamento de 2 habitaciones.',                        'ALQUILER', 650000, 'ARS', 'Besares 3701',    'Saavedra',     'CABA', 3, 2, 1, 113, 0, 'DISPONIBLE'),
  (6, 1, 6, 'Departamento en Palermo',           'Departamento de 3 habitaciones.',                        'VENTA', 190000, 'USD', 'Malabia 3433',    'Palermo',      'CABA', 4, 3, 1, 117, 0, 'DISPONIBLE'),
- (7, 1, 7, 'Departamento de 2 ambientes en Villa Crespo', 'Unidad de 1 habitación.',                      'VENTA',  80000, 'USD', 'Darwin 416',      'Villa Crespo', 'CABA', 2, 1, 1,  53, 0, 'DISPONIBLE'),
- (8, 1, 8, 'Propiedad de 4 habitaciones en Belgrano', 'Propiedad de 4 habitaciones y 2 baños.',           'VENTA', 125000, 'USD', 'Moldes 2545',     'Belgrano',     'CABA', 5, 4, 2, 180, 0, 'DISPONIBLE');
+ (7, 1, 7, 'Departamento de 2 ambientes en Villa Crespo', 'Unidad de 1 habitación.',                      'ALQUILER', 480000, 'ARS', 'Darwin 416',      'Villa Crespo', 'CABA', 2, 1, 1,  53, 0, 'DISPONIBLE'),
+ (8, 2, 8, 'Propiedad de 4 habitaciones en Belgrano', 'Casa de 4 habitaciones y 2 baños.',           'VENTA', 125000, 'USD', 'Moldes 2545',     'Belgrano',     'CABA', 5, 4, 2, 180, 0, 'DISPONIBLE'),
+ (9, 1, 3, 'Dos ambientes en Colegiales',       'Departamento de 1 dormitorio con balcón.',               'ALQUILER', 520000, 'ARS', 'Federico Lacroze 2950', 'Colegiales', 'CABA', 2, 1, 1,  45, 0, 'DISPONIBLE'),
+ (10, 2, 10, 'Casa con patio en Villa Devoto',  'Casa de 3 dormitorios con patio y parrilla.',            'VENTA', 245000, 'USD', 'Nogoyá 4120',     'Villa Devoto', 'CABA', 4, 3, 2, 160, 0, 'DISPONIBLE'),
+ (11, 3, 5, 'PH en Almagro',                    'PH de 3 ambientes con terraza propia.',                  'VENTA', 118000, 'USD', 'Bulnes 870',      'Almagro',      'CABA', 3, 2, 1,  70, 0, 'DISPONIBLE'),
+ (12, 1, 6, 'Departamento en Recoleta',         'Departamento de 2 dormitorios cerca de Plaza Francia.',  'VENTA', 198000, 'USD', 'Juncal 2250',     'Recoleta',     'CABA', 3, 2, 2,  85, 0, 'DISPONIBLE');
 
 INSERT INTO propiedad_imagenes (propiedad_id, ruta, es_portada, orden) VALUES
  (1, 'imagenes/propiedad-1.jpg', 1, 0), (2, 'imagenes/propiedad-2.jpg', 1, 0),
  (3, 'imagenes/propiedad-3.jpg', 1, 0), (4, 'imagenes/propiedad-4.jpg', 1, 0),
  (5, 'imagenes/propiedad-5.jpg', 1, 0), (6, 'imagenes/propiedad-6.jpg', 1, 0),
- (7, 'imagenes/propiedad-7.jpg', 1, 0), (8, 'imagenes/propiedad-8.jpg', 1, 0);
+ (7, 'imagenes/propiedad-7.jpg', 1, 0), (8, 'imagenes/propiedad-8.jpg', 1, 0),
+ (9, 'imagenes/propiedad-6.jpg', 1, 0), (10, 'imagenes/propiedad-8.jpg', 1, 0),
+ (11, 'imagenes/propiedad-4.jpg', 1, 0), (12, 'imagenes/propiedad-2.jpg', 1, 0);
 
 -- Noticias del blog. El contenido completo se migra con tools/extraer_noticias.py
 INSERT INTO noticias (id, autor_id, titulo, resumen, contenido, imagen, fecha_publicacion, publicada) VALUES

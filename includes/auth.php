@@ -68,7 +68,10 @@ function logout(): void
     session_destroy();
 }
 
-/** Exige sesion iniciada (paginas del panel). */
+/**
+ * Exige sesion iniciada (paginas del panel). En cada pedido se relee el usuario de la base:
+ * si fue desactivado o le cambiaron el rol, el cambio rige de inmediato y no recien al volver a ingresar.
+ */
 function requiere_login(): array
 {
     $u = usuario_actual();
@@ -76,6 +79,16 @@ function requiere_login(): array
         flash('error', 'Debe iniciar sesión para acceder al panel.');
         redirigir('login.php');
     }
+    $st = db()->prepare('SELECT u.activo, r.nombre AS rol FROM usuarios u JOIN roles r ON r.id = u.rol_id WHERE u.id = ?');
+    $st->execute([$u['id']]);
+    $fila = $st->fetch();
+    if (!$fila || (int) $fila['activo'] !== 1) {
+        unset($_SESSION['usuario']);
+        session_regenerate_id(true);
+        flash('error', 'Su usuario fue desactivado. Consulte con un administrador.');
+        redirigir('login.php');
+    }
+    $_SESSION['usuario']['rol'] = $u['rol'] = $fila['rol'];
     return $u;
 }
 

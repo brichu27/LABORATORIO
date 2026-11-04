@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $st->execute([$datos['nombre'], $datos['apellido'], strtolower($datos['email']), $datos['telefono'], $anios,
                       $datos['zona_interes'], $datos['linkedin_url'] !== '' ? $datos['linkedin_url'] : null, $datos['mensaje']]);
         flash('exito', '¡Gracias por postularte! El equipo de RR.HH. revisará tu perfil y te contactará.');
-        redirigir('contacto.php#form-postulacion');
+        redirigir('contacto.php#aviso');   // el ancla lleva al mensaje de éxito
     }
     $errores = $v->errores();
 }
@@ -41,12 +41,12 @@ $titulo = 'Unirse al equipo';
 $paginaActiva = 'contacto';
 require __DIR__ . '/includes/header.php';
 ?>
-<div class="heading" style="background:url(imagenes/heading2.jpg) no-repeat">
+<div class="heading" style="background-image: url(imagenes/heading2.jpg)">
     <h1>Sumate al equipo</h1>
 </div>
 
 <section class="booking" id="form-postulacion">
-    <h1 class="heading-title">Postulación de agentes</h1>
+    <h2 class="heading-title">Postulación de agentes</h2>
     <p>¿Querés ser agente Viviendas UB? Dejanos tus datos y tu experiencia. Si buscás una propiedad, consultá desde la <a href="propiedades.php">publicación correspondiente</a>; si querés vender, pedí una <a href="tasaciones.php">tasación</a>.</p>
     <form method="post" action="contacto.php#form-postulacion" class="book-form" data-validar-form novalidate>
         <?= csrf_campo() ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * API JSON para "Cargar más" propiedades.
- * GET api/propiedades.php?offset=6&limite=6[&operacion=VENTA][&barrio=Palermo]
+ * GET api/propiedades.php?offset=6&limite=6[&operacion=VENTA][&barrio=Palermo][&tipo=1][&orden=precio_asc]
  */
 declare(strict_types=1);
 require_once __DIR__ . '/../includes/repositorio.php';
@@ -21,6 +21,8 @@ try {
     $filtros = [
         'operacion' => get_str('operacion'),
         'barrio'    => get_str('barrio'),
+        'tipo'      => get_str('tipo'),
+        'orden'     => get_str('orden'),
     ];
     $total = propiedades_contar($filtros);
     $items = array_map('propiedad_publica', propiedades_listar($filtros, $offset, $limite));

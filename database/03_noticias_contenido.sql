@@ -4,40 +4,40 @@ SET NAMES utf8mb4;
 START TRANSACTION;
 UPDATE noticias SET contenido = '## Introduccion
 
-En Viviendas UB Modelo, no solo te brindamos las mejores propiedades, sino que también te equipamos con las habilidades de negociación más efectivas para que tus transacciones inmobiliarias sean un éxito. Nuestro enfoque se centra en la excelencia del servicio y en empoderar a nuestros clientes y agentes. A continuación, te presentamos 5 técnicas de negociación fundamentales que te enseñaremos a dominar en Viviendas UB Modelo, diseñadas para lograr resultados óptimos y construir relaciones duraderas
+En Viviendas UB, no solo te brindamos las mejores propiedades, sino que también te equipamos con las habilidades de negociación más efectivas para que tus transacciones inmobiliarias sean un éxito. Nuestro enfoque se centra en la excelencia del servicio y en empoderar a nuestros clientes y agentes. A continuación, te presentamos 5 técnicas de negociación fundamentales que te enseñaremos a dominar en Viviendas UB, diseñadas para lograr resultados óptimos y construir relaciones duraderas
 
 ## 1. Centrarse en las Soluciones Integrales:
 
-En Viviendas UB Modelo, enseñamos a nuestros agentes a ir más allá del simple precio. Les mostramos cómo identificar las necesidades profundas de cada cliente (comprador, vendedor o inquilino) y cómo construir propuestas de valor que aborden esas necesidades de manera integral. Esto incluye destacar nuestros servicios exclusivos, nuestra red de contactos, nuestro conocimiento del mercado local y cómo todo esto se traduce en un proceso más eficiente, seguro y beneficioso para el cliente. La negociación se convierte en presentar la solución completa que ofrecemos, justificando nuestro valor y construyendo confianza.
+En Viviendas UB, enseñamos a nuestros agentes a ir más allá del simple precio. Les mostramos cómo identificar las necesidades profundas de cada cliente (comprador, vendedor o inquilino) y cómo construir propuestas de valor que aborden esas necesidades de manera integral. Esto incluye destacar nuestros servicios exclusivos, nuestra red de contactos, nuestro conocimiento del mercado local y cómo todo esto se traduce en un proceso más eficiente, seguro y beneficioso para el cliente. La negociación se convierte en presentar la solución completa que ofrecemos, justificando nuestro valor y construyendo confianza.
 
 ## 2. Dominar el Mercado Local para Negociar con Autoridad:
 
-En Viviendas UB Modelo, invertimos en que nuestros agentes sean verdaderos expertos del mercado inmobiliario local. Les enseñamos a analizar tendencias de precios, comprender la oferta y la demanda en cada barrio, y conocer a fondo las características únicas de las propiedades en nuestra cartera. Este conocimiento profundo les permite negociar con autoridad, respaldar sus argumentos con datos sólidos y ofrecer a los clientes una perspectiva informada y confiable, fortaleciendo su posición en la mesa de negociación.
+En Viviendas UB, invertimos en que nuestros agentes sean verdaderos expertos del mercado inmobiliario local. Les enseñamos a analizar tendencias de precios, comprender la oferta y la demanda en cada barrio, y conocer a fondo las características únicas de las propiedades en nuestra cartera. Este conocimiento profundo les permite negociar con autoridad, respaldar sus argumentos con datos sólidos y ofrecer a los clientes una perspectiva informada y confiable, fortaleciendo su posición en la mesa de negociación.
 
 ## 3. Conectar con las Necesidades Reales del Cliente:
 
-En Viviendas UB Modelo, ponemos un fuerte énfasis en la comunicación centrada en el cliente. Enseñamos técnicas avanzadas de escucha activa para que nuestros agentes puedan comprender no solo lo que dicen los clientes, sino también lo que realmente necesitan y desean (a menudo implícito). Esto incluye hacer preguntas poderosas, parafrasear para asegurar la comprensión y mostrar empatía genuina. Una negociación exitosa comienza por entender profundamente a la otra parte, permitiendo encontrar puntos en común y soluciones creativas que satisfagan sus verdaderas motivaciones.
+En Viviendas UB, ponemos un fuerte énfasis en la comunicación centrada en el cliente. Enseñamos técnicas avanzadas de escucha activa para que nuestros agentes puedan comprender no solo lo que dicen los clientes, sino también lo que realmente necesitan y desean (a menudo implícito). Esto incluye hacer preguntas poderosas, parafrasear para asegurar la comprensión y mostrar empatía genuina. Una negociación exitosa comienza por entender profundamente a la otra parte, permitiendo encontrar puntos en común y soluciones creativas que satisfagan sus verdaderas motivaciones.
 
 ## 4. Encontrar Soluciones Creativas y Beneficios Mutuos:
 
-En Viviendas UB Modelo, fomentamos una mentalidad de colaboración en la negociación. Enseñamos a nuestros agentes a explorar diferentes escenarios y a ser creativos en la búsqueda de soluciones que beneficien a todas las partes involucradas. Esto puede incluir flexibilidad en los plazos, acuerdos sobre reformas o reparaciones, o la identificación de elementos de valor añadido que no se habían considerado inicialmente. La negociación se convierte en un proceso de colaboración para encontrar el mejor resultado posible para todos.
+En Viviendas UB, fomentamos una mentalidad de colaboración en la negociación. Enseñamos a nuestros agentes a explorar diferentes escenarios y a ser creativos en la búsqueda de soluciones que beneficien a todas las partes involucradas. Esto puede incluir flexibilidad en los plazos, acuerdos sobre reformas o reparaciones, o la identificación de elementos de valor añadido que no se habían considerado inicialmente. La negociación se convierte en un proceso de colaboración para encontrar el mejor resultado posible para todos.
 
 ## 5. Mantener la Calma y la Ética en Cada Interacción:
 
-En Viviendas UB Modelo, inculcamos en nuestros agentes la importancia de mantener la calma, la profesionalidad y la ética en cada negociación, incluso en situaciones desafiantes. Les enseñamos estrategias para manejar objeciones, superar impasses y comunicar de manera clara y respetuosa. La confianza se construye a través de la integridad y la transparencia. Una negociación exitosa no solo se trata de cerrar un trato, sino de hacerlo de manera que se preserve la reputación de Viviendas UB Modelo y se fomente la confianza a largo plazo con nuestros clientes.
+En Viviendas UB, inculcamos en nuestros agentes la importancia de mantener la calma, la profesionalidad y la ética en cada negociación, incluso en situaciones desafiantes. Les enseñamos estrategias para manejar objeciones, superar impasses y comunicar de manera clara y respetuosa. La confianza se construye a través de la integridad y la transparencia. Una negociación exitosa no solo se trata de cerrar un trato, sino de hacerlo de manera que se preserve la reputación de Viviendas UB y se fomente la confianza a largo plazo con nuestros clientes.
 
 ## Conclusion
 
-En Viviendas UB Modelo, creemos que una negociación exitosa va más allá de un simple acuerdo; se trata de construir confianza, entender las necesidades y encontrar soluciones que beneficien a todas las partes. Estas 5 técnicas son pilares fundamentales de nuestra formación y reflejan nuestro compromiso con la excelencia y el profesionalismo. Al elegir Viviendas UB Modelo, no solo accedes a las mejores propiedades y a un equipo de expertos, sino que también te conviertes en un negociador estratégico, preparado para alcanzar tus objetivos inmobiliarios con confianza y seguridad.' WHERE id = 1;
-UPDATE noticias SET contenido = '## Conviértete en un Agente de Éxito con Viviendas UB Modelo: Donde siempre tu Crecimiento va a ser nuestro Compromiso
+En Viviendas UB, creemos que una negociación exitosa va más allá de un simple acuerdo; se trata de construir confianza, entender las necesidades y encontrar soluciones que beneficien a todas las partes. Estas 5 técnicas son pilares fundamentales de nuestra formación y reflejan nuestro compromiso con la excelencia y el profesionalismo. Al elegir Viviendas UB, no solo accedes a las mejores propiedades y a un equipo de expertos, sino que también te conviertes en un negociador estratégico, preparado para alcanzar tus objetivos inmobiliarios con confianza y seguridad.' WHERE id = 1;
+UPDATE noticias SET contenido = '## Conviértete en un Agente de Éxito con Viviendas UB: Donde siempre tu Crecimiento va a ser nuestro Compromiso
 
-Ser Agente de Viviendas UB Modelo significa mucho más que trabajar en bienes raíces; implica unirte a una familia profesional donde tu desarrollo y éxito son nuestra prioridad. Desde el primer día, te brindaremos un acompañamiento integral y personalizado en cada etapa de tu carrera. No estarás solo; contarás con el apoyo de líderes experimentados, capacitaciones continuas y las herramientas más innovadoras del mercado para que alcances tu máximo potencial.
+Ser Agente de Viviendas UB significa mucho más que trabajar en bienes raíces; implica unirte a una familia profesional donde tu desarrollo y éxito son nuestra prioridad. Desde el primer día, te brindaremos un acompañamiento integral y personalizado en cada etapa de tu carrera. No estarás solo; contarás con el apoyo de líderes experimentados, capacitaciones continuas y las herramientas más innovadoras del mercado para que alcances tu máximo potencial.
 
-En Viviendas UB Modelo, tu esfuerzo se traduce en ganancias significativas. Nuestro modelo de negocio está diseñado para recompensar tu dedicación y tus logros. Con comisiones competitivas y oportunidades ilimitadas de crecimiento, tendrás la posibilidad de construir un futuro financiero sólido y alcanzar tus metas económicas. Tu éxito es nuestro éxito, y trabajaremos incansablemente para que lo logres.
+En Viviendas UB, tu esfuerzo se traduce en ganancias significativas. Nuestro modelo de negocio está diseñado para recompensar tu dedicación y tus logros. Con comisiones competitivas y oportunidades ilimitadas de crecimiento, tendrás la posibilidad de construir un futuro financiero sólido y alcanzar tus metas económicas. Tu éxito es nuestro éxito, y trabajaremos incansablemente para que lo logres.
 
-Buscamos personas con ganas de avanzar, con espíritu emprendedor y una ambición sana por crecer. Si eres alguien proactivo, con una mentalidad positiva y el deseo de superar tus propios límites, Viviendas UB Modelo es el lugar ideal para ti. Aquí encontrarás un ambiente dinámico y motivador, rodeado de profesionales exitosos que comparten tu pasión por el sector inmobiliario y tus ganas de progresar.
+Buscamos personas con ganas de avanzar, con espíritu emprendedor y una ambición sana por crecer. Si eres alguien proactivo, con una mentalidad positiva y el deseo de superar tus propios límites, Viviendas UB es el lugar ideal para ti. Aquí encontrarás un ambiente dinámico y motivador, rodeado de profesionales exitosos que comparten tu pasión por el sector inmobiliario y tus ganas de progresar.
 
-## ¿Qué conlleva ser Agente de Viviendas UB Modelo?
+## ¿Qué conlleva ser Agente de Viviendas UB?
 
 - Acompañamiento Continuo:
 
@@ -57,7 +57,7 @@ Formarás parte de la red inmobiliaria más reconocida a nivel mundial, lo que t
 
 - Oportunidad de Crecimiento:
 
-En Viviendas UB Modelo, valoramos el crecimiento personal y profesional. Te ofreceremos oportunidades para expandir tu negocio, liderar equipos y alcanzar nuevas metas.
+En Viviendas UB, valoramos el crecimiento personal y profesional. Te ofreceremos oportunidades para expandir tu negocio, liderar equipos y alcanzar nuevas metas.
 
 - Un Ambiente de Apoyo y Colaboración:
 
@@ -65,7 +65,7 @@ Serás parte de una comunidad de profesionales que comparten tus objetivos y se 
 
 ## Conclusion
 
-Si tienes ganas de avanzar, buscas un lugar donde tu esfuerzo se traduzca en importantes ganancias y valoras el acompañamiento en cada etapa de tu crecimiento, Viviendas UB Modelo es tu próximo gran paso. ¡Únete a nuestro equipo y construyamos juntos tu futuro de éxito en el apasionante mundo inmobiliario!' WHERE id = 2;
+Si tienes ganas de avanzar, buscas un lugar donde tu esfuerzo se traduzca en importantes ganancias y valoras el acompañamiento en cada etapa de tu crecimiento, Viviendas UB es tu próximo gran paso. ¡Únete a nuestro equipo y construyamos juntos tu futuro de éxito en el apasionante mundo inmobiliario!' WHERE id = 2;
 UPDATE noticias SET contenido = '## Introduccion
 
 Determinar el valor de una propiedad inmobiliaria es un proceso multifacético que considera diversas variables. Comprender los pilares fundamentales que influyen en este valor es crucial tanto para vendedores como para compradores. A continuación, se resumen los cinco grandes puntos clave que definen el precio de una vivienda.

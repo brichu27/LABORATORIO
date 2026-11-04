@@ -36,4 +36,5 @@ if ($tipo === 'consultas' && $usuario['rol'] === 'VENDEDOR') {
 $st = db()->prepare($sql);
 $st->execute($params);
 flash($st->rowCount() > 0 ? 'exito' : 'error', $st->rowCount() > 0 ? 'Estado actualizado.' : 'No se modificó el registro (sin permiso o sin cambios).');
-redirigir('consultas.php?tipo=' . $tipo);
+// Vuelve al listado con la misma búsqueda y el mismo filtro de estado
+redirigir('consultas.php?' . http_build_query(array_filter(['tipo' => $tipo, 'q' => post('q'), 'estado' => post('filtro_estado')], fn ($v) => $v !== '')));

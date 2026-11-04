@@ -3,6 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../includes/auth.php';
 $usuario = requiere_login();
 $titulo = 'Inicio';
+$subtitulo = 'Resumen de lo que hay para atender hoy.';
 $pdo = db();
 
 if ($usuario['rol'] === 'ADMIN') {
@@ -22,11 +23,29 @@ $postulaciones = $usuario['rol'] === 'ADMIN' ? (int) $pdo->query("SELECT COUNT(*
 require __DIR__ . '/../includes/admin_header.php';
 ?>
 <div class="tarjetas">
-    <a class="tarjeta" href="propiedades.php"><span><?= $propiedades ?></span><?= $usuario['rol'] === 'ADMIN' ? 'Propiedades publicadas' : 'Mis propiedades' ?></a>
-    <a class="tarjeta" href="consultas.php?tipo=consultas"><span><?= $consultas ?></span>Consultas nuevas</a>
+    <a class="tarjeta" href="propiedades.php">
+        <span class="tarjeta__etiqueta"><?= $usuario['rol'] === 'ADMIN' ? 'Propiedades publicadas' : 'Mis propiedades' ?></span>
+        <span class="tarjeta__icono"><i class="fa-solid fa-house" aria-hidden="true"></i></span>
+        <span class="tarjeta__numero"><?= $propiedades ?></span>
+    </a>
+    <a class="tarjeta" href="consultas.php?estado=NUEVA">
+        <span class="tarjeta__etiqueta">Consultas nuevas</span>
+        <span class="tarjeta__icono"><i class="fa-solid fa-envelope-open-text" aria-hidden="true"></i></span>
+        <span class="tarjeta__numero"><?= $consultas ?></span>
+        <?php if ($consultas > 0): ?><span class="tarjeta__nota">Requieren respuesta</span><?php endif; ?>
+    </a>
     <?php if ($tasaciones !== null): ?>
-        <a class="tarjeta" href="consultas.php?tipo=tasaciones"><span><?= $tasaciones ?></span>Tasaciones nuevas</a>
-        <a class="tarjeta" href="consultas.php?tipo=postulaciones"><span><?= $postulaciones ?></span>Postulaciones recibidas</a>
+        <a class="tarjeta" href="consultas.php?tipo=tasaciones&amp;estado=NUEVA">
+            <span class="tarjeta__etiqueta">Tasaciones nuevas</span>
+            <span class="tarjeta__icono"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i></span>
+            <span class="tarjeta__numero"><?= $tasaciones ?></span>
+            <?php if ($tasaciones > 0): ?><span class="tarjeta__nota">Requieren respuesta</span><?php endif; ?>
+        </a>
+        <a class="tarjeta" href="consultas.php?tipo=postulaciones&amp;estado=RECIBIDA">
+            <span class="tarjeta__etiqueta">Postulaciones recibidas</span>
+            <span class="tarjeta__icono"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></span>
+            <span class="tarjeta__numero"><?= $postulaciones ?></span>
+        </a>
     <?php endif; ?>
 </div>
 <?php require __DIR__ . '/../includes/admin_footer.php'; ?>

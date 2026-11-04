@@ -1,7 +1,36 @@
+# Configuracion local con credenciales (se versiona config/config.example.php)
 config/config.php
+
+# Dependencias y reportes
 node_modules/
 coverage/
+
+# Imagenes subidas desde el panel
 uploads/**/*
 !uploads/.htaccess
 !uploads/**/.gitkeep
+
+# Material de la migracion del sitio estatico (solo local)
 _legacy_html/
+tools/
+
+# doc/: analisis interno del equipo (no se versiona), salvo lo que se evalua
+doc/*
+!doc/04_casos_de_prueba.md
+!doc/casosDeUso.docx
+!doc/casosDePrueba.docx
+!doc/diagramasDeFlujo.docx
+!doc/modeloDeDatos.docx
+!doc/manualDeUsuario.docx
+!doc/evidencias/
+doc/evidencias/scripts/
+
+# Editor y sistema operativo
+.vscode/
+.idea/
+.claude/
+*.log
+.env
+.DS_Store
+Thumbs.db
+desktop.ini

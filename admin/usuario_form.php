@@ -101,32 +101,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $titulo = $existente === null ? 'Nuevo integrante' : 'Modificar integrante';
+$subtitulo = $existente === null ? 'Los campos marcados con * son obligatorios.' : $existente['nombre'] . ' ' . $existente['apellido'];
 require __DIR__ . '/../includes/admin_header.php';
 ?>
 <form method="post" enctype="multipart/form-data" class="form-admin" data-validar-form novalidate>
     <?= csrf_campo() ?>
-    <div class="grilla">
-        <div class="campo"><label for="nombre">Nombre *</label><input id="nombre" name="nombre" maxlength="60" required data-validar="nombre" value="<?= viejo($datos, 'nombre') ?>"><?= error_campo($errores, 'nombre') ?></div>
-        <div class="campo"><label for="apellido">Apellido *</label><input id="apellido" name="apellido" maxlength="60" required data-validar="nombre" value="<?= viejo($datos, 'apellido') ?>"><?= error_campo($errores, 'apellido') ?></div>
-        <div class="campo"><label for="email">Email (usuario de ingreso) *</label><input id="email" type="email" name="email" maxlength="120" required data-validar="email" value="<?= viejo($datos, 'email') ?>"><?= error_campo($errores, 'email') ?></div>
-        <div class="campo"><label for="telefono">Teléfono / WhatsApp</label><input id="telefono" type="tel" name="telefono" maxlength="20" data-validar="telefono:opcional" value="<?= viejo($datos, 'telefono') ?>" placeholder="Ej: 11 2345-6789"><?= error_campo($errores, 'telefono') ?></div>
-        <div class="campo"><label for="cargo">Cargo *</label><input id="cargo" name="cargo" maxlength="60" required data-validar="texto:3:60" value="<?= viejo($datos, 'cargo') ?>"><?= error_campo($errores, 'cargo') ?></div>
-        <div class="campo"><label for="rol_id">Rol *</label>
-            <select id="rol_id" name="rol_id" required data-validar="requerido">
-                <option value="">Seleccione...</option>
-                <?php foreach ($roles as $r): ?><option value="<?= (int) $r['id'] ?>" <?= $datos['rol_id'] === (string) $r['id'] ? 'selected' : '' ?>><?= e($r['nombre']) ?></option><?php endforeach; ?>
-            </select><?= error_campo($errores, 'rol_id') ?></div>
-        <div class="campo"><label for="clave"><?= $existente === null ? 'Clave *' : 'Nueva clave (dejar vacío para no cambiar)' ?></label>
-            <input id="clave" type="password" name="clave" autocomplete="new-password" <?= $existente === null ? 'required data-validar="clave"' : 'data-validar="clave:opcional"' ?>>
-            <small>Mínimo 8 caracteres, con letras y números.</small><?= error_campo($errores, 'clave') ?></div>
-        <div class="campo"><label for="foto">Foto (JPG/PNG/WEBP, máx. 2 MB)</label>
-            <?php if (!empty($existente['foto'])): ?><img src="<?= e(img_src($existente['foto'], '../')) ?>" alt="" class="miniatura redonda"><?php endif; ?>
-            <input id="foto" type="file" name="foto" accept="image/jpeg,image/png,image/webp"><?= error_campo($errores, 'foto') ?></div>
-        <div class="campo campo-check"><label><input type="checkbox" name="visible_web" value="1" <?= $datos['visible_web'] === '1' ? 'checked' : '' ?>> Mostrar en "Nuestros agentes"</label></div>
-    </div>
-    <div class="botonera">
-        <button type="submit" class="boton"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
-        <a href="usuarios.php" class="boton boton-secundario">Cancelar</a>
+    <div class="form-layout">
+        <div class="form-principal">
+            <section class="form-seccion">
+                <h2><i class="fa-regular fa-id-card" aria-hidden="true"></i> Datos personales</h2>
+                <div class="form-grilla form-grilla--2">
+                    <div class="campo"><label for="nombre">Nombre *</label><input id="nombre" name="nombre" maxlength="60" required data-validar="nombre" value="<?= viejo($datos, 'nombre') ?>"><?= error_campo($errores, 'nombre') ?></div>
+                    <div class="campo"><label for="apellido">Apellido *</label><input id="apellido" name="apellido" maxlength="60" required data-validar="nombre" value="<?= viejo($datos, 'apellido') ?>"><?= error_campo($errores, 'apellido') ?></div>
+                    <div class="campo"><label for="cargo">Cargo *</label><input id="cargo" name="cargo" maxlength="60" required data-validar="texto:3:60" value="<?= viejo($datos, 'cargo') ?>" placeholder="Ej: Agente inmobiliario"><?= error_campo($errores, 'cargo') ?></div>
+                    <div class="campo"><label for="telefono">Teléfono / WhatsApp</label><input id="telefono" type="tel" name="telefono" maxlength="20" data-validar="telefono:opcional" value="<?= viejo($datos, 'telefono') ?>" placeholder="Ej: 11 2345-6789"><?= error_campo($errores, 'telefono') ?></div>
+                </div>
+            </section>
+
+            <section class="form-seccion">
+                <h2><i class="fa-solid fa-key" aria-hidden="true"></i> Acceso al panel</h2>
+                <div class="form-grilla form-grilla--2">
+                    <div class="campo"><label for="email">Email *</label><input id="email" type="email" name="email" maxlength="120" required data-validar="email" value="<?= viejo($datos, 'email') ?>">
+                        <small>Es el usuario para ingresar al panel.</small><?= error_campo($errores, 'email') ?></div>
+                    <div class="campo"><label for="rol_id">Rol *</label>
+                        <select id="rol_id" name="rol_id" required data-validar="requerido">
+                            <option value="">Seleccione...</option>
+                            <?php foreach ($roles as $r): ?><option value="<?= (int) $r['id'] ?>" <?= $datos['rol_id'] === (string) $r['id'] ? 'selected' : '' ?>><?= e($r['nombre']) ?></option><?php endforeach; ?>
+                        </select><?= error_campo($errores, 'rol_id') ?></div>
+                    <div class="campo"><label for="clave"><?= $existente === null ? 'Clave *' : 'Nueva clave' ?></label>
+                        <input id="clave" type="password" name="clave" autocomplete="new-password" <?= $existente === null ? 'required data-validar="clave"' : 'data-validar="clave:opcional"' ?>>
+                        <small>Mínimo 8 caracteres, con letras y números.<?= $existente === null ? '' : ' Déjela vacía para no cambiarla.' ?></small><?= error_campo($errores, 'clave') ?></div>
+                </div>
+            </section>
+        </div>
+
+        <aside class="form-lateral">
+            <section class="form-seccion">
+                <h2><i class="fa-regular fa-image" aria-hidden="true"></i> Foto</h2>
+                <div class="campo">
+                    <?php if (!empty($existente['foto'])): ?><img src="<?= e(img_src($existente['foto'], '../')) ?>" alt="" class="form-foto-actual"><?php endif; ?>
+                    <input id="foto" type="file" name="foto" accept="image/jpeg,image/png,image/webp" aria-label="Foto del integrante">
+                    <small>JPG, PNG o WEBP, hasta 2 MB.</small>
+                    <?= error_campo($errores, 'foto') ?></div>
+                <label class="opcion">
+                    <input type="checkbox" name="visible_web" value="1" <?= $datos['visible_web'] === '1' ? 'checked' : '' ?>>
+                    <span><strong>Visible en el sitio</strong><small>Aparece en "Nuestros agentes" de la página Nosotros.</small></span>
+                </label>
+            </section>
+            <div class="form-acciones">
+                <button type="submit" class="boton"><i class="fa-solid fa-floppy-disk"></i> Guardar</button>
+                <a href="usuarios.php" class="boton boton-secundario">Cancelar</a>
+            </div>
+        </aside>
     </div>
 </form>
 <?php require __DIR__ . '/../includes/admin_footer.php'; ?>

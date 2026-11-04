@@ -6,6 +6,12 @@ require_once __DIR__ . '/funciones.php';
 /* Capa de acceso a datos: todas las consultas son preparadas. */
 
 const OPERACIONES = ['VENTA', 'ALQUILER'];
+/** Órdenes del listado público. Con "precio" se agrupa por moneda (USD primero) para no mezclar USD con ARS. */
+const ORDENES = [
+    'recientes'   => ['Más recientes', 'p.destacada DESC, p.creado_en DESC, p.id DESC'],
+    'precio_asc'  => ['Menor precio', "p.moneda = 'ARS', p.precio ASC, p.id DESC"],
+    'precio_desc' => ['Mayor precio', "p.moneda = 'ARS', p.precio DESC, p.id DESC"],
+];
 const ESTADOS_PROPIEDAD = ['DISPONIBLE', 'RESERVADA', 'VENDIDA', 'ALQUILADA', 'INACTIVA'];
 
 const SQL_PORTADA = '(SELECT i.ruta FROM propiedad_imagenes i WHERE i.propiedad_id = p.id
@@ -23,6 +29,10 @@ function filtros_propiedades(array $f, array &$params): string
         $where[] = 'p.barrio = :barrio';
         $params[':barrio'] = $f['barrio'];
     }
+    if (!empty($f['tipo']) && ctype_digit((string) $f['tipo'])) {
+        $where[] = 'p.tipo_propiedad_id = :tipo';
+        $params[':tipo'] = (int) $f['tipo'];
+    }
     if (!empty($f['destacada'])) {
         $where[] = 'p.destacada = 1';
     }
@@ -33,11 +43,13 @@ function propiedades_listar(array $filtros, int $offset, int $limite): array
 {
     $params = [];
     $where  = filtros_propiedades($filtros, $params);
+    $orden = ORDENES[$filtros['orden'] ?? ''][1] ?? ORDENES['recientes'][1];   // lista blanca: nunca se concatena lo recibido
     $sql = "SELECT p.id, p.titulo, p.operacion, p.precio, p.moneda, p.direccion, p.barrio, p.ciudad,
-                   p.dormitorios, p.banos, p.superficie_m2, " . SQL_PORTADA . " AS imagen
+                   p.dormitorios, p.banos, p.superficie_m2, t.nombre AS tipo, " . SQL_PORTADA . " AS imagen
               FROM propiedades p
+              JOIN tipos_propiedad t ON t.id = p.tipo_propiedad_id
              WHERE $where
-             ORDER BY p.destacada DESC, p.creado_en DESC, p.id DESC
+             ORDER BY $orden
              LIMIT :limite OFFSET :offset";
     $st = db()->prepare($sql);
     foreach ($params as $k => $v) {
@@ -130,7 +142,11 @@ function propiedad_publica(array $p): array
     return [
         'id'          => (int) $p['id'],
         'titulo'      => $p['titulo'],
-        'precio'      => precio_formato($p['precio'], $p['moneda']),
+        'precio'      => precio_formato($p['precio'], $p['moneda'], $p['operacion']),
+        'operacion'   => $p['operacion'] === 'ALQUILER' ? 'Alquiler' : 'Venta',
+        'tipo'        => $p['tipo'] ?? '',
+        'barrio'      => $p['barrio'],
+        'calle'       => $p['direccion'],
         'direccion'   => $p['direccion'] . ', ' . $p['barrio'] . ', ' . $p['ciudad'] . '.',
         'dormitorios' => (int) $p['dormitorios'],
         'banos'       => (int) $p['banos'],
@@ -140,20 +156,28 @@ function propiedad_publica(array $p): array
     ];
 }
 
-/** Tarjeta HTML de propiedad (misma estructura que genera js/cargar-mas.js). */
+/**
+ * Tarjeta HTML de propiedad (misma estructura que genera js/cargar-mas.js).
+ * Toda la tarjeta es un enlace a la ficha.
+ */
 function render_tarjeta_propiedad(array $p): string
 {
     $d = propiedad_publica($p);
+    $dorm  = $d['dormitorios'] === 1 ? '1 dorm.' : $d['dormitorios'] . ' dorm.';
     $banos = $d['banos'] === 1 ? '1 baño' : $d['banos'] . ' baños';
-    $dorm  = $d['dormitorios'] === 1 ? '1 habitación' : $d['dormitorios'] . ' habitaciones';
-    return '<div class="box">'
-        . '<div class="image"><img src="' . e($d['imagen']) . '" alt="' . e($d['titulo']) . '" loading="lazy"></div>'
-        . '<div class="content">'
-        . '<h3>' . e($d['precio']) . '</h3>'
-        . '<p><i class="fa-solid fa-location-dot"></i> ' . e($d['direccion']) . '</p>'
-        . '<div class="iconos"><i class="fa-solid fa-bath"></i> ' . e($banos)
-        . ' <i class="fa-solid fa-bed"></i> ' . e($dorm)
-        . ' <i class="fa-solid fa-ruler-horizontal"></i> ' . e((string) round($d['superficie'])) . 'm²</div>'
-        . '<a href="' . e($d['url']) . '" class="btn">Más información</a>'
-        . '</div></div>';
+    return '<article class="card-propiedad"><a class="card-propiedad__enlace" href="' . e($d['url']) . '">'
+        . '<div class="card-propiedad__foto">'
+        . '<img src="' . e($d['imagen']) . '" alt="' . e($d['titulo']) . '" loading="lazy" width="640" height="400">'
+        . '<span class="card-propiedad__etiqueta card-propiedad__etiqueta--' . strtolower($d['operacion']) . '">' . e($d['operacion']) . '</span>'
+        . '</div>'
+        . '<div class="card-propiedad__cuerpo">'
+        . '<p class="card-propiedad__tipo">' . e(trim($d['tipo'] . ' · ' . $d['barrio'], ' ·')) . '</p>'
+        . '<p class="card-propiedad__precio">' . e($d['precio']) . '</p>'
+        . '<h3 class="card-propiedad__titulo">' . e($d['titulo']) . '</h3>'
+        . '<p class="card-propiedad__direccion"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> ' . e($d['calle']) . '</p>'
+        . '<ul class="card-propiedad__datos">'
+        . '<li><i class="fa-solid fa-bed" aria-hidden="true"></i> ' . e($dorm) . '</li>'
+        . '<li><i class="fa-solid fa-bath" aria-hidden="true"></i> ' . e($banos) . '</li>'
+        . '<li><i class="fa-solid fa-ruler-combined" aria-hidden="true"></i> ' . e((string) round($d['superficie'])) . ' m²</li>'
+        . '</ul></div></a></article>';
 }

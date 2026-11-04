@@ -13,7 +13,7 @@ $iconosRedes = [
     <div class="box-container">
         <div class="box">
             <h3>Atajos</h3>
-            <a href="index.php"><i class="fa-solid fa-angle-right"></i> Home</a>
+            <a href="index.php"><i class="fa-solid fa-angle-right"></i> Inicio</a>
             <a href="tasaciones.php"><i class="fa-solid fa-angle-right"></i> Tasaciones</a>
             <a href="propiedades.php"><i class="fa-solid fa-angle-right"></i> Propiedades</a>
             <a href="contacto.php"><i class="fa-solid fa-angle-right"></i> Unirse</a>
@@ -23,6 +23,7 @@ $iconosRedes = [
             <a href="preguntas.php"><i class="fa-solid fa-angle-right"></i> Preguntas frecuentes</a>
             <a href="nosotros.php"><i class="fa-solid fa-angle-right"></i> Sobre nosotros</a>
             <a href="politica.php"><i class="fa-solid fa-angle-right"></i> Política de privacidad</a>
+            <a href="terminos.php"><i class="fa-solid fa-angle-right"></i> Términos y condiciones</a>
             <a href="blog.php"><i class="fa-solid fa-angle-right"></i> Blog</a>
             <a href="admin/login.php"><i class="fa-solid fa-lock"></i> Acceso personal</a>
         </div>
@@ -45,6 +46,11 @@ $iconosRedes = [
     </div>
     <div class="credit">Copyright &copy; <?= date('Y') ?> Viviendas UB | Todos los derechos reservados.</div>
 </section>
+<?php $whatsapp = $empresa['whatsapp'] ?? $empresa['telefonos'][0] ?? ''; ?>
+<?php if ($whatsapp !== ''): ?>
+<a class="whatsapp-flotante" href="<?= e(wa_link($whatsapp)) ?>" target="_blank" rel="noopener"
+   aria-label="Escribinos por WhatsApp: <?= e(tel_formato($whatsapp)) ?>"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
+<?php endif; ?>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="js/validaciones.js"></script>
 <script src="js/cargar-mas.js"></script>

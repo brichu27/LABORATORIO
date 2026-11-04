@@ -62,6 +62,9 @@ describe('Reglas genéricas', () => {
 });
 
 describe('Formulario completo en el DOM (CP-04 / CP-05)', () => {
+  // jsdom no expone los campos como propiedades del form (f.nombre): se accede por elements
+  const campo = (f, nombre) => f.elements.namedItem(nombre);
+
   beforeEach(() => {
     document.body.innerHTML = `
       <form data-validar-form>
@@ -74,24 +77,37 @@ describe('Formulario completo en el DOM (CP-04 / CP-05)', () => {
 
   test('datos válidos => formulario válido y sin mensajes', () => {
     const f = document.querySelector('form');
-    f.nombre.value = 'Juan Pérez';
-    f.email.value = 'juan@mail.com';
-    f.telefono.value = '11 2345-6789';
-    f.mensaje.value = 'Quisiera coordinar una visita.';
+    campo(f, 'nombre').value = 'Juan Pérez';
+    campo(f, 'email').value = 'juan@mail.com';
+    campo(f, 'telefono').value = '11 2345-6789';
+    campo(f, 'mensaje').value = 'Quisiera coordinar una visita.';
     expect(V.validarFormulario(f)).toBe(true);
     expect([...f.querySelectorAll('.error-msg')].every((s) => s.textContent === '')).toBe(true);
   });
 
   test('teléfono negativo => formulario inválido, campo marcado y mensaje visible', () => {
     const f = document.querySelector('form');
-    f.nombre.value = 'Juan Pérez';
-    f.email.value = 'juan@mail.com';
-    f.telefono.value = '-1123456789';
-    f.mensaje.value = 'Quisiera coordinar una visita.';
+    campo(f, 'nombre').value = 'Juan Pérez';
+    campo(f, 'email').value = 'juan@mail.com';
+    campo(f, 'telefono').value = '-1123456789';
+    campo(f, 'mensaje').value = 'Quisiera coordinar una visita.';
     expect(V.validarFormulario(f)).toBe(false);
-    expect(f.telefono.classList.contains('campo-invalido')).toBe(true);
-    expect(f.telefono.getAttribute('aria-invalid')).toBe('true');
-    expect(f.telefono.nextElementSibling.textContent).toMatch(/Teléfono inválido/);
+    expect(campo(f, 'telefono').classList.contains('campo-invalido')).toBe(true);
+    expect(campo(f, 'telefono').getAttribute('aria-invalid')).toBe('true');
+    expect(campo(f, 'telefono').nextElementSibling.textContent).toMatch(/Teléfono inválido/);
+  });
+
+  test('al corregir un campo con error, el mensaje se borra mientras se escribe (sin esperar al blur)', () => {
+    V.inicializar();
+    const f = document.querySelector('form');
+    const tel = campo(f, 'telefono');
+    tel.value = '-1';
+    tel.dispatchEvent(new Event('blur'));
+    expect(tel.classList.contains('campo-invalido')).toBe(true);
+    tel.value = '11 2345-6789';
+    tel.dispatchEvent(new Event('input'));
+    expect(tel.classList.contains('campo-invalido')).toBe(false);
+    expect(tel.nextElementSibling.textContent).toBe('');
   });
 
   test('submit inválido se cancela (preventDefault)', () => {

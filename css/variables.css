@@ -1,0 +1,68 @@
+/* =====================================================================
+   Viviendas UB – Sistema de variables (sitio público y panel)
+   Lo importan css/style.css y css/admin.css. Cambiar un valor acá lo cambia en todo el sitio.
+   ===================================================================== */
+:root {
+    /* Marca */
+    --azul: #0b187c;
+    --azul-oscuro: #02002c;
+    --azul-claro: #eef0f8;
+    --azul-tenue: #0b156319;      /* fondo translúcido de los bloques de texto */
+    --rojo: #b00000;
+    --rojo-oscuro: #710505;
+
+    /* Neutros */
+    --texto: #222;
+    --texto-fuerte: #333;
+    --texto-medio: #444;
+    --texto-suave: #5f6368;       /* contraste ≥ 4.5:1 sobre --fondo-alt */
+    --texto-placeholder: #8a8f9c;
+    --blanco: #fff;
+    --blanco-suave: #fff9;
+    --blanco-texto: #ffffffd9;    /* texto secundario sobre fondo azul */
+    --fondo-alt: #eee;
+    --fondo-panel: #f3f4f8;
+    --gris-boton: #777;
+    --borde: #c9cfdc;
+    --borde-claro: #e3e6ef;
+    --borde-tabla: #e5e7eb;
+    --velo: rgba(0, 0, 0, .7);
+    --velo-banner: rgba(0, 0, 0, .25);   /* oscurece levemente la foto de los encabezados de página */
+    --whatsapp: #1f9d55;
+
+    /* Panel de administración */
+    --admin-menu-fondo: var(--azul-oscuro);
+    --admin-menu-texto: rgba(255, 255, 255, .72);
+    --admin-menu-hover: rgba(255, 255, 255, .08);
+    --admin-menu-borde: rgba(255, 255, 255, .1);
+    --admin-foco: rgba(11, 24, 124, .18);      /* anillo de foco de los campos */
+
+    /* Estados */
+    --exito: #14532d;        --exito-fondo: #e6f6ea;   --exito-borde: #86c99a;
+    --error: #b00000;        --error-texto: #7f1d1d;   --error-fondo: #fdecec;   --error-borde: #e3a1a1;
+    --error-campo: #fff4f4;  --error-placeholder: #8a5a5a;
+    --estado-disponible: #dcfce7;  --estado-reservada: #fef9c3;  --estado-reservada-texto: #713f12;
+    --estado-vendida: #dbeafe;     --estado-vendida-texto: #1e3a8a;  --estado-inactiva: #fee2e2;
+
+    /* Tamaños de texto del sitio público: 16px en celular y crecen hasta su máximo desde ~1366px de ancho */
+    --fs-intro: clamp(1.7rem, 1.4vw, 2rem);                /* párrafo de introducción bajo el encabezado */
+    --fs-texto: clamp(1.6rem, 1.2rem + .4vw, 1.8rem);      /* texto de lectura */
+    --fs-texto-sm: clamp(1.5rem, 1.15rem + .3vw, 1.7rem);  /* texto de tarjetas y datos secundarios */
+    --fs-etiqueta: clamp(1.4rem, 1.1rem + .25vw, 1.5rem);  /* etiquetas de formularios e índices */
+
+    /* Forma */
+    --radio-sm: 6px;
+    --radio-md: 12px;
+    --radio-pill: 999px;
+    --borde-fuerte: .1rem solid var(--texto);
+    --sombra-caja: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    --sombra: 0 .4rem 1.6rem rgba(11, 24, 124, .06);
+    --sombra-texto: 0 1.5rem 3rem rgba(0, 0, 0, .3);
+
+    /* Espaciado */
+    --esp-1: .8rem;
+    --esp-2: 1.6rem;
+    --esp-3: 2.4rem;
+    --esp-4: 3.2rem;
+    --esp-6: 4.8rem;
+}

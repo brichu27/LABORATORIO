@@ -19,38 +19,49 @@
   }
 
   function icono(clase) {
-    return el('i', clase);
+    const i = el('i', clase);
+    i.setAttribute('aria-hidden', 'true');
+    return i;
   }
 
-  /** Construye la tarjeta con la misma estructura que render_tarjeta_propiedad() en PHP. */
+  /** Construye la tarjeta con la misma estructura que render_tarjeta_propiedad() en PHP. Toda la tarjeta es el enlace. */
   function tarjetaPropiedad(p) {
-    const box = el('div', 'box');
-    const imgWrap = el('div', 'image');
+    const tarjeta = el('article', 'card-propiedad');
+    const enlace = el('a', 'card-propiedad__enlace');
+    enlace.href = p.url;
+
+    const foto = el('div', 'card-propiedad__foto');
     const img = document.createElement('img');
     img.src = p.imagen;
     img.alt = p.titulo;
     img.loading = 'lazy';
-    imgWrap.appendChild(img);
+    img.width = 640;
+    img.height = 400;
+    const operacion = p.operacion || 'Venta';
+    foto.append(img, el('span', 'card-propiedad__etiqueta card-propiedad__etiqueta--' + operacion.toLowerCase(), operacion));
 
-    const content = el('div', 'content');
-    content.appendChild(el('h3', '', p.precio));
-    const dir = el('p');
-    dir.append(icono('fa-solid fa-location-dot'), ' ' + p.direccion);
-    content.appendChild(dir);
+    const cuerpo = el('div', 'card-propiedad__cuerpo');
+    cuerpo.appendChild(el('p', 'card-propiedad__tipo', [p.tipo, p.barrio].filter(Boolean).join(' · ')));
+    cuerpo.appendChild(el('p', 'card-propiedad__precio', p.precio));
+    cuerpo.appendChild(el('h3', 'card-propiedad__titulo', p.titulo));
+    const dir = el('p', 'card-propiedad__direccion');
+    dir.append(icono('fa-solid fa-location-dot'), ' ' + (p.calle || p.direccion));
+    cuerpo.appendChild(dir);
 
-    const iconos = el('div', 'iconos');
-    const banos = p.banos === 1 ? '1 baño' : p.banos + ' baños';
-    const dorm = p.dormitorios === 1 ? '1 habitación' : p.dormitorios + ' habitaciones';
-    iconos.append(icono('fa-solid fa-bath'), ' ' + banos + ' ', icono('fa-solid fa-bed'), ' ' + dorm + ' ',
-      icono('fa-solid fa-ruler-horizontal'), ' ' + Math.round(p.superficie) + 'm²');
-    content.appendChild(iconos);
+    const datos = el('ul', 'card-propiedad__datos');
+    const dato = function (clase, texto) {
+      const li = el('li');
+      li.append(icono(clase), ' ' + texto);
+      datos.appendChild(li);
+    };
+    dato('fa-solid fa-bed', p.dormitorios === 1 ? '1 dorm.' : p.dormitorios + ' dorm.');
+    dato('fa-solid fa-bath', p.banos === 1 ? '1 baño' : p.banos + ' baños');
+    dato('fa-solid fa-ruler-combined', Math.round(p.superficie) + ' m²');
+    cuerpo.appendChild(datos);
 
-    const link = el('a', 'btn', 'Más información');
-    link.href = p.url;
-    content.appendChild(link);
-
-    box.append(imgWrap, content);
-    return box;
+    enlace.append(foto, cuerpo);
+    tarjeta.appendChild(enlace);
+    return tarjeta;
   }
 
   /**

@@ -4,61 +4,49 @@ $titulo = 'Inicio';
 $paginaActiva = 'index';
 require __DIR__ . '/includes/header.php';
 
-$destacadas = propiedades_listar(['destacada' => true], 0, 8);
+$destacadas = propiedades_listar(['destacada' => true], 0, 4);   // una fila de 4 en escritorio
 $noticias   = noticias_publicadas(4);
+$barrios    = barrios_disponibles();
+$tipos      = tipos_propiedad();
 ?>
-<section class="home">
-    <div class="swiper home-slider">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide slide" style="background:url(imagenes/slide-1.jpg) no-repeat">
-                <div class="content">
-                    <span>Agencia líder en el mercado inmobiliario</span>
-                    <h3>Tu próximo hogar, a un click de distancia</h3>
-                    <a href="propiedades.php" class="btn">Más información</a>
-                </div>
-            </div>
-            <div class="swiper-slide slide" style="background:url(imagenes/slide-2.jpg) no-repeat">
-                <div class="content">
-                    <span>Agencia líder en el mercado inmobiliario</span>
-                    <h3>Diversa selección de propiedades</h3>
-                    <a href="propiedades.php" class="btn">Más información</a>
-                </div>
-            </div>
-            <div class="swiper-slide slide" style="background:url(imagenes/slide-3.jpg) no-repeat">
-                <div class="content">
-                    <span>Agencia líder en el mercado inmobiliario</span>
-                    <h3>La compañía más elegida</h3>
-                    <a href="propiedades.php" class="btn">Más información</a>
-                </div>
-            </div>
-        </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-    </div>
-</section>
-
-<section class="home-about">
-    <div class="image"><img src="imagenes/nosotros2.png" alt="Equipo de Viviendas UB"></div>
-    <div class="content">
-        <h3>¿Quiénes somos?</h3>
-        <p>En Viviendas UB, nuestra razón de ser es guiar a las personas en la importante decisión de vender o comprar una propiedad. Nuestro principal objetivo es construir relaciones duraderas con nuestros clientes, basadas en la confianza y la satisfacción, para que nos elijan nuevamente en el futuro.</p>
-        <a href="nosotros.php" class="btn2">Leer más</a>
-    </div>
-</section>
-
-<section class="services">
-    <h1 class="heading-title">¿Interesado en propiedades?</h1>
-    <p>Ya sea para adquirir, vender o arrendar, te ofrecemos diversas alternativas. Nuestros agentes especializados están listos para guiarte en la búsqueda de tu inmueble ideal, la venta exitosa de tu propiedad o un alquiler seguro y confortable.</p>
-    <div class="box-container">
-        <div class="box"><a href="tasaciones.php"><img src="imagenes/servicios2.png" alt="" width="100" height="90"><h3>VENTA</h3></a></div>
-        <div class="box"><a href="propiedades.php?operacion=VENTA"><img src="imagenes/servicios1.png" alt="" width="100" height="90"><h3>COMPRA</h3></a></div>
-        <div class="box"><a href="propiedades.php?operacion=ALQUILER"><img src="imagenes/servicios3.png" alt="" width="100" height="90"><h3>ALQUILER</h3></a></div>
-        <div class="box"><a href="contacto.php"><img src="imagenes/servicios4.png" alt="" width="100" height="90"><h3>SER AGENTE</h3></a></div>
+<section class="hero" style="background-image: url(imagenes/slide-1.jpg)">
+    <div class="hero__contenido">
+        <p class="hero__bajada">Agencia inmobiliaria en la Ciudad de Buenos Aires</p>
+        <h1>Tu próximo hogar, a un click de distancia</h1>
+        <form class="buscador" action="propiedades.php" method="get" role="search" aria-label="Buscar propiedades">
+            <label class="buscador__campo">
+                <span>Operación</span>
+                <select name="operacion">
+                    <option value="">Comprar o alquilar</option>
+                    <option value="VENTA">Comprar</option>
+                    <option value="ALQUILER">Alquilar</option>
+                </select>
+            </label>
+            <label class="buscador__campo">
+                <span>Barrio</span>
+                <select name="barrio">
+                    <option value="">Todos los barrios</option>
+                    <?php foreach ($barrios as $b): ?>
+                        <option value="<?= e($b) ?>"><?= e($b) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+            <label class="buscador__campo">
+                <span>Tipo</span>
+                <select name="tipo">
+                    <option value="">Todos los tipos</option>
+                    <?php foreach ($tipos as $t): ?>
+                        <option value="<?= (int) $t['id'] ?>"><?= e($t['nombre']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+            <button type="submit" class="btn"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Buscar</button>
+        </form>
     </div>
 </section>
 
 <section class="home-property">
-    <h1 class="heading-title">Propiedades destacadas</h1>
+    <h2 class="heading-title">Propiedades destacadas</h2>
     <?php if (!$destacadas): ?>
         <p class="vacio">Por el momento no hay propiedades destacadas.</p>
     <?php else: ?>
@@ -68,46 +56,63 @@ $noticias   = noticias_publicadas(4);
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-    <div class="load-more"><a href="propiedades.php" class="btn2">Ver más</a></div>
+    <div class="load-more"><a href="propiedades.php" class="btn btn--secundario">Ver todas las propiedades</a></div>
+</section>
+
+<section class="services">
+    <h2 class="heading-title">¿Qué estás buscando?</h2>
+    <p>Te acompañamos en la compra, el alquiler o la venta de tu propiedad, con agentes especializados en cada barrio.</p>
+    <div class="servicios">
+        <a class="servicio" href="propiedades.php?operacion=VENTA">
+            <i class="fa-solid fa-key" aria-hidden="true"></i>
+            <h3>Comprar</h3>
+            <p>Departamentos, casas y PH en venta, con la ficha completa de cada uno.</p>
+            <span class="servicio__accion">Ver propiedades en venta <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+        </a>
+        <a class="servicio" href="propiedades.php?operacion=ALQUILER">
+            <i class="fa-solid fa-house-user" aria-hidden="true"></i>
+            <h3>Alquilar</h3>
+            <p>Alquileres con el valor mensual publicado y contacto directo con el agente.</p>
+            <span class="servicio__accion">Ver alquileres <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+        </a>
+        <a class="servicio" href="tasaciones.php">
+            <i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i>
+            <h3>Vender</h3>
+            <p>Tasamos tu propiedad sin cargo y la publicamos con un agente responsable.</p>
+            <span class="servicio__accion">Pedir una tasación <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+        </a>
+    </div>
+</section>
+
+<section class="home-about">
+    <div class="image"><img src="imagenes/nosotros2.jpg" alt="Equipo de Viviendas UB" width="1024" height="1024" loading="lazy"></div>
+    <div class="content">
+        <h3>¿Quiénes somos?</h3>
+        <p>Nuestra razón de ser es guiar a las personas en la importante decisión de comprar, vender o alquilar una propiedad, y construir relaciones basadas en la confianza para que nos vuelvan a elegir.</p>
+        <a href="nosotros.php" class="btn--texto">Conocé al equipo <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+    </div>
 </section>
 
 <section class="join2">
     <div class="content">
-        <h3>Contactanos para más información</h3>
-        <p>¿Querés vender? Pedí una tasación sin cargo. ¿Buscás propiedad? Consultá directamente desde cada publicación.</p>
+        <span class="join2__etiqueta"><i class="fas fa-house-circle-check" aria-hidden="true"></i> Tasaciones</span>
+        <h3>¿Querés vender tu propiedad?</h3>
+        <p>Pedí una tasación sin cargo: un tasador visita el inmueble y te entrega un informe con el valor de mercado.</p>
         <a href="tasaciones.php#form-tasacion" class="btn">Solicitar tasación</a>
     </div>
 </section>
 
-<section class="join-us">
-    <div class="content">
-        <h3>Ser agente Viviendas UB</h3>
-        <p>Ser agente Viviendas UB significa mucho más que una profesión: es la oportunidad de liderar tu propio negocio inmobiliario con el respaldo de una marca sólida.</p>
-        <h3>¿Qué esperamos de vos?</h3>
-        <p>Buscamos personas con mentalidad emprendedora y proactiva, dispuestas a construir un negocio sólido y rentable, con pasión por el sector inmobiliario y dedicación por el servicio al cliente.</p>
-    </div>
-    <div class="image1"><img src="imagenes/unirse2.jpg" alt="Agentes trabajando"></div>
-</section>
-
-<section class="join">
-    <div class="content">
-        <h3>Unirse a los agentes Viviendas UB</h3>
-        <p>¡Sumate a Viviendas UB y comenzá a construir tu futuro hoy mismo!</p>
-        <a href="contacto.php" class="btn2">Postularme</a>
-    </div>
-</section>
-
 <section class="blog">
-    <h1 class="heading-title">Nuestro blog</h1>
+    <h2 class="heading-title">Nuestro blog</h2>
     <div class="container swiper">
         <div class="card-wrapper">
             <ul class="card-list swiper-wrapper">
                 <?php foreach ($noticias as $n): ?>
                     <li class="card-item swiper-slide">
                         <a href="noticia.php?id=<?= (int) $n['id'] ?>" class="card-link">
-                            <img src="<?= e(img_src($n['imagen'])) ?>" alt="" class="card-image">
+                            <img src="<?= e(img_src($n['imagen'])) ?>" alt="" class="card-image" width="1200" height="1200" loading="lazy">
                             <p class="badge"><?= e(fecha_formato($n['fecha_publicacion'])) ?></p>
-                            <h2 class="card-title"><?= e($n['titulo']) ?></h2>
+                            <h3 class="card-title"><?= e($n['titulo']) ?></h3>
                             <p class="card-text"><?= e($n['resumen']) ?></p>
                         </a>
                     </li>
@@ -118,6 +123,17 @@ $noticias   = noticias_publicadas(4);
             <div class="swiper-slide-button swiper-button-next"></div>
         </div>
     </div>
-    <div class="load-more"><a href="blog.php" class="btn2">Ver más noticias</a></div>
+    <div class="load-more"><a href="blog.php" class="btn btn--secundario">Ver más noticias</a></div>
+</section>
+
+<section class="sumate">
+    <div class="sumate__caja">
+        <img src="imagenes/unirse2.jpg" alt="Agentes de Viviendas UB trabajando" width="1024" height="1024" loading="lazy">
+        <div class="sumate__texto">
+            <h3>Sumate como agente</h3>
+            <p>Liderá tu propio negocio inmobiliario con el respaldo de una marca sólida. Buscamos personas proactivas, con pasión por el sector y vocación de servicio.</p>
+            <a href="contacto.php" class="btn">Postularme</a>
+        </div>
+    </div>
 </section>
 <?php require __DIR__ . '/includes/footer.php'; ?>

@@ -12,8 +12,8 @@ $paginaActiva = 'blog';
 require __DIR__ . '/includes/header.php';
 $otras = noticias_publicadas(6, $id);
 ?>
-<div class="heading" style="background:url(imagenes/heading4.jpg) no-repeat">
-    <h1>Blog</h1>
+<div class="heading" style="background-image: url(imagenes/heading4.jpg)">
+    <p class="titulo-banner">Blog</p>
 </div>
 
 <section class="noticia">
@@ -24,7 +24,7 @@ $otras = noticias_publicadas(6, $id);
     <h1><?= e($noticia['titulo']) ?></h1>
     <p><?= e(fecha_formato($noticia['fecha_publicacion'])) ?></p>
     <?php if (!empty($noticia['imagen'])): ?>
-        <div class="image"><img src="<?= e($noticia['imagen']) ?>" alt=""></div>
+        <div class="image"><img src="<?= e($noticia['imagen']) ?>" alt="" width="1200" height="1200"></div>
     <?php endif; ?>
     <div class="text"><?= render_contenido($noticia['contenido']) ?></div>
 <?php endif; ?>
@@ -32,16 +32,16 @@ $otras = noticias_publicadas(6, $id);
 
 <?php if ($otras): ?>
 <section class="blog">
-    <h1 class="heading-title">Otras noticias</h1>
+    <h2 class="heading-title">Otras noticias</h2>
     <div class="container swiper">
         <div class="card-wrapper">
             <ul class="card-list swiper-wrapper">
                 <?php foreach ($otras as $n): ?>
                     <li class="card-item swiper-slide">
                         <a href="noticia.php?id=<?= (int) $n['id'] ?>" class="card-link">
-                            <img src="<?= e(img_src($n['imagen'])) ?>" alt="" class="card-image">
+                            <img src="<?= e(img_src($n['imagen'])) ?>" alt="" class="card-image" width="1200" height="1200" loading="lazy">
                             <p class="badge"><?= e(fecha_formato($n['fecha_publicacion'])) ?></p>
-                            <h2 class="card-title"><?= e($n['titulo']) ?></h2>
+                            <h3 class="card-title"><?= e($n['titulo']) ?></h3>
                             <p class="card-text"><?= e($n['resumen']) ?></p>
                         </a>
                     </li>

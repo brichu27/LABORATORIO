@@ -1,2 +1,8 @@
 DirectoryIndex index.php
 Options -Indexes
+
+# Archivos del repositorio que no son parte del sitio
+RedirectMatch 404 /\.git
+<FilesMatch "^(docker-compose\.yml|package(-lock)?\.json|jest\.config\.js|README\.md|\.git\w*)$">
+    Require all denied
+</FilesMatch>

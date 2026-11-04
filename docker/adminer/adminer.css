@@ -1,0 +1,470 @@
+/* =====================================================================
+   Tema de Adminer con la identidad de Viviendas UB (colores del panel, tipografía Inter).
+   Adminer lo carga después de su CSS base, así que solo se pisan sus reglas.
+   ===================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+    --azul: #0b187c;
+    --azul-oscuro: #02002c;
+    --azul-claro: #eef0f8;
+    --azul-seleccion: #dfe3f5;
+    --rojo: #b00000;
+    --texto: #222;
+    --texto-suave: #5f6368;
+    --fondo: #f3f4f8;
+    --blanco: #fff;
+    --borde: #c9cfdc;
+    --borde-claro: #e3e6ef;
+    --menu-texto: rgba(255, 255, 255, .72);
+    --menu-borde: rgba(255, 255, 255, .1);
+    --ancho-menu: 260px;
+    --alto-barra: 48px;
+}
+
+/* Base */
+body {
+    font: 14px/1.5 "Inter", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+    color: var(--texto);
+    background: var(--fondo);
+    width: auto;
+}
+
+a,
+a:visited {
+    color: var(--azul);
+}
+
+a:link:hover,
+a:visited:hover {
+    color: var(--rojo);
+    text-decoration: none;
+}
+
+h3 {
+    font-weight: 600;
+    color: var(--azul-oscuro);
+}
+
+code {
+    background: var(--azul-claro);
+    border-radius: 4px;
+    padding: 0 .3em;
+}
+
+/* Título de cada pantalla */
+h2 {
+    margin: 0 -32px 24px;
+    padding: 20px 32px;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--azul-oscuro);
+    background: var(--blanco);
+    border-bottom: 1px solid var(--borde-claro);
+}
+
+/* Barra superior: ruta y cerrar sesión. Fijas, para que no se corten al desplazarse */
+#breadcrumb {
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: var(--ancho-menu);
+    right: 0;
+    height: var(--alto-barra);
+    line-height: var(--alto-barra);
+    margin: 0;
+    padding: 0 32px;
+    color: var(--texto-suave);
+    background: var(--blanco);
+    border-bottom: 1px solid var(--borde-claro);
+}
+
+.logout {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 9px 32px;
+    z-index: 4;
+}
+
+/* Menú lateral: fijo y a todo el alto; si la lista de tablas no entra, se desplaza solo el menú */
+#lang,
+#menu {
+    position: fixed;
+    z-index: 3;
+    left: 0;
+    width: var(--ancho-menu);
+    color: var(--menu-texto);
+    background: var(--azul-oscuro);
+    box-sizing: border-box;
+}
+
+#lang {
+    top: 0;
+    height: var(--alto-barra);
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--menu-borde);
+}
+
+#menu {
+    top: var(--alto-barra);
+    bottom: 0;
+    margin: 0;
+    padding-bottom: 24px;
+    overflow-y: auto;
+}
+
+#menu h1 {
+    padding: 20px;
+    font-size: 18px;
+    background: transparent;
+    border-bottom: 1px solid var(--menu-borde);
+}
+
+#h1,
+#menu h1 a {
+    color: var(--blanco);
+    font-style: normal;
+    font-weight: 700;
+}
+
+#menu .version {
+    color: rgba(255, 255, 255, .5);
+}
+
+/* Aviso de versión nueva de Adminer: no aporta en la demo */
+#version {
+    display: none;
+}
+
+#menu p,
+#logins,
+#tables {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--menu-borde);
+}
+
+#menu a,
+#menu a:visited {
+    color: var(--menu-texto);
+}
+
+#menu a:hover,
+#menu a.active {
+    color: var(--blanco);
+}
+
+#logins a,
+#tables a,
+#tables span {
+    background: transparent;
+}
+
+#tables li {
+    padding: 3px 0;
+}
+
+#tables a.select {
+    display: inline-block;
+    margin-right: 6px;
+    padding: 0 6px;
+    font-size: 11px;
+    line-height: 18px;
+    border: 1px solid var(--menu-borde);
+    border-radius: 999px;
+}
+
+#menu select {
+    width: 100%;
+}
+
+/* Contenido */
+#content {
+    margin: var(--alto-barra) 0 0 var(--ancho-menu);
+    padding: 0 32px 32px;
+}
+
+p,
+.error,
+.message {
+    margin-right: 0;
+}
+
+/* Las tablas anchas se desplazan dentro de su recuadro, sin mover la página */
+.scrollable {
+    overflow-x: auto;
+}
+
+/* Tablas */
+table {
+    margin: 16px 0 0;
+    font-size: 13px;
+    background: var(--blanco);
+    border: 1px solid var(--borde-claro);
+}
+
+td,
+th {
+    padding: 7px 12px;
+    border: 1px solid var(--borde-claro);
+}
+
+th {
+    color: var(--azul-oscuro);
+    font-weight: 600;
+    background: var(--azul-claro);
+}
+
+thead td,
+thead th {
+    color: var(--azul);
+    background: var(--azul-claro);
+}
+
+.odd td {
+    background: #fafbfd;
+}
+
+tbody tr:hover td,
+tbody tr:hover th {
+    background: var(--azul-claro);
+}
+
+.js .checkable .checked td,
+.js .checkable .checked th,
+.js .column {
+    background: var(--azul-seleccion);
+}
+
+/* Grupos de opciones (Mostrar, Condición, Ordenar, etc.) */
+fieldset {
+    margin: 12px 10px 0 0;
+    padding: 10px 14px 12px;
+    background: var(--blanco);
+    border: 1px solid var(--borde-claro);
+    border-radius: 12px;
+}
+
+legend {
+    padding: 0 4px;
+    font-weight: 600;
+    color: var(--azul);
+}
+
+/* Campos y botones */
+input,
+select,
+textarea {
+    font: inherit;
+    color: var(--texto);
+}
+
+/* Editor de "Comando SQL" (Adminer usa un <pre> editable con resaltado de sintaxis) */
+.sqlarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 220px;
+    padding: 12px 14px;
+    font: 14px/1.5 Consolas, "Courier New", monospace;
+    background: var(--blanco);
+    border: 1px solid var(--borde) !important;
+    border-radius: 8px;
+}
+
+.sqlarea:focus {
+    outline: none;
+    border-color: var(--azul) !important;
+    box-shadow: 0 0 0 3px rgba(11, 24, 124, .18);
+}
+
+input:not([type=submit]):not([type=checkbox]):not([type=radio]):not([type=image]),
+select,
+textarea {
+    padding: 5px 8px;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 6px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--azul);
+    box-shadow: 0 0 0 3px rgba(11, 24, 124, .18);
+}
+
+input[type=submit],
+button {
+    padding: 6px 14px;
+    font-weight: 600;
+    color: var(--blanco);
+    background: var(--azul);
+    border: 1px solid var(--azul);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover,
+button:hover {
+    background: var(--azul-oscuro);
+}
+
+input[type=submit]:disabled {
+    color: var(--texto-suave);
+    background: var(--borde-claro);
+    border-color: var(--borde-claro);
+    cursor: default;
+}
+
+.logout input[type=submit] {
+    color: var(--azul);
+    background: var(--blanco);
+}
+
+.logout input[type=submit]:hover {
+    color: var(--blanco);
+    background: var(--azul);
+}
+
+input.default {
+    box-shadow: none;
+}
+
+.icon {
+    background-color: var(--azul);
+    border-radius: 4px;
+}
+
+.icon:hover {
+    background-color: var(--rojo);
+}
+
+/* Avisos */
+.error,
+.message {
+    padding: 10px 14px;
+    border-radius: 8px;
+}
+
+.message {
+    color: #14532d;
+    background: #e6f6ea;
+    border: 1px solid #86c99a;
+}
+
+.error {
+    color: #7f1d1d;
+    background: #fdecec;
+    border: 1px solid #e3a1a1;
+}
+
+/* Barra fija de acciones al pie de las listas */
+.footer {
+    margin-right: -32px;
+    border-image: linear-gradient(rgba(243, 244, 248, .2), var(--fondo)) 100% 0;
+}
+
+.footer > div {
+    background: var(--fondo);
+}
+
+/* Diagrama de relaciones. Adminer ubica las tablas y las líneas de relación contando renglones de 1.25em:
+   el interlineado se conserva y el encabezado de cada tabla ocupa exactamente un renglón. */
+#schema {
+    z-index: 0;          /* las líneas (z-index -1) quedan sobre el lienzo y detrás de las tablas */
+    margin: 8px 0 0;
+    padding: 24px;
+    line-height: 1.25;
+    font-size: 13px;
+    box-sizing: content-box;
+    background-color: var(--blanco);
+    background-image: radial-gradient(var(--borde-claro) 1px, transparent 1px);
+    background-size: 18px 18px;
+    border: 1px solid var(--borde-claro);
+    border-radius: 12px;
+}
+
+#schema .table {
+    margin: 24px 0 0 48px;
+    padding: 0 8px 4px;
+    color: var(--texto);
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    box-shadow: 0 .4rem 1.6rem rgba(11, 24, 124, .1);
+}
+
+#schema .table > a:first-child {
+    display: inline-block;
+    box-sizing: border-box;
+    width: calc(100% + 16px);
+    margin: 0 -8px;
+    padding: 0 8px;
+    color: var(--blanco);
+    background: var(--azul);
+    border-radius: 7px 7px 0 0;
+}
+
+#schema .table > a:first-child:hover {
+    color: var(--blanco);
+    background: var(--azul-oscuro);
+}
+
+/* Tramos verticales de las relaciones: sueltos en el lienzo, llevan el mismo margen que las tablas.
+   Los horizontales están dentro de cada tabla y ya se mueven con ella. */
+#schema > .references {
+    margin: 24px 0 0 48px;
+}
+
+#schema .references {
+    z-index: -1;
+}
+
+#schema .references div {
+    border-color: #7c86c4 !important;
+}
+
+#schema .char {
+    color: #1d6b3a;
+}
+
+#schema .date {
+    color: #7a2e8c;
+}
+
+#schema .enum {
+    color: #0f6d7a;
+}
+
+/* Celular y pantallas angostas: menú arriba, contenido debajo */
+@media (max-width: 899px), all and (max-device-width: 880px) {
+    #lang,
+    #menu {
+        position: static;
+        width: auto;
+        min-height: 0;
+    }
+
+    #breadcrumb {
+        position: static;
+        height: auto;
+        line-height: 1.5;
+        padding: 12px 16px;
+    }
+
+    .logout {
+        padding: 9px 16px;
+    }
+
+    #content {
+        margin: 0;
+        padding: 0 16px 24px;
+    }
+
+    h2 {
+        margin: 0 -16px 16px;
+        padding: 16px;
+    }
+}
