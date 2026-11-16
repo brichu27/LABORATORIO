@@ -1,6 +1,8 @@
 /**
- * "Cargar más" propiedades desde la API (api/propiedades.php) - datos reales de la base.
- * Botón esperado: <button data-cargar-mas data-contenedor="#lista" data-offset="6" data-limite="6" data-filtros="operacion=VENTA">
+ * "Cargar más" desde la API - datos reales de la base.
+ *  Propiedades: <button data-cargar-mas data-contenedor="#lista" data-offset="8" data-limite="8" data-filtros="operacion=VENTA">
+ *  Noticias:    <button data-cargar-mas data-api="api/noticias.php" data-tarjeta="noticia" data-contenedor="#mas-noticias" ...>
+ * Sin data-api ni data-tarjeta usa api/propiedades.php y la tarjeta de propiedad.
  */
 (function (root, factory) {
   if (typeof module === 'object' && module.exports) {
@@ -64,6 +66,28 @@
     return tarjeta;
   }
 
+  /** Tarjeta de noticia con la misma estructura que las del blog en PHP (blog.php). Toda la tarjeta es el enlace. */
+  function tarjetaNoticia(n) {
+    const item = el('li', 'card-item');
+    const enlace = el('a', 'card-link');
+    enlace.href = n.url;
+    const img = document.createElement('img');
+    img.src = n.imagen;
+    img.alt = '';
+    img.className = 'card-image';
+    img.loading = 'lazy';
+    img.width = 1200;
+    img.height = 1200;
+    enlace.append(img, el('p', 'badge', n.fecha), el('h3', 'card-title', n.titulo), el('p', 'card-text', n.resumen));
+    item.appendChild(enlace);
+    return item;
+  }
+
+  const TIPOS = {
+    propiedad: { api: 'api/propiedades.php', tarjeta: tarjetaPropiedad, error: 'No se pudieron cargar más propiedades. Intente nuevamente.' },
+    noticia:   { api: 'api/noticias.php', tarjeta: tarjetaNoticia, error: 'No se pudieron cargar más noticias. Intente nuevamente.' },
+  };
+
   /**
    * Pide la siguiente pagina y la agrega al contenedor.
    * Devuelve la cantidad de items agregados, o -1 si hubo error.
@@ -76,19 +100,20 @@
     params.set('offset', String(offset));
     params.set('limite', String(limite));
     const errorEl = boton.parentElement ? boton.parentElement.querySelector('[data-cargar-mas-error]') : null;
+    const tipo = TIPOS[boton.dataset.tarjeta] || TIPOS.propiedad;
 
     boton.disabled = true;
     try {
-      const resp = await pedir('api/propiedades.php?' + params.toString());
+      const resp = await pedir((boton.dataset.api || tipo.api) + '?' + params.toString());
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       const data = await resp.json();
-      data.items.forEach(function (p) { contenedor.appendChild(tarjetaPropiedad(p)); });
+      data.items.forEach(function (item) { contenedor.appendChild(tipo.tarjeta(item)); });
       boton.dataset.offset = String(offset + data.items.length);
       if (!data.hayMas) boton.style.display = 'none';
       if (errorEl) errorEl.textContent = '';
       return data.items.length;
     } catch (err) {
-      if (errorEl) errorEl.textContent = 'No se pudieron cargar más propiedades. Intente nuevamente.';
+      if (errorEl) errorEl.textContent = tipo.error;
       if (typeof console !== 'undefined') console.error(err);
       return -1;
     } finally {
@@ -97,16 +122,16 @@
   }
 
   function inicializar() {
-    const boton = document.querySelector('[data-cargar-mas]');
-    if (!boton) return;
-    const contenedor = document.querySelector(boton.dataset.contenedor);
-    if (!contenedor) return;
-    boton.addEventListener('click', function () { cargarMas(boton, contenedor); });
+    document.querySelectorAll('[data-cargar-mas]').forEach(function (boton) {
+      const contenedor = document.querySelector(boton.dataset.contenedor);
+      if (!contenedor) return;
+      boton.addEventListener('click', function () { cargarMas(boton, contenedor); });
+    });
   }
 
   if (typeof document !== 'undefined') {
     document.addEventListener('DOMContentLoaded', inicializar);
   }
 
-  return { tarjetaPropiedad, cargarMas, inicializar };
+  return { tarjetaPropiedad, tarjetaNoticia, cargarMas, inicializar };
 });

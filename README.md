@@ -9,11 +9,13 @@ Sitio web de una inmobiliaria con un **sitio público** para buscar propiedades 
 
 **Sitio público**
 - Inicio con carrusel, buscador por barrio y tipo, propiedades destacadas, servicios y últimas noticias.
-- Listado de propiedades con filtros y botón **"Cargar más"** (8 por carga, desde una API JSON).
+- Listado de propiedades con filtros, orden por precio y botón **"Cargar más"** (8 por carga, desde una API JSON). Al ordenar por precio, los precios en dólares se comparan en pesos con la cotización del dólar blue ([dolarapi.com](https://dolarapi.com), se actualiza cada hora y tiene un valor de respaldo en `config.php`); en pantalla cada precio se sigue mostrando en su moneda.
 - Ficha de cada propiedad con galería, características y formulario de consulta al agente asignado.
 - Solicitud de tasación, postulación para sumarse al equipo y formulario de contacto.
-- Blog de noticias, Nosotros, Preguntas frecuentes, Política de privacidad y Términos (con índice lateral).
-- Botón flotante de WhatsApp.
+- Blog con las últimas noticias en un carrusel y el resto en una grilla con **"Cargar más"** (12 por carga, desde una API JSON). Cada artículo muestra fecha, autor y tiempo de lectura.
+- Nosotros, Preguntas frecuentes, Política de privacidad y Términos (con índice lateral).
+- Botón flotante de WhatsApp y diseño adaptable a celular. Los enlaces de WhatsApp abren con un mensaje sugerido según la sección o la propiedad desde la que se escribe.
+- Los emails se copian con un clic en lugar de abrir el programa de correo (`mailto:`), que no funciona si el navegador no tiene uno configurado.
 
 **Panel de administración** (`/admin/`)
 - Inicio con tarjetas de resumen que abren cada lista filtrada por lo nuevo.
@@ -27,15 +29,14 @@ Sitio web de una inmobiliaria con un **sitio público** para buscar propiedades 
 |---|---|
 | Frontend | HTML5, CSS3 (variables), JavaScript, Swiper, Font Awesome |
 | Backend | PHP 8.x (PDO, sesiones, `password_hash`) |
-| Base de datos | MySQL 8 / MariaDB 10.4+ (InnoDB, claves foráneas, transacciones) |
+| Base de datos | MariaDB 10.11 (InnoDB, claves foráneas, transacciones) |
 | Tests | Jest + jsdom (cliente) y script PHP sin dependencias (servidor) |
-| Entorno local | Docker Compose o XAMPP |
+| Entorno | Docker Compose (PHP 8.3 con Apache, MariaDB 10.11 y Adminer) |
 
 ## Cómo levantarlo
 
-Hay dos formas. **Docker** es la más simple porque no requiere instalar PHP ni MySQL.
-
-### Opción A – Docker (recomendada)
+El proyecto se levanta **solo con Docker**: no hace falta instalar PHP ni MySQL. Otras formas (por ejemplo, un PHP
+instalado en el equipo) no están soportadas: sin las variables de entorno de `docker-compose.yml` el sitio no arranca.
 
 Requisito: [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
@@ -64,8 +65,25 @@ los colores del proyecto (`docker/adminer/adminer.css`) y el diagrama se abre or
 (`docker/adminer/esquema.php`); las tablas del diagrama se pueden arrastrar.
 
 La base se crea sola con `01_schema.sql`, `02_datos_iniciales.sql` y `03_noticias_contenido.sql` la primera vez.
-Docker usa `config/config.example.php` con los datos de conexión de `docker-compose.yml`, así que **no hace falta
-crear `config/config.php`**.
+No hay que configurar nada: `config/config.php` toma los datos de conexión de las variables de entorno que define
+`docker-compose.yml`.
+
+**Qué trae la base inicial**
+
+| Tabla | Registros | Detalle |
+|---|---|---|
+| `roles` | 2 | ADMIN y VENDEDOR |
+| `tipos_propiedad` | 6 | Departamento, Casa, PH, Terreno, Oficina, Local comercial |
+| `usuarios` | 10 | Los agentes de Nosotros, **sin clave**: no pueden entrar al panel hasta que el administrador les asigne una |
+| `propiedades` / `propiedad_imagenes` | 12 / 12 | 9 en venta (USD) y 3 en alquiler (ARS), con una portada cada una |
+| `noticias` | 18 | Los 4 artículos del blog anterior y 14 más firmadas por agentes, para que el blog muestre la grilla y "Cargar más" |
+| `consultas`, `solicitudes_tasacion`, `postulaciones` | 0 | Se llenan desde los formularios (o con los datos de demostración del paso 3) |
+
+No hay ningún administrador hasta que se ejecuta el paso 2.
+
+**Datos de contacto y cotización** (`config/config.php`, sección `empresa` y `cotizacion`): email de la empresa,
+los dos teléfonos del pie, el número del botón flotante de WhatsApp y la URL y el valor de respaldo de la cotización
+del dólar. El teléfono de cada agente se edita desde el panel (Personal).
 
 Comandos útiles:
 
@@ -80,21 +98,6 @@ Si los puertos 8080, 8081 o 3308 están ocupados, se pueden cambiar al levantar:
 `WEB_PUERTO=8090 ADMINER_PUERTO=8091 DB_PUERTO=3309 docker compose up -d` (en PowerShell: `$env:WEB_PUERTO=8090; docker compose up -d`).
 El puerto de la base (por defecto `127.0.0.1:3308`, usuario `viviendas` / clave `viviendas`) sirve para conectarse
 con DBeaver o MySQL Workbench.
-
-### Opción B – XAMPP
-
-1. Iniciar **Apache** y **MySQL** desde el panel de XAMPP.
-2. Clonar el repositorio en `C:\xampp\htdocs\LABORATORIO`.
-3. Crear la base: en phpMyAdmin > Importar, cargar en este orden `database/01_schema.sql`,
-   `database/02_datos_iniciales.sql` y `database/03_noticias_contenido.sql` (codificación UTF-8).
-   Opcional: `database/04_datos_demo.sql`.
-4. Copiar `config/config.example.php` como `config/config.php` y completar la clave de MySQL si tiene.
-5. Verificar que `extension=fileinfo` esté habilitada en `C:\xampp\php\php.ini` (para subir imágenes).
-6. Crear el administrador:
-   `C:\xampp\php\php.exe database\crear_usuario.php "Nombre" "Apellido" admin@viviendasub.com "Clave2026" ADMIN`
-7. Abrir http://localhost/LABORATORIO/ (sitio) y http://localhost/LABORATORIO/admin/ (panel).
-
-> `01_schema.sql` hace `DROP DATABASE IF EXISTS viviendas_ub`: borra la base completa si ya existía.
 
 ### Probar el rol Vendedor
 
@@ -122,27 +125,27 @@ Debe ver solo sus propiedades y consultas, sin los menús Noticias ni Personal.
 
 ## Tests
 
+Las pruebas de JavaScript necesitan [Node.js](https://nodejs.org/) 18 o superior; las de PHP corren dentro del contenedor.
+
 ```bash
 npm install
-npm test                                              # Jest: 37 tests
+npm test                                              # Jest: 40 tests
 docker compose exec web php tests/php/validador_test.php   # PHP: 15 OK
 ```
-
-Con XAMPP, la prueba PHP se corre con `C:\xampp\php\php.exe tests\php\validador_test.php`.
 
 ## Estructura
 
 ```
 admin/          Panel de administración (login, consultas, ABM de propiedades, noticias y personal)
-api/            Endpoint JSON para "Cargar más" propiedades
-config/         Configuración (config.php NO se versiona; se parte de config.example.php)
+api/            Endpoints JSON para "Cargar más" propiedades y noticias
+config/         Configuración del sitio (la conexión a la base llega por variables de entorno de Docker)
 css/            Variables de diseño, estilos del sitio y del panel
 database/       Scripts SQL (esquema, datos iniciales, noticias, demo) y alta de usuarios por CLI
 doc/            Documentación del proyecto y evidencias de pruebas
 docker/         Imagen de PHP/Apache, carga de la base y tema del visor Adminer para Docker
 imagenes/       Imágenes fijas del sitio
 includes/       Conexión, autenticación, validaciones, repositorio de datos y plantillas comunes
-js/             Validaciones, "Cargar más", panel y comportamiento general
+js/             Validaciones, "Cargar más", copiar email, panel y comportamiento general
 tests/          Pruebas Jest (cliente) y PHP (servidor)
 uploads/        Imágenes subidas desde el panel (no se versionan)
 *.php           Páginas del sitio público
@@ -163,10 +166,9 @@ uploads/        Imágenes subidas desde el panel (no se versionan)
 
 | Síntoma | Causa / solución |
 |---|---|
-| "Falta config/config.php" | (XAMPP) No se copió `config.example.php` como `config.php`. |
-| "Error de conexión a la base de datos" | MySQL apagado, base no creada o clave incorrecta en `config.php`. En Docker: `docker compose ps` y `docker compose logs db`. |
-| Acentos como `Ã³` | La importación no fue en UTF-8: repetir con `--default-character-set=utf8mb4`. |
-| Error al subir imágenes | (XAMPP) `fileinfo` deshabilitada en `php.ini`. |
-| Docker: "port is already allocated" | Cambiar `WEB_PUERTO`, `ADMINER_PUERTO` o `DB_PUERTO` (ver Opción A). |
+| "Falta la variable de entorno DB_HOST" | Se abrió el sitio sin Docker. Levantarlo con `docker compose up -d --build`. |
+| "Error de conexión a la base de datos" | La base todavía arranca o está apagada: `docker compose ps` y `docker compose logs db`. |
+| Acentos como `Ã³` | Un `.sql` se cargó a mano sin UTF-8: repetir con `--default-character-set=utf8mb4`. |
+| Docker: "port is already allocated" | Cambiar `WEB_PUERTO`, `ADMINER_PUERTO` o `DB_PUERTO` (ver Cómo levantarlo). |
 | Adminer no muestra un cambio recién hecho | Recargar la página (F5). En la lista de tablas, la columna "Registros" es aproximada (`~`): para el número exacto, abrir la tabla. |
 | Docker: la base no tiene los cambios de los `.sql` | Los scripts solo corren con la base vacía: `docker compose down -v` y volver a levantar. |

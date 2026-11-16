@@ -1,7 +1,7 @@
 /**
  * Pruebas de js/cargar-mas.js con fetch simulado (sin servidor).
  */
-const { cargarMas, tarjetaPropiedad } = require('../js/cargar-mas.js');
+const { cargarMas, tarjetaPropiedad, tarjetaNoticia } = require('../js/cargar-mas.js');
 
 const propiedad = (id) => ({
   id, titulo: 'Depto ' + id, precio: 'USD 100.000', operacion: 'Venta', tipo: 'Departamento', barrio: 'Palermo',
@@ -76,5 +76,53 @@ describe('Seguridad de la tarjeta (CP-17)', () => {
     expect(tarjeta.querySelector('b')).toBeNull();
     expect(tarjeta.querySelectorAll('img')).toHaveLength(1);
     expect(tarjeta.textContent).toContain('<b>inyectado</b>');
+  });
+});
+
+describe('Cargar más noticias (Blog)', () => {
+  const noticia = (id) => ({
+    id, titulo: 'Noticia ' + id, resumen: 'Resumen ' + id, fecha: '21 de marzo de 2025',
+    imagen: 'imagenes/blog' + id + '.jpg', url: 'noticia.php?id=' + id,
+  });
+
+  function armarBlog() {
+    document.body.innerHTML = `
+      <ul id="mas-noticias"></ul>
+      <div class="load-more">
+        <button data-cargar-mas data-api="api/noticias.php" data-tarjeta="noticia" data-contenedor="#mas-noticias" data-offset="12" data-limite="8">Cargar más</button>
+        <p data-cargar-mas-error></p>
+      </div>`;
+    return { boton: document.querySelector('button'), lista: document.getElementById('mas-noticias') };
+  }
+
+  test('pide api/noticias.php y agrega tarjetas de noticia', async () => {
+    const { boton, lista } = armarBlog();
+    const fetchMock = jest.fn(() => respuesta({ items: [noticia(13), noticia(14)], total: 14, hayMas: false }));
+    const agregadas = await cargarMas(boton, lista, fetchMock);
+    expect(agregadas).toBe(2);
+    expect(fetchMock.mock.calls[0][0]).toMatch(/^api\/noticias\.php\?/);
+    expect(fetchMock.mock.calls[0][0]).toContain('offset=12');
+    expect(lista.querySelectorAll('li.card-item a.card-link')).toHaveLength(2);
+    expect(lista.querySelector('.card-propiedad')).toBeNull();
+    expect(boton.dataset.offset).toBe('14');
+    expect(boton.style.display).toBe('none');
+  });
+
+  test('el mensaje de error habla de noticias', async () => {
+    const { boton, lista } = armarBlog();
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    await cargarMas(boton, lista, () => respuesta({}, false, 500));
+    expect(document.querySelector('[data-cargar-mas-error]').textContent).toMatch(/noticias/);
+  });
+
+  test('la tarjeta enlaza al artículo y muestra fecha, título y resumen sin interpretar HTML', () => {
+    const n = noticia(5);
+    n.titulo = '<img src=x onerror=alert(1)>';
+    const t = tarjetaNoticia(n);
+    expect(t.querySelector('a.card-link').getAttribute('href')).toBe('noticia.php?id=5');
+    expect(t.querySelector('.badge').textContent).toBe('21 de marzo de 2025');
+    expect(t.querySelector('.card-text').textContent).toBe('Resumen 5');
+    expect(t.querySelectorAll('img')).toHaveLength(1);
+    expect(t.querySelector('.card-title').textContent).toBe('<img src=x onerror=alert(1)>');
   });
 });

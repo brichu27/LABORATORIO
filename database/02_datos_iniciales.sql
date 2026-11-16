@@ -17,18 +17,20 @@ INSERT INTO roles (id, nombre, descripcion) VALUES
 INSERT INTO tipos_propiedad (id, nombre) VALUES
  (1, 'Departamento'), (2, 'Casa'), (3, 'PH'), (4, 'Terreno'), (5, 'Oficina'), (6, 'Local comercial');
 
--- Agentes publicados en nosotros.html (telefono = el que se mostraba en pantalla)
+-- Agentes publicados en nosotros.php. Teléfonos de contacto reales del equipo:
+--   mujeres -> Brisa Paez (1152591813, el mismo del botón flotante)
+--   hombres -> repartidos entre Nicolas Fernandez (1133770817) y Patricio Monzon (1166572558)
 INSERT INTO usuarios (id, rol_id, nombre, apellido, email, telefono, cargo, foto, password_hash, activo, visible_web) VALUES
- (1,  2, 'Tomas',    'Herrera',   'viviendasub+therrera@gmail.com',   '1130662123', 'Agente inmobiliario', 'imagenes/agente1-modified.jpg',  '!', 1, 1),
+ (1,  2, 'Tomas',    'Herrera',   'viviendasub+therrera@gmail.com',   '1133770817', 'Agente inmobiliario', 'imagenes/agente1-modified.jpg',  '!', 1, 1),
  (2,  2, 'Nicolas',  'Fernandez', 'viviendasub+nfernandez@gmail.com', '1133770817', 'Agente inmobiliario', 'imagenes/agente2-modified.jpeg', '!', 1, 1),
- (3,  2, 'Mia',      'Luccia',    'viviendasub+mluccia@gmail.com',    '1134032543', 'Agente inmobiliario', 'imagenes/agente3-modified.jpg',  '!', 1, 1),
+ (3,  2, 'Mia',      'Luccia',    'viviendasub+mluccia@gmail.com',    '1152591813', 'Agente inmobiliario', 'imagenes/agente3-modified.jpg',  '!', 1, 1),
  (4,  2, 'Brisa',    'Paez',      'viviendasub+bpaez@gmail.com',      '1152591813', 'Agente inmobiliario', 'imagenes/agente4-modified.jpg',  '!', 1, 1),
  (5,  2, 'Patricio', 'Monzon',    'viviendasub+pmonzon@gmail.com',    '1166572558', 'Agente inmobiliario', 'imagenes/agente5-modified.jpg',  '!', 1, 1),
- (6,  2, 'Marisa',   'Pepe',      'viviendasub+mpepe@gmail.com',      '1165381394', 'Agente inmobiliario', 'imagenes/agente6-modified.png',  '!', 1, 1),
- (7,  2, 'Diego',    'Montt',     'viviendasub+dmontt@gmail.com',     '1163548456', 'Agente inmobiliario', 'imagenes/agente7-modified.png',  '!', 1, 1),
- (8,  2, 'Zoe',      'Bota',      'viviendasub+zbota@gmail.com',      '1165828644', 'Agente inmobiliario', 'imagenes/agente8-modified.jpg',  '!', 1, 1),
- (9,  2, 'Ciro',     'Sirio',     'viviendasub+csirio@gmail.com',     '1189015632', 'Agente inmobiliario', 'imagenes/agente9-modified.png',  '!', 1, 1),
- (10, 2, 'Alicia',   'Montari',   'viviendasub+amontari@gmail.com',   '1160559335', 'Agente inmobiliario', 'imagenes/agente10-modified.jpg', '!', 1, 1);
+ (6,  2, 'Marisa',   'Pepe',      'viviendasub+mpepe@gmail.com',      '1152591813', 'Agente inmobiliario', 'imagenes/agente6-modified.png',  '!', 1, 1),
+ (7,  2, 'Diego',    'Montt',     'viviendasub+dmontt@gmail.com',     '1166572558', 'Agente inmobiliario', 'imagenes/agente7-modified.png',  '!', 1, 1),
+ (8,  2, 'Zoe',      'Bota',      'viviendasub+zbota@gmail.com',      '1152591813', 'Agente inmobiliario', 'imagenes/agente8-modified.jpg',  '!', 1, 1),
+ (9,  2, 'Ciro',     'Sirio',     'viviendasub+csirio@gmail.com',     '1166572558', 'Agente inmobiliario', 'imagenes/agente9-modified.png',  '!', 1, 1),
+ (10, 2, 'Alicia',   'Montari',   'viviendasub+amontari@gmail.com',   '1152591813', 'Agente inmobiliario', 'imagenes/agente10-modified.jpg', '!', 1, 1);
 
 -- Propiedades publicadas en index.html / propiedades.html
 -- (tipos y operaciones variados para que funcionen los filtros: 3 alquileres en ARS, dos PH y dos casas).

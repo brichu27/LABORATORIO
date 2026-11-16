@@ -103,6 +103,47 @@ function cantidad(int $n, string $singular, string $plural): string
     return $n . ' ' . ($n === 1 ? $singular : $plural);
 }
 
+/**
+ * Pesos argentinos por 1 dólar (blue, venta), para ordenar por precio sin separar USD de ARS.
+ * Se consulta config cotizacion.url como máximo una vez por hora (archivo temporal); si la API falla o tarda
+ * más de 2 s se usa el último valor obtenido y, si nunca hubo uno, cotizacion.respaldo. Tras un fallo espera 5 minutos para reintentar.
+ */
+function cotizacion_dolar(): float
+{
+    static $valor = null;
+    if ($valor !== null) {
+        return $valor;
+    }
+    $cfg = config()['cotizacion'] ?? [];
+    $respaldo = (float) ($cfg['respaldo'] ?? 1647.37);
+    $url = (string) ($cfg['url'] ?? '');
+    $ttl = (int) ($cfg['cache_segundos'] ?? 3600);
+    $archivo = sys_get_temp_dir() . '/viviendas_ub_cotizacion.json';
+
+    $cache = is_file($archivo) ? json_decode((string) @file_get_contents($archivo), true) : null;
+    $guardado = is_array($cache) && ($cache['valor'] ?? 0) > 0 ? (float) $cache['valor'] : null;
+    $proximoIntento = is_array($cache) ? (int) ($cache['proximo_intento'] ?? 0) : 0;
+
+    if ($url === '' || time() < $proximoIntento) {
+        return $valor = $guardado ?? $respaldo;
+    }
+
+    $contexto = stream_context_create(['http' => ['timeout' => 2, 'ignore_errors' => true, 'header' => "Accept: application/json
+"]]);
+    $json = json_decode((string) @file_get_contents($url, false, $contexto), true);
+    $venta = is_array($json) && is_numeric($json['venta'] ?? null) ? (float) $json['venta'] : 0.0;
+
+    if ($venta > 0) {
+        $valor = $venta;
+        $siguiente = time() + $ttl;
+    } else {
+        $valor = $guardado ?? $respaldo;
+        $siguiente = time() + 300;
+    }
+    @file_put_contents($archivo, json_encode(['valor' => $valor, 'obtenido' => $venta > 0 ? date('c') : ($cache['obtenido'] ?? null), 'proximo_intento' => $siguiente]), LOCK_EX);
+    return $valor;
+}
+
 /** Arma un enlace de WhatsApp valido a partir de un telefono argentino (10 digitos con codigo de area). */
 function wa_link(string $telefono, string $texto = 'Hola, quisiera hacer una consulta.'): string
 {
@@ -113,13 +154,56 @@ function wa_link(string $telefono, string $texto = 'Hola, quisiera hacer una con
     return 'https://wa.me/' . $digitos . '?text=' . rawurlencode($texto);
 }
 
+/** Celular argentino en formato internacional: 1152591813 => "+54 9 11 5259-1813". */
 function tel_formato(?string $telefono): string
 {
     $d = preg_replace('/\D/', '', (string) $telefono) ?? '';
     if (strlen($d) === 10) {
-        return '+54 ' . substr($d, 0, 2) . ' ' . substr($d, 2, 4) . '-' . substr($d, 6);
+        return '+54 9 ' . substr($d, 0, 2) . ' ' . substr($d, 2, 4) . '-' . substr($d, 6);
     }
     return (string) $telefono;
+}
+
+/**
+ * Mensaje sugerido de WhatsApp según la sección del sitio desde la que se escribe
+ * (botón flotante y teléfonos del pie). Una página puede definir $mensajeWhatsapp antes del footer para uno propio.
+ */
+function mensaje_whatsapp(string $pagina): string
+{
+    return match ($pagina) {
+        'index'       => 'Hola Viviendas UB, vi su sitio y quisiera hacer una consulta.',
+        'propiedades' => 'Hola Viviendas UB, estoy viendo las propiedades publicadas y quisiera más información.',
+        'tasaciones'  => 'Hola Viviendas UB, quisiera solicitar la tasación de mi propiedad.',
+        'contacto'    => 'Hola Viviendas UB, me interesa sumarme al equipo de agentes.',
+        'nosotros'    => 'Hola Viviendas UB, quisiera hablar con uno de sus agentes.',
+        'blog'        => 'Hola Viviendas UB, leí su blog y quisiera hacer una consulta.',
+        default       => 'Hola Viviendas UB, quisiera hacer una consulta.',
+    };
+}
+
+/** Mensaje para responderle por WhatsApp a quien dejó una consulta, tasación o postulación (panel). */
+function mensaje_whatsapp_respuesta(string $tipo, array $fila): string
+{
+    $saludo = 'Hola ' . $fila['nombre'] . ', te escribo de Viviendas UB ';
+    return match ($tipo) {
+        'consultas'  => $saludo . 'por tu consulta sobre la propiedad "' . $fila['propiedad'] . '".',
+        'tasaciones' => $saludo . 'por tu pedido de tasación de ' . $fila['direccion_inmueble'] . '.',
+        default      => $saludo . 'por tu postulación para sumarte como agente.',
+    };
+}
+
+/**
+ * Botón que copia un email al portapapeles (js/copiar-email.js).
+ * Reemplaza a los enlaces mailto:, que no hacen nada si el navegador no tiene un programa de correo configurado.
+ */
+function boton_copiar_email(string $email, string $clase = '', bool $conTexto = true, string $icono = 'fas fa-envelope', string $etiqueta = ''): string
+{
+    $etiqueta = $etiqueta !== '' ? $etiqueta : 'Copiar el email ' . $email;
+    return '<button type="button" class="copiar-email' . ($clase !== '' ? ' ' . e($clase) : '') . '"'
+        . ' data-copiar="' . e($email) . '" title="Copiar ' . e($email) . '" aria-label="' . e($etiqueta) . '">'
+        . '<i class="' . e($icono) . '" aria-hidden="true"></i>'
+        . ($conTexto ? ' <span>' . e($email) . '</span>' : '')
+        . '</button>';
 }
 
 function precio_formato($precio, string $moneda, string $operacion = ''): string
@@ -143,7 +227,8 @@ function img_src(?string $ruta, string $prefijo = ''): string
 /**
  * Renderiza el contenido de una noticia guardado como texto plano:
  *  - bloques separados por linea en blanco
- *  - "## Titulo" => subtitulo, lineas "- item" => lista, resto => parrafo
+ *  - "## Titulo" => subtitulo <h2> (el <h1> es el título de la noticia), lineas "- item" => lista, resto => parrafo
+ *  - un item que termina en ":" funciona como título corto y va en negrita (clase "lista")
  * Todo se escapa: no se guarda HTML en la base (evita XSS).
  */
 function render_contenido(string $texto): string
@@ -156,7 +241,7 @@ function render_contenido(string $texto): string
             continue;
         }
         if (strpos($bloque, '## ') === 0) {
-            $html .= '<h4>' . e(substr($bloque, 3)) . '</h4>';
+            $html .= '<h2>' . e(substr($bloque, 3)) . '</h2>';
             continue;
         }
         $lineas = preg_split('/\R/u', $bloque) ?: [];
@@ -164,7 +249,8 @@ function render_contenido(string $texto): string
         if ($esLista) {
             $html .= '<ul>';
             foreach ($lineas as $l) {
-                $html .= '<li class="lista">' . e(substr(ltrim($l), 2)) . '</li>';
+                $item = trim(substr(ltrim($l), 2));
+                $html .= '<li' . (str_ends_with($item, ':') ? ' class="lista"' : '') . '>' . e($item) . '</li>';
             }
             $html .= '</ul>';
         } else {
@@ -172,6 +258,13 @@ function render_contenido(string $texto): string
         }
     }
     return $html;
+}
+
+/** Minutos de lectura estimados de un texto (unas 200 palabras por minuto; como mínimo 1). */
+function minutos_lectura(string $texto): int
+{
+    $palabras = count(preg_split('/\s+/u', trim(str_replace('## ', '', $texto)), -1, PREG_SPLIT_NO_EMPTY) ?: []);
+    return max(1, (int) ceil($palabras / 200));
 }
 
 /** Valor anterior de un campo (para re-mostrar el formulario con errores). */
@@ -189,7 +282,7 @@ function error_campo(array $errores, string $campo): string
 /* --------------------- Panel: búsqueda y filtros ----------------- */
 /**
  * Condición de búsqueda libre: (col1 LIKE :b0 OR col2 LIKE :b1 ...), con sus parámetros agregados a $params.
- * Los teléfonos se comparan sin espacios ni guiones contra los dígitos del texto buscado ("11 5515" encuentra "+54 11 55151981").
+ * Los teléfonos se comparan sin espacios ni guiones contra los dígitos del texto buscado ("11 5259" encuentra "1152591813").
  */
 function sql_busqueda(string $q, array $columnas, array $columnasTelefono, array &$params): string
 {

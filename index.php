@@ -108,14 +108,7 @@ $tipos      = tipos_propiedad();
         <div class="card-wrapper">
             <ul class="card-list swiper-wrapper">
                 <?php foreach ($noticias as $n): ?>
-                    <li class="card-item swiper-slide">
-                        <a href="noticia.php?id=<?= (int) $n['id'] ?>" class="card-link">
-                            <img src="<?= e(img_src($n['imagen'])) ?>" alt="" class="card-image" width="1200" height="1200" loading="lazy">
-                            <p class="badge"><?= e(fecha_formato($n['fecha_publicacion'])) ?></p>
-                            <h3 class="card-title"><?= e($n['titulo']) ?></h3>
-                            <p class="card-text"><?= e($n['resumen']) ?></p>
-                        </a>
-                    </li>
+                    <?= render_tarjeta_noticia($n, true) ?>
                 <?php endforeach; ?>
             </ul>
             <div class="swiper-pagination"></div>

@@ -6,11 +6,15 @@ require_once __DIR__ . '/funciones.php';
 /* Capa de acceso a datos: todas las consultas son preparadas. */
 
 const OPERACIONES = ['VENTA', 'ALQUILER'];
-/** Órdenes del listado público. Con "precio" se agrupa por moneda (USD primero) para no mezclar USD con ARS. */
+/**
+ * Órdenes del listado público. Por precio se compara todo en pesos: los precios en USD se multiplican
+ * por la cotización del dólar (:cotizacion, ver cotizacion_dolar()). En pantalla cada precio sigue en su moneda.
+ */
+const SQL_PRECIO_EN_PESOS = "CASE WHEN p.moneda = 'USD' THEN p.precio * :cotizacion ELSE p.precio END";
 const ORDENES = [
     'recientes'   => ['Más recientes', 'p.destacada DESC, p.creado_en DESC, p.id DESC'],
-    'precio_asc'  => ['Menor precio', "p.moneda = 'ARS', p.precio ASC, p.id DESC"],
-    'precio_desc' => ['Mayor precio', "p.moneda = 'ARS', p.precio DESC, p.id DESC"],
+    'precio_asc'  => ['Menor precio', SQL_PRECIO_EN_PESOS . ' ASC, p.id DESC'],
+    'precio_desc' => ['Mayor precio', SQL_PRECIO_EN_PESOS . ' DESC, p.id DESC'],
 ];
 const ESTADOS_PROPIEDAD = ['DISPONIBLE', 'RESERVADA', 'VENDIDA', 'ALQUILADA', 'INACTIVA'];
 
@@ -57,6 +61,9 @@ function propiedades_listar(array $filtros, int $offset, int $limite): array
     }
     $st->bindValue(':limite', max(1, min($limite, 24)), PDO::PARAM_INT);
     $st->bindValue(':offset', max(0, $offset), PDO::PARAM_INT);
+    if (str_contains($orden, ':cotizacion')) {
+        $st->bindValue(':cotizacion', (string) cotizacion_dolar());   // texto: DECIMAL exacto en MariaDB
+    }
     $st->execute();
     return $st->fetchAll();
 }
@@ -115,22 +122,47 @@ function agentes_activos(): array
     return db()->query('SELECT id, nombre, apellido FROM usuarios WHERE activo = 1 ORDER BY apellido, nombre')->fetchAll();
 }
 
-function noticias_publicadas(int $limite = 10, int $excluirId = 0): array
+const SQL_NOTICIA_PUBLICADA = 'publicada = 1 AND fecha_publicacion <= CURDATE()';
+
+/** Noticias publicadas, de la más reciente a la más vieja. $offset permite paginar (Blog: "Cargar más"). */
+function noticias_publicadas(int $limite = 10, int $excluirId = 0, int $offset = 0): array
 {
     $st = db()->prepare('SELECT id, titulo, resumen, imagen, fecha_publicacion
                            FROM noticias
-                          WHERE publicada = 1 AND fecha_publicacion <= CURDATE() AND id <> :excluir
+                          WHERE ' . SQL_NOTICIA_PUBLICADA . ' AND id <> :excluir
                           ORDER BY fecha_publicacion DESC, id DESC
-                          LIMIT :limite');
+                          LIMIT :limite OFFSET :offset');
     $st->bindValue(':excluir', $excluirId, PDO::PARAM_INT);
-    $st->bindValue(':limite', $limite, PDO::PARAM_INT);
+    $st->bindValue(':limite', max(1, $limite), PDO::PARAM_INT);
+    $st->bindValue(':offset', max(0, $offset), PDO::PARAM_INT);
     $st->execute();
     return $st->fetchAll();
 }
 
+function noticias_contar(): int
+{
+    return (int) db()->query('SELECT COUNT(*) FROM noticias WHERE ' . SQL_NOTICIA_PUBLICADA)->fetchColumn();
+}
+
+/** Datos de una noticia para la API JSON (los mismos que muestra la tarjeta del blog). */
+function noticia_publica(array $n): array
+{
+    return [
+        'id'      => (int) $n['id'],
+        'titulo'  => $n['titulo'],
+        'resumen' => $n['resumen'],
+        'fecha'   => fecha_formato($n['fecha_publicacion']),
+        'imagen'  => img_src($n['imagen'] ?? null),
+        'url'     => 'noticia.php?id=' . (int) $n['id'],
+    ];
+}
+
 function noticia_obtener(int $id, bool $soloPublicada = true): ?array
 {
-    $sql = 'SELECT * FROM noticias WHERE id = ?' . ($soloPublicada ? ' AND publicada = 1 AND fecha_publicacion <= CURDATE()' : '');
+    // Con el nombre del autor para el artículo (NULL si no tiene o si su usuario se borró)
+    $sql = 'SELECT n.*, u.nombre AS autor_nombre, u.apellido AS autor_apellido
+              FROM noticias n LEFT JOIN usuarios u ON u.id = n.autor_id
+             WHERE n.id = ?' . ($soloPublicada ? ' AND n.publicada = 1 AND n.fecha_publicacion <= CURDATE()' : '');
     $st = db()->prepare($sql);
     $st->execute([$id]);
     return $st->fetch() ?: null;
@@ -180,4 +212,19 @@ function render_tarjeta_propiedad(array $p): string
         . '<li><i class="fa-solid fa-bath" aria-hidden="true"></i> ' . e($banos) . '</li>'
         . '<li><i class="fa-solid fa-ruler-combined" aria-hidden="true"></i> ' . e((string) round($d['superficie'])) . ' m²</li>'
         . '</ul></div></a></article>';
+}
+
+/**
+ * Tarjeta HTML de noticia (misma estructura que genera js/cargar-mas.js). Toda la tarjeta es un enlace al artículo.
+ * $slide = true la prepara para los carruseles de Swiper (inicio, Blog y "Otras noticias").
+ */
+function render_tarjeta_noticia(array $n, bool $slide = false): string
+{
+    $d = noticia_publica($n);
+    return '<li class="card-item' . ($slide ? ' swiper-slide' : '') . '"><a href="' . e($d['url']) . '" class="card-link">'
+        . '<img src="' . e($d['imagen']) . '" alt="" class="card-image" width="1200" height="1200" loading="lazy">'
+        . '<p class="badge">' . e($d['fecha']) . '</p>'
+        . '<h3 class="card-title">' . e($d['titulo']) . '</h3>'
+        . '<p class="card-text">' . e($d['resumen']) . '</p>'
+        . '</a></li>';
 }

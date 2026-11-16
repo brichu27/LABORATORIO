@@ -74,7 +74,7 @@ $empresa = config()['empresa'];
 
         <article class="legal__articulo" id="contacto">
             <h2><span class="legal__articulo-num">9</span> Contacto</h2>
-            <p>Por dudas sobre estos términos, escribinos a <a href="mailto:<?= e($empresa['email']) ?>"><?= e($empresa['email']) ?></a>.</p>
+            <p>Por dudas sobre estos términos, escribinos a <?= boton_copiar_email($empresa['email'], 'copiar-email--enlace', true, 'far fa-copy') ?>.</p>
         </article>
     </div>
 </section>

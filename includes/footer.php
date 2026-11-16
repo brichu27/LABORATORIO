@@ -2,6 +2,8 @@
 declare(strict_types=1);
 $empresa = config()['empresa'];
 $redes = array_filter($empresa['redes'] ?? [], fn($url) => is_string($url) && $url !== '');
+// Mensaje de WhatsApp según la sección (la página puede traer uno propio, p. ej. la ficha de una propiedad)
+$mensajeWhatsapp = $mensajeWhatsapp ?? mensaje_whatsapp($paginaActiva ?? '');
 $iconosRedes = [
     'facebook'  => ['fab fa-facebook-f', 'Facebook'],
     'instagram' => ['fa-brands fa-instagram', 'Instagram'],
@@ -30,9 +32,9 @@ $iconosRedes = [
         <div class="box">
             <h3>Contactos</h3>
             <?php foreach ($empresa['telefonos'] as $tel): ?>
-                <a href="<?= e(wa_link($tel)) ?>" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> <?= e(tel_formato($tel)) ?></a>
+                <a href="<?= e(wa_link($tel, $mensajeWhatsapp)) ?>" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> <?= e(tel_formato($tel)) ?></a>
             <?php endforeach; ?>
-            <a href="mailto:<?= e($empresa['email']) ?>" class="sin-capitalizar"><i class="fas fa-envelope"></i> <?= e($empresa['email']) ?></a>
+            <?= boton_copiar_email($empresa['email']) ?>
             <a href="<?= e($empresa['maps_url']) ?>" target="_blank" rel="noopener"><i class="fa-solid fa-location-dot"></i> <?= e($empresa['direccion']) ?></a>
         </div>
         <?php if ($redes): ?>
@@ -48,12 +50,13 @@ $iconosRedes = [
 </section>
 <?php $whatsapp = $empresa['whatsapp'] ?? $empresa['telefonos'][0] ?? ''; ?>
 <?php if ($whatsapp !== ''): ?>
-<a class="whatsapp-flotante" href="<?= e(wa_link($whatsapp)) ?>" target="_blank" rel="noopener"
+<a class="whatsapp-flotante" href="<?= e(wa_link($whatsapp, $mensajeWhatsapp)) ?>" target="_blank" rel="noopener"
    aria-label="Escribinos por WhatsApp: <?= e(tel_formato($whatsapp)) ?>"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
 <?php endif; ?>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="js/validaciones.js"></script>
 <script src="js/cargar-mas.js"></script>
 <script src="js/script.js"></script>
+<script src="js/copiar-email.js"></script>
 </body>
 </html>

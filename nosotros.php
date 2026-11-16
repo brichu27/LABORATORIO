@@ -33,9 +33,9 @@ $agentes = agentes_visibles();
                         <h3 class="agente__nombre"><?= e($a['nombre'] . ' ' . $a['apellido']) ?></h3>
                         <p class="agente__cargo"><?= e($a['cargo']) ?></p>
                         <div class="agente__contacto">
-                            <a class="agente__boton" href="mailto:<?= e($a['email']) ?>" title="<?= e($a['email']) ?>" aria-label="Enviar un email a <?= e($a['nombre']) ?> (<?= e($a['email']) ?>)"><i class="fas fa-envelope" aria-hidden="true"></i></a>
+                            <?= boton_copiar_email($a['email'], 'agente__boton', false, 'fas fa-envelope', 'Copiar el email de ' . $a['nombre'] . ' (' . $a['email'] . ')') ?>
                             <?php if (!empty($a['telefono'])): ?>
-                                <a class="agente__boton agente__boton--wa" href="<?= e(wa_link($a['telefono'], 'Hola ' . $a['nombre'] . ', quisiera hacer una consulta.')) ?>" target="_blank" rel="noopener" aria-label="WhatsApp de <?= e($a['nombre']) ?>: <?= e(tel_formato($a['telefono'])) ?>"><i class="fab fa-whatsapp" aria-hidden="true"></i> <?= e(tel_formato($a['telefono'])) ?></a>
+                                <a class="agente__boton agente__boton--wa" href="<?= e(wa_link($a['telefono'], 'Hola ' . $a['nombre'] . ', vi tu perfil en Viviendas UB y quisiera hacer una consulta.')) ?>" target="_blank" rel="noopener" aria-label="WhatsApp de <?= e($a['nombre']) ?>: <?= e(tel_formato($a['telefono'])) ?>"><i class="fab fa-whatsapp" aria-hidden="true"></i> <?= e(tel_formato($a['telefono'])) ?></a>
                             <?php endif; ?>
                         </div>
                     </article>

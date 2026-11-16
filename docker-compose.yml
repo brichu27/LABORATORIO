@@ -34,9 +34,7 @@ services:
       DB_PASS: viviendas
       APP_DEBUG: 1
     volumes:
-      - ./:/var/www/html
-      # En Docker se usa config.example.php (lee las variables de arriba), sin pisar el config.php local
-      - ./config/config.example.php:/var/www/html/config/config.php:ro
+      - ./:/var/www/html   # config/config.php lee la conexion de las variables de arriba
     ports:
       - "${WEB_PUERTO:-8080}:80"
     depends_on:

@@ -59,6 +59,10 @@ $titulo = $propiedad['titulo'];
 $paginaActiva = 'propiedades';
 require __DIR__ . '/includes/header.php';
 $direccionCompleta = $propiedad['direccion'] . ', ' . $propiedad['barrio'] . ', ' . $propiedad['ciudad'];
+// WhatsApp (agente responsable y botón flotante): consulta por esta propiedad puntual
+$consultaPropiedad = 'me interesa la propiedad de ' . $propiedad['direccion'] . ', ' . $propiedad['barrio']
+    . ' (' . strtolower($propiedad['operacion']) . ', código #' . (int) $propiedad['id'] . ') que vi en Viviendas UB. ¿Sigue disponible?';
+$mensajeWhatsapp = 'Hola Viviendas UB, ' . $consultaPropiedad;
 ?>
 <section class="detalle-propiedad">
     <a href="propiedades.php" class="volver"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Volver al listado</a>
@@ -124,9 +128,9 @@ $direccionCompleta = $propiedad['direccion'] . ', ' . $propiedad['barrio'] . ', 
                     <div>
                         <span class="agente-mini__rol">Agente responsable</span>
                         <strong><?= e($propiedad['agente_nombre'] . ' ' . $propiedad['agente_apellido']) ?></strong>
-                        <a href="mailto:<?= e($propiedad['agente_email']) ?>"><i class="fas fa-envelope" aria-hidden="true"></i> <?= e($propiedad['agente_email']) ?></a>
+                        <?= boton_copiar_email($propiedad['agente_email']) ?>
                         <?php if (!empty($propiedad['agente_telefono'])): ?>
-                            <a href="<?= e(wa_link($propiedad['agente_telefono'], 'Hola, me interesa la propiedad de ' . $propiedad['direccion'])) ?>" target="_blank" rel="noopener"><i class="fab fa-whatsapp" aria-hidden="true"></i> <?= e(tel_formato($propiedad['agente_telefono'])) ?></a>
+                            <a href="<?= e(wa_link($propiedad['agente_telefono'], 'Hola ' . $propiedad['agente_nombre'] . ', ' . $consultaPropiedad)) ?>" target="_blank" rel="noopener"><i class="fab fa-whatsapp" aria-hidden="true"></i> <?= e(tel_formato($propiedad['agente_telefono'])) ?></a>
                         <?php endif; ?>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 $titulo = 'Preguntas frecuentes';
+$mensajeWhatsapp = 'Hola Viviendas UB, tengo una consulta que no encontré en las preguntas frecuentes.';
 $paginaActiva = '';
 require __DIR__ . '/includes/header.php';
 ?>

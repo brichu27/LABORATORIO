@@ -567,6 +567,58 @@ a {
     text-decoration: none;
 }
 
+/* Botón "copiar email" (js/copiar-email.js): se ve como los enlaces de la celda */
+.copiar-email {
+    position: relative;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: var(--azul);
+    text-align: left;
+    cursor: pointer;
+}
+
+.celda-contacto .copiar-email {
+    display: block;
+    white-space: nowrap;
+    margin-top: 2px;
+    font-size: 13px;
+}
+
+.copiar-email:hover {
+    text-decoration: underline;
+}
+
+.copiar-email[data-aviso]::after {
+    content: attr(data-aviso);
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 4px);
+    z-index: 20;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--texto);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.copiar-email.copiado[data-aviso]::after {
+    background: var(--exito, #1a7f37);
+}
+
+.copiar-email__anuncio {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
 .celda-contacto a:hover,
 .enlace-propiedad:hover {
     text-decoration: underline;

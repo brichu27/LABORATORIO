@@ -122,8 +122,8 @@ require __DIR__ . '/../includes/admin_header.php';
             </td>
             <td class="celda-contacto">
                 <strong><?= e($f['nombre']) ?></strong>
-                <a href="mailto:<?= e($f['email']) ?>"><i class="fa-regular fa-envelope" aria-hidden="true"></i> <?= e($f['email']) ?></a>
-                <a href="<?= e(wa_link($f['telefono'])) ?>" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> <?= e(tel_formato($f['telefono'])) ?></a>
+                <?= boton_copiar_email($f['email'], '', true, 'fa-regular fa-envelope') ?>
+                <a href="<?= e(wa_link($f['telefono'], mensaje_whatsapp_respuesta($tipo, $f))) ?>" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> <?= e(tel_formato($f['telefono'])) ?></a>
             </td>
             <td class="celda-detalle">
                 <?php if ($tipo === 'consultas'): ?>

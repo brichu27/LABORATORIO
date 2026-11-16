@@ -1,6 +1,3 @@
-# Configuracion local con credenciales (se versiona config/config.example.php)
-config/config.php
-
 # Dependencias y reportes
 node_modules/
 coverage/

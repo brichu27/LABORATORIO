@@ -449,51 +449,95 @@ section {
     line-height: 2;
 }
 
-.noticia {
-    font-size: 2rem;
-    text-align: justify;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 2;
+/* Artículo del blog: columna de lectura de ~70 caracteres por renglón, texto alineado a la izquierda */
+.noticia__articulo {
+    max-width: 68rem;
+    margin: 0 auto;
+    text-align: left;
+    line-height: 1.8;
+}
+
+.noticia__volver {
+    display: inline-flex;
+    align-items: center;
+    gap: .8rem;
+    font-size: var(--fs-etiqueta);
+    font-weight: 600;
+    color: var(--azul);
+    text-transform: none;
+    margin-bottom: var(--esp-3);
+}
+
+.noticia__volver:hover,
+.noticia__volver:focus-visible {
+    text-decoration: underline;
 }
 
 .noticia h1 {
     text-align: left;
-    font-size: clamp(2.8rem, 3.2vw, 3.6rem);
+    font-size: clamp(2.8rem, 3.2vw, 4rem);
+    line-height: 1.2;
+    text-transform: none;
+    margin-bottom: var(--esp-2);
+}
+
+.noticia .noticia__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem 1.6rem;
+    font-size: var(--fs-etiqueta);
+    color: var(--texto-suave);
+    padding-bottom: var(--esp-3);
+    text-transform: none;
+}
+
+.noticia__meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+}
+
+.noticia__imagen {
+    margin: 0 0 var(--esp-4);
+}
+
+/* Imagen apaisada: antes era cuadrada y ocupaba todo el primer pantallazo */
+.noticia__imagen img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radio-md);
 }
 
 .noticia p {
-    font-size: 1.7rem;
     padding-bottom: 1.5rem;
 }
 
-.noticia .text h4 {
-    padding-top: 3rem;
-    padding-bottom: 1.5rem;
+.noticia .text h2 {
+    padding-top: var(--esp-4);
+    padding-bottom: 1rem;
     text-transform: none;
-    font-size: 2.2rem;
+    font-size: clamp(2rem, 1.6rem + .6vw, 2.4rem);
+    line-height: 1.3;
+    color: var(--texto-fuerte);
 }
 
 .noticia .text p {
-    font-size: 1.7rem;
     text-transform: none;
 }
 
 .noticia .text li {
-    font-size: 2rem;
     text-transform: none;
+    padding-bottom: .6rem;
 }
 
+/* Ítem que funciona como título corto ("- Acompañamiento Continuo:") */
 .noticia .text .lista {
-    font-size: 2rem;
     text-transform: none;
     font-weight: bold;
-}
-
-.noticia .image {
-    display: flex;
-    flex-direction: column;
+    list-style: none;
+    margin-left: -2rem;
 }
 
 .tasacion {
@@ -719,7 +763,6 @@ section {
    ===================================================================== */
 
 /* La plantilla aplica text-transform: capitalize a todo (*); los emails y campos lo anulan ("Viviendasub@Gmail.Com") */
-a[href^="mailto:"],
 .sin-capitalizar,
 input,
 textarea,
@@ -729,6 +772,92 @@ select,
 .card-text,
 .descripcion {
     text-transform: none;
+}
+
+/* Botón "copiar email" (js/copiar-email.js): reemplaza a los mailto:. Se ve como el texto que lo rodea */
+.copiar-email {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    text-transform: none;
+    cursor: pointer;
+}
+
+.copiar-email--enlace {
+    display: inline;
+    color: var(--azul);
+    text-decoration: underline;
+}
+
+.copiar-email--enlace i {
+    margin-left: .4rem;
+    font-size: .9em;
+}
+
+/* Aviso "¡Email copiado!" sobre el botón */
+.copiar-email[data-aviso]::after {
+    content: attr(data-aviso);
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + .6rem);
+    z-index: 20;
+    padding: .4rem 1rem;
+    border-radius: var(--radio-pill);
+    background: var(--texto);
+    color: var(--blanco);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+    text-decoration: none;
+    pointer-events: none;
+}
+
+.copiar-email.copiado[data-aviso]::after {
+    background: var(--exito);
+}
+
+.copiar-email__anuncio {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+.footer .box-container .box .copiar-email {
+    display: block;
+    padding-bottom: 1.5rem;
+    color: var(--blanco-suave);
+    font-size: 1.45rem;
+}
+
+.footer .box-container .box .copiar-email i {
+    color: var(--rojo);
+    padding-right: .5rem;
+    transition: .2s linear;
+}
+
+.footer .box-container .box .copiar-email:hover i {
+    padding-right: 2rem;
+}
+
+.agente-mini .copiar-email {
+    color: var(--texto);
+    overflow-wrap: anywhere;
+}
+
+.detalle__resumen .agente-mini .copiar-email {
+    font-size: 1.35rem;
+    word-break: break-all;
 }
 
 /* Navegacion activa */
@@ -915,15 +1044,53 @@ select,
     border-radius: var(--radio-md);
 }
 
-/* Blog en grilla */
-.grilla-noticias {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(30rem, 100%), 1fr));
-    gap: 2rem;
-}
-
 .noticia .text ul {
     padding-left: 2rem;
+}
+
+/* Blog: "Más noticias" debajo del carrusel, en grilla con "Cargar más" (1, 2, 3 o 4 por fila según el ancho).
+   Mismo ancho que el carrusel de arriba (.card-wrapper: 1500px como máximo y 60px de margen a los costados). */
+.blog--archivo {
+    padding-top: 0;
+}
+
+.grilla-noticias {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    max-width: 1500px;
+    margin: 0 60px;
+    padding: 20px 10px;
+}
+
+@media (max-width: 768px) {
+    .grilla-noticias {
+        margin: 0 10px;
+    }
+}
+
+@media (min-width: 640px) {
+    .grilla-noticias {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .grilla-noticias {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* 4 por fila recién desde 1400px: antes las tarjetas quedan más angostas que las del carrusel y la fecha se parte */
+@media (min-width: 1400px) {
+    .grilla-noticias {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+/* Todas las tarjetas de una fila con el mismo alto */
+.grilla-noticias .card-item .card-link {
+    height: 100%;
 }
 
 /* =====================================================================
@@ -1328,6 +1495,16 @@ body {
     font-size: 1.6rem;
 }
 
+/* Banner más bajo en el artículo: el título de la nota tiene que verse sin bajar */
+.heading.heading--compacto {
+    padding-top: clamp(3.5rem, 5vw, 6rem);
+    padding-bottom: clamp(3.5rem, 5vw, 6rem);
+}
+
+.heading.heading--compacto .titulo-banner {
+    font-size: clamp(3rem, 4vw, 4.4rem);
+}
+
 /* Banner que no es el <h1> de la página (noticia), con el mismo aspecto */
 .heading .titulo-banner {
     font-size: clamp(3.6rem, 5.5vw, 6rem);
@@ -1365,24 +1542,6 @@ body {
 .properties .box-container {
     grid-template-columns: repeat(auto-fill, minmax(min(28rem, 100%), 1fr));
     gap: var(--esp-3);
-}
-
-/* Inicio: las 4 destacadas siempre en filas completas (1, 2 o 4 columnas, nunca 3).
-   4 en fila solo desde 1600px: antes la tarjeta mide menos de 300px y los datos se parten en dos renglones. */
-.home-property .box-container {
-    grid-template-columns: 1fr;
-}
-
-@media (min-width: 640px) {
-    .home-property .box-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (min-width: 1600px) {
-    .home-property .box-container {
-        grid-template-columns: repeat(4, 1fr);
-    }
 }
 
 .card-propiedad {

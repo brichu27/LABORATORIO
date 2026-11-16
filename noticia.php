@@ -9,25 +9,39 @@ if ($noticia === null) {
 }
 $titulo = $noticia['titulo'] ?? 'Noticia no encontrada';
 $paginaActiva = 'blog';
+if ($noticia !== null) {
+    $mensajeWhatsapp = 'Hola Viviendas UB, leí la nota "' . $noticia['titulo'] . '" en su blog y quisiera hacer una consulta.';
+}
 require __DIR__ . '/includes/header.php';
 $otras = noticias_publicadas(6, $id);
 ?>
-<div class="heading" style="background-image: url(imagenes/heading4.jpg)">
+<div class="heading heading--compacto" style="background-image: url(imagenes/heading4.jpg)">
     <p class="titulo-banner">Blog</p>
 </div>
 
 <section class="noticia">
+<article class="noticia__articulo">
+    <a href="blog.php" class="noticia__volver"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Volver al blog</a>
 <?php if ($noticia === null): ?>
     <h1>Noticia no encontrada</h1>
-    <p>La noticia no existe o no está publicada. <a href="blog.php">Volver al blog</a>.</p>
+    <p>La noticia no existe o no está publicada.</p>
 <?php else: ?>
+    <?php
+    $autor = trim(($noticia['autor_nombre'] ?? '') . ' ' . ($noticia['autor_apellido'] ?? ''));
+    $minutos = minutos_lectura($noticia['contenido']);
+    ?>
     <h1><?= e($noticia['titulo']) ?></h1>
-    <p><?= e(fecha_formato($noticia['fecha_publicacion'])) ?></p>
+    <p class="noticia__meta">
+        <span><i class="fa-regular fa-calendar" aria-hidden="true"></i> <time datetime="<?= e($noticia['fecha_publicacion']) ?>"><?= e(fecha_formato($noticia['fecha_publicacion'])) ?></time></span>
+        <span><i class="fa-regular fa-user" aria-hidden="true"></i> <?= e($autor !== '' ? $autor : 'Equipo Viviendas UB') ?></span>
+        <span><i class="fa-regular fa-clock" aria-hidden="true"></i> <?= $minutos ?> min de lectura</span>
+    </p>
     <?php if (!empty($noticia['imagen'])): ?>
-        <div class="image"><img src="<?= e($noticia['imagen']) ?>" alt="" width="1200" height="1200"></div>
+        <figure class="noticia__imagen"><img src="<?= e(img_src($noticia['imagen'])) ?>" alt="" width="1200" height="675"></figure>
     <?php endif; ?>
     <div class="text"><?= render_contenido($noticia['contenido']) ?></div>
 <?php endif; ?>
+</article>
 </section>
 
 <?php if ($otras): ?>
@@ -37,14 +51,7 @@ $otras = noticias_publicadas(6, $id);
         <div class="card-wrapper">
             <ul class="card-list swiper-wrapper">
                 <?php foreach ($otras as $n): ?>
-                    <li class="card-item swiper-slide">
-                        <a href="noticia.php?id=<?= (int) $n['id'] ?>" class="card-link">
-                            <img src="<?= e(img_src($n['imagen'])) ?>" alt="" class="card-image" width="1200" height="1200" loading="lazy">
-                            <p class="badge"><?= e(fecha_formato($n['fecha_publicacion'])) ?></p>
-                            <h3 class="card-title"><?= e($n['titulo']) ?></h3>
-                            <p class="card-text"><?= e($n['resumen']) ?></p>
-                        </a>
-                    </li>
+                    <?= render_tarjeta_noticia($n, true) ?>
                 <?php endforeach; ?>
             </ul>
             <div class="swiper-pagination"></div>

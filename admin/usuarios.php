@@ -30,8 +30,8 @@ require __DIR__ . '/../includes/admin_header.php';
             <td><img src="<?= e(img_src($u['foto'], '../')) ?>" alt="" class="miniatura redonda"></td>
             <td class="celda-titulo"><?= e($u['apellido'] . ', ' . $u['nombre']) ?></td>
             <td class="celda-contacto">
-                <a href="mailto:<?= e($u['email']) ?>"><i class="fa-regular fa-envelope" aria-hidden="true"></i> <?= e($u['email']) ?></a>
-                <?php if ($u['telefono']): ?><span class="dato-secundario"><i class="fa-solid fa-phone" aria-hidden="true"></i> <?= e(tel_formato($u['telefono'])) ?></span><?php endif; ?>
+                <?= boton_copiar_email($u['email'], '', true, 'fa-regular fa-envelope') ?>
+                <?php if ($u['telefono']): ?><a href="<?= e(wa_link($u['telefono'], 'Hola ' . $u['nombre'] . ', te escribo desde el panel de Viviendas UB.')) ?>" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> <?= e(tel_formato($u['telefono'])) ?></a><?php endif; ?>
             </td>
             <td><?= e($u['rol']) ?></td>
             <td><?= $u['visible_web'] ? 'Visible' : 'Oculto' ?></td>

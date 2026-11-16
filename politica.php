@@ -3,6 +3,7 @@ declare(strict_types=1);
 $titulo = 'Política de privacidad';
 $paginaActiva = '';
 require __DIR__ . '/includes/header.php';
+$emailContacto = config()['empresa']['email'];
 ?>
 <!--texto en header -->
 
@@ -57,7 +58,7 @@ require __DIR__ . '/includes/header.php';
             <ul class="legal__lista">
                 <li>i. Conservar las búsquedas o filtros aplicados en el Sitio Web;</li>
                 <li>ii. Almacenar las propiedades que sean clasificadas como favoritos por el Usuario;</li>
-                <li>iii. Enviar a sus Usuarios, notificaciones, noticias y novedades de su interés, además de aquellas que revistan el carácter de notificaciones de índole institucional o legal. El Usuario tendrá la posibilidad de cancelar dichas notificaciones enviando un correo electrónico a la dirección atencion@viviendasub.com.ar con el asunto “Cancelar notificaciones”.</li>
+                <li>iii. Enviar a sus Usuarios, notificaciones, noticias y novedades de su interés, además de aquellas que revistan el carácter de notificaciones de índole institucional o legal. El Usuario tendrá la posibilidad de cancelar dichas notificaciones enviando un correo electrónico a la dirección <?= boton_copiar_email($emailContacto, 'copiar-email--enlace', true, 'far fa-copy') ?> con el asunto “Cancelar notificaciones”.</li>
             </ul>
             <p><span class="legal__num">2.4.</span> Viviendas UB Argentina y Uruguay podrá compartir la información con otras empresas de servicios o sitios de internet o similares con el objetivo de mejorar la calidad del servicio. Generalmente dichas empresas o sitios de internet poseen sus propias políticas de privacidad de datos a los fines de su protección. En cualquier caso, Viviendas UB Argentina y Uruguay realizará todos los esfuerzos posibles para que la privacidad de la información que se comparta sea protegida de la mejor manera posible. En los casos que corresponda Viviendas UB Argentina y Uruguay intentará firmar acuerdos expresos en materia de protección de datos y de privacidad de información.</p>
             <p>Sin perjuicio de lo mencionado, Viviendas UB Argentina y Uruguay no será responsable por los daños provocados por tales empresas y/o sitios de internet en cuanto a su deber de protección, confidencialidad y privacidad de los datos que ellas manejan.</p>
@@ -79,7 +80,7 @@ require __DIR__ . '/includes/header.php';
         <article class="legal__articulo" id="derechos">
             <h2><span class="legal__articulo-num">5</span> Derechos de los Usuarios</h2>
             <p><span class="legal__num">5.1.</span> Viviendas UB Argentina y Uruguay realizará sus mejores esfuerzos para facilitar el acceso de los Usuarios a los Datos Personales que hayan sido recopilados o almacenados por Viviendas UB Argentina y Uruguay.</p>
-            <p>El usuario podrá ejercer su derecho de acceder, actualizar, borrar o corregir su información personal a través del Sitio Web. En el supuesto que por cualquier motivo ello no fuera posible, el Usuario podrá contactarse a través del correo electrónico atencion@viviendasub.com.ar con el asunto “DATOS PERSONALES” y una foto de su Documento Nacional de Identidad solicitando el acceso, actualización, supresión o corrección de sus Datos Personales. Viviendas UB Argentina y Uruguay responderá dentro de los 10 (diez) días de efectuada la mencionada solicitud.</p>
+            <p>El usuario podrá ejercer su derecho de acceder, actualizar, borrar o corregir su información personal a través del Sitio Web. En el supuesto que por cualquier motivo ello no fuera posible, el Usuario podrá contactarse a través del correo electrónico <?= boton_copiar_email($emailContacto, 'copiar-email--enlace', true, 'far fa-copy') ?> con el asunto “DATOS PERSONALES” y una foto de su Documento Nacional de Identidad solicitando el acceso, actualización, supresión o corrección de sus Datos Personales. Viviendas UB Argentina y Uruguay responderá dentro de los 10 (diez) días de efectuada la mencionada solicitud.</p>
             <p>Viviendas UB Argentina y Uruguay podrá denegar dichas solicitudes cuando se encuentre obligada a ello o por contar con algún derecho a conservar dichos Datos de acuerdo a la legislación aplicable.</p>
             <p class="legal__destacado"><i class="fas fa-circle-info" aria-hidden="true"></i> <strong>El titular de los datos personales tiene la facultad de ejercer el derecho de acceso a los mismos en forma gratuita a intervalos no inferiores a seis meses, salvo que se acredite un interés legítimo al efecto conforme lo establecido en el artículo 14, inciso 3 de la Ley Nº 25.326 de la República Argentina. La autoridad de aplicación (en Argentina, la Agencia de Acceso a la Información Pública, órgano de control de la Ley Nº 25.326), tiene la atribución de atender las denuncias y reclamos que se interpongan con relación al incumplimiento de las normas sobre protección de datos personales.</strong></p>
             <div class="legal__contacto">
@@ -87,7 +88,7 @@ require __DIR__ . '/includes/header.php';
                 <ul>
                     <li><i class="fas fa-location-dot" aria-hidden="true"></i> Sita en: Av. Pte. Julio A. Roca 710, Piso 2º - Ciudad de Buenos Aires</li>
                     <li><i class="fas fa-globe" aria-hidden="true"></i> URL <a href="https://www.argentina.gob.ar/aaip" target="_blank" rel="noopener">www.argentina.gob.ar/aaip</a></li>
-                    <li><i class="fas fa-envelope" aria-hidden="true"></i> Correo electrónico: <a href="mailto:datospersonales@aaip.gob.ar">datospersonales@aaip.gob.ar</a></li>
+                    <li><i class="fas fa-envelope" aria-hidden="true"></i> Correo electrónico: <?= boton_copiar_email('datospersonales@aaip.gob.ar', 'copiar-email--enlace', true, 'far fa-copy') ?></li>
                     <li><i class="fas fa-phone" aria-hidden="true"></i> Tel. + 5411-2821-0047</li>
                 </ul>
             </div>
@@ -128,7 +129,7 @@ require __DIR__ . '/includes/header.php';
 
         <article class="legal__articulo" id="contacto">
             <h2><span class="legal__articulo-num">11</span> Contacto</h2>
-            <p><span class="legal__num">11.1.</span> En caso que el Usuario tenga alguna duda acerca de la Política de Privacidad, o sobre la aplicación de la misma, deberá ponerse en contacto con Viviendas UB Argentina y Uruguay, en cualquier momento, vía correo electrónico a atencion@viviendasub.com.ar</p>
+            <p><span class="legal__num">11.1.</span> En caso que el Usuario tenga alguna duda acerca de la Política de Privacidad, o sobre la aplicación de la misma, deberá ponerse en contacto con Viviendas UB Argentina y Uruguay, en cualquier momento, vía correo electrónico a <?= boton_copiar_email($emailContacto, 'copiar-email--enlace', true, 'far fa-copy') ?></p>
         </article>
     </div>
 </section>

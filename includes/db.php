@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-/** Devuelve la configuracion (config/config.php). */
+/** Devuelve la configuracion (config/config.php, que lee la conexion de las variables de entorno de Docker). */
 function config(): array
 {
     static $config = null;
@@ -9,7 +9,7 @@ function config(): array
         $ruta = __DIR__ . '/../config/config.php';
         if (!is_file($ruta)) {
             http_response_code(500);
-            exit('Falta config/config.php. Copie config/config.example.php como config/config.php y complete los datos.');
+            exit('Falta config/config.php. Restaurarlo desde el repositorio (git checkout -- config/config.php).');
         }
         $config = require $ruta;
     }
