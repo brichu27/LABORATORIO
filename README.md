@@ -49,7 +49,10 @@ docker compose up -d --build
 # 2. Crear el administrador (clave: 8+ caracteres con letras y números)
 docker compose exec web php database/crear_usuario.php "Nombre" "Apellido" admin@viviendasub.com "Clave2026" ADMIN
 
-# 3. (Opcional) Cargar datos de demostración: consultas, tasaciones y postulaciones en todos los estados
+# 3. Crear el vendedor (clave: 8+ caracteres con letras y números)
+docker compose exec web php database/crear_usuario.php "Vendedor" "Prueba" vendedor@viviendasub.com "Clave2026" VENDEDOR
+
+# 4. (Opcional) Cargar datos de demostración: consultas, tasaciones y postulaciones en todos los estados
 docker compose exec db sh -c "mariadb -uroot -proot --default-character-set=utf8mb4 < /sql/04_datos_demo.sql"
 ```
 
