@@ -5,6 +5,8 @@ Proyecto de Prácticas de Laboratorio – Tecnicatura en Programación de Comput
 Sitio web de una inmobiliaria con un **sitio público** para buscar propiedades y contactar a la empresa, y un
 **panel de administración** para gestionar propiedades, noticias, personal y las consultas que llegan desde el sitio.
 
+![Página principal de Viviendas UB](doc/capturas/inicio.png)
+
 ## Funcionalidades
 
 **Sitio público**
@@ -161,7 +163,6 @@ uploads/        Imágenes subidas desde el panel (no se versionan)
 | [doc/casosDePrueba.docx](doc/casosDePrueba.docx) | Casos de prueba y resultados |
 | [doc/04_casos_de_prueba.md](doc/04_casos_de_prueba.md) | Resultados de ejecución con enlaces a las [evidencias](doc/evidencias/) |
 | [doc/manualDeUsuario.docx](doc/manualDeUsuario.docx) | Manual de usuario del sitio y del panel |
-
 ## Problemas frecuentes
 
 | Síntoma | Causa / solución |
