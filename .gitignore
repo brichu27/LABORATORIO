@@ -19,7 +19,12 @@ doc/*
 !doc/diagramasDeFlujo.docx
 !doc/modeloDeDatos.docx
 !doc/manualDeUsuario.docx
+!doc/presentacion_viviendas_ub.pptx
 !doc/evidencias/
+# Captura del README: solo esa imagen, no el resto de doc/capturas/
+!doc/capturas/
+doc/capturas/*
+!doc/capturas/inicio.png
 doc/evidencias/scripts/
 
 # Editor y sistema operativo
